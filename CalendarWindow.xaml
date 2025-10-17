@@ -1,0 +1,279 @@
+    <Window x:Class="AgentAssistant.CalendarWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        Title="일정 캘린더" 
+        Height="800" 
+        Width="1000"
+        Topmost="True"
+        ResizeMode="CanResize"
+        AllowsTransparency="True"
+        WindowStyle="None"
+        Background="Transparent">
+    
+    <Window.Resources>
+        <Style x:Key="NavButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#6C5CE7"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="5"
+                                Padding="5">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                            VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#5F4FD1"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    
+    <Border x:Name="MainBorder"
+            Background="White" 
+            CornerRadius="20" 
+            Margin="15"
+            BorderThickness="1"
+            BorderBrush="#E0E0E0">
+        <Border.Effect>
+            <DropShadowEffect Color="Black" BlurRadius="20" ShadowDepth="0" Opacity="0.3"/>
+        </Border.Effect>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <!-- 헤더 -->
+            <Border x:Name="HeaderBorder"
+                    Grid.Row="0" 
+                    Background="#6C5CE7" 
+                    CornerRadius="20,20,0,0"
+                    Padding="15,10"
+                    MouseLeftButtonDown="Header_MouseLeftButtonDown">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <TextBlock Grid.Column="0"
+                               Text="📅 일정 캘린더" 
+                               FontSize="18"
+                               FontWeight="Bold"
+                               Foreground="White"
+                               VerticalAlignment="Center"/>
+                    
+                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                        <!-- 투명도 조절 슬라이더 -->
+                        <StackPanel Orientation="Horizontal" Margin="0,0,15,0" VerticalAlignment="Center">
+                            <TextBlock Text="🔲" 
+                                       FontSize="14" 
+                                       Foreground="White" 
+                                       VerticalAlignment="Center"
+                                       Margin="0,0,5,0"/>
+                            <Slider x:Name="OpacitySlider" 
+                                    Width="100" 
+                                    Minimum="0.1" 
+                                    Maximum="1.0" 
+                                    Value="1.0"
+                                    VerticalAlignment="Center"
+                                    ValueChanged="OpacitySlider_ValueChanged"/>
+                            <TextBlock x:Name="OpacityText" 
+                                       Text="100%" 
+                                       FontSize="11" 
+                                       Foreground="White" 
+                                       VerticalAlignment="Center"
+                                       Margin="5,0,0,0"
+                                       Width="35"/>
+                        </StackPanel>
+                        
+                        <!-- 최소화 버튼 -->
+                        <Button Content="—" 
+                                Width="30" 
+                                Height="30"
+                                Background="Transparent"
+                                Foreground="White"
+                                BorderThickness="0"
+                                FontSize="16"
+                                Cursor="Hand"
+                                Margin="0,0,5,0"
+                                Click="Minimize_Click">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="{TemplateBinding Background}" 
+                                                        CornerRadius="5">
+                                                    <ContentPresenter HorizontalAlignment="Center" 
+                                                                    VerticalAlignment="Center"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#33FFFFFF"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                        
+                        <!-- 최대화/복원 버튼 -->
+                        <Button x:Name="MaximizeButton"
+                                Content="☐" 
+                                Width="30" 
+                                Height="30"
+                                Background="Transparent"
+                                Foreground="White"
+                                BorderThickness="0"
+                                FontSize="16"
+                                Cursor="Hand"
+                                Margin="0,0,5,0"
+                                Click="Maximize_Click">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="{TemplateBinding Background}" 
+                                                        CornerRadius="5">
+                                                    <ContentPresenter HorizontalAlignment="Center" 
+                                                                    VerticalAlignment="Center"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#33FFFFFF"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                        
+                        <!-- 닫기 버튼 -->
+                        <Button Content="✕" 
+                                Width="30" 
+                                Height="30"
+                                Background="Transparent"
+                                Foreground="White"
+                                BorderThickness="0"
+                                FontSize="18"
+                                Cursor="Hand"
+                                Click="Close_Click">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="{TemplateBinding Background}" 
+                                                        CornerRadius="5">
+                                                    <ContentPresenter HorizontalAlignment="Center" 
+                                                                    VerticalAlignment="Center"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#33FFFFFF"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+            
+            <!-- 월/년 선택 및 네비게이션 -->
+            <Border x:Name="NavigationBorder"
+                    Grid.Row="1" 
+                    Background="#F5F5F5" 
+                    Padding="15,10">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <Button Grid.Column="0" 
+                            Content="◀" 
+                            Width="40" 
+                            Height="35"
+                            Click="PrevMonth_Click"
+                            Style="{StaticResource NavButtonStyle}"/>
+                    
+                    <TextBlock Grid.Column="1"
+                               x:Name="CurrentMonthText"
+                               Text="2024년 10월" 
+                               FontSize="16"
+                               FontWeight="SemiBold"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                    
+                    <Button Grid.Column="2" 
+                            Content="▶" 
+                            Width="40" 
+                            Height="35"
+                            Click="NextMonth_Click"
+                            Style="{StaticResource NavButtonStyle}"/>
+                </Grid>
+            </Border>
+            
+            <!-- 캘린더 그리드 -->
+            <Grid Grid.Row="2" Margin="15">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                
+                <!-- 요일 헤더 -->
+                <Grid x:Name="WeekdayHeader" Grid.Row="0" Margin="0,0,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <TextBlock x:Name="SundayText" Grid.Column="0" Text="일" Foreground="#E74C3C" FontWeight="Bold" HorizontalAlignment="Center"/>
+                    <TextBlock x:Name="MondayText" Grid.Column="1" Text="월" FontWeight="Bold" HorizontalAlignment="Center"/>
+                    <TextBlock x:Name="TuesdayText" Grid.Column="2" Text="화" FontWeight="Bold" HorizontalAlignment="Center"/>
+                    <TextBlock x:Name="WednesdayText" Grid.Column="3" Text="수" FontWeight="Bold" HorizontalAlignment="Center"/>
+                    <TextBlock x:Name="ThursdayText" Grid.Column="4" Text="목" FontWeight="Bold" HorizontalAlignment="Center"/>
+                    <TextBlock x:Name="FridayText" Grid.Column="5" Text="금" FontWeight="Bold" HorizontalAlignment="Center"/>
+                    <TextBlock x:Name="SaturdayText" Grid.Column="6" Text="토" Foreground="#3498DB" FontWeight="Bold" HorizontalAlignment="Center"/>
+                </Grid>
+                
+                <!-- 날짜 그리드 -->
+                <ItemsControl Grid.Row="1" x:Name="CalendarGrid">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="7" Rows="6"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>
+

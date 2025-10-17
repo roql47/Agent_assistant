@@ -1,0 +1,155 @@
+<ui:FluentWindow x:Class="AgentAssistant.DatePickerDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        Title="일정 날짜 선택" 
+        Height="450" 
+        Width="500"
+        WindowStartupLocation="CenterOwner"
+        ExtendsContentIntoTitleBar="True"
+        WindowBackdropType="Mica"
+        WindowCornerPreference="Round"
+        ResizeMode="NoResize">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <!-- 헤더 -->
+        <Border Grid.Row="0" 
+                Background="#6C5CE7" 
+                Padding="20,15">
+            <StackPanel>
+                <TextBlock Text="📅 일정으로 추가" 
+                           FontSize="20"
+                           FontWeight="Bold"
+                           Foreground="White"/>
+                <TextBlock x:Name="BoardTitleText"
+                           Text="게시글 제목"
+                           FontSize="12"
+                           Foreground="#E0E0E0"
+                           TextWrapping="Wrap"
+                           Margin="0,5,0,0"/>
+            </StackPanel>
+        </Border>
+        
+        <!-- 내용 -->
+        <Border Grid.Row="1" 
+                Background="White" 
+                Padding="30">
+            <StackPanel>
+                <TextBlock Text="일정 날짜를 선택하세요" 
+                           FontSize="14"
+                           FontWeight="SemiBold"
+                           Foreground="#2D3436"
+                           Margin="0,0,0,15"/>
+                
+                <!-- 날짜 선택 -->
+                <Border Background="#F8F9FA" 
+                        CornerRadius="8"
+                        Padding="15"
+                        Margin="0,0,0,20">
+                    <StackPanel>
+                        <TextBlock Text="📆 날짜" 
+                                   FontSize="12"
+                                   Foreground="#6C757D"
+                                   Margin="0,0,0,8"/>
+                        <DatePicker x:Name="DatePickerControl" 
+                                    FontSize="14"
+                                    Padding="8"/>
+                    </StackPanel>
+                </Border>
+                
+                <!-- 시간 선택 -->
+                <Border Background="#F8F9FA" 
+                        CornerRadius="8"
+                        Padding="15">
+                    <StackPanel>
+                        <TextBlock Text="⏰ 시간" 
+                                   FontSize="12"
+                                   Foreground="#6C757D"
+                                   Margin="0,0,0,8"/>
+                        <TextBox x:Name="TimeInput" 
+                                 Text="오후 2:00"
+                                 FontSize="14"
+                                 Padding="8"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Border>
+        
+        <!-- 하단 버튼 -->
+        <Border Grid.Row="2" 
+                Background="White"
+                BorderThickness="0,1,0,0"
+                BorderBrush="#E0E0E0"
+                Padding="20,15">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="취소" 
+                        Width="100" 
+                        Height="40"
+                        Background="#DFE6E9"
+                        Foreground="#2D3436"
+                        BorderThickness="0"
+                        Margin="0,0,10,0"
+                        Cursor="Hand"
+                        Click="Cancel_Click">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}" 
+                                                CornerRadius="5">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                            VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#B2BEC3"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                
+                <Button Content="추가" 
+                        Width="100" 
+                        Height="40"
+                        Background="#6C5CE7"
+                        Foreground="White"
+                        BorderThickness="0"
+                        Cursor="Hand"
+                        Click="Add_Click">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}" 
+                                                CornerRadius="5">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                            VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#5F4FD1"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </StackPanel>
+        </Border>
+    </Grid>
+</ui:FluentWindow>
+

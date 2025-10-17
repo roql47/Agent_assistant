@@ -1,0 +1,1047 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head id="Head1">
+<script type='text/javascript'>
+var _btnAlertOK = '확인';
+var _btnAlertCancel = '취소';
+var _strLblClose = '닫기';
+var _strLblOpen = '열기';
+var _maxFileSize = '600';
+var _ExtenstionFileter = 'aspx.ashx.asmx.asax.ascx.cs.master.vbhtml.vbhtm.rem.soap.cshtm.cshtml.aspq.axd.config.ini.mdf.dll.pdb.exe.vbs.php.jsp.asp.js';
+var _MaxUnitSize = '600';
+var _MaxUpload = '20';
+var _Language = 'ko';
+var _SystemMode = 'Real';
+var _DN_Theme = 'Ptype05_cauhgwangmyoung';
+var _TodoListAlertShowInterval = '300000';
+var _UR_Code = '19415';
+var _GR_Code = '00538A2010402090';
+var _DN_Code = 'GENERAL';
+var _DN_ID = '1';
+var _LanguageCode = 'ko';
+var _StandardServerDateFormat = '-';
+var _ServerDateSimpleFormat = 'yyyy-MM-dd';
+var _ServerDateFormat = 'yyyy-MM-dd HH:mm';
+var _ServerDateFullFormat = 'yyyy-MM-dd HH:mm:ss';
+var _CalenderDateFormat = 'yyyy.MM.dd';
+var _UR_StandardDateFormat = '.';
+var _UR_DateFormat = 'yyyy.MM.dd HH:mm';
+var _UR_DateFullFormat = 'yyyy.MM.dd HH:mm:ss';
+var _UR_DateSimpleFormat = 'yyyy.MM.dd';
+var _UR_DatetimeSimpleFormat = 'MM.dd HH:mm:ss';
+var _UR_DateMonthFormat = 'yyyy.MM';
+var _UR_DateMonthDayFormat = 'MM.dd';
+var _UR_TimeZone = '00:00:00';
+var _UR_TimeZoneDisplay = '';
+var _StandardTimeZoneDisplay = '(GMT+9)';
+var _UsePresenceDisplay = 'N';
+var _UserMenuSyncTime = '2025-10-01T12:12:08.003';
+var _MenuSyncTime = '2025-10-17T16:38:26.430';
+var _DictionarySyncTime = '2024-10-16T14:25:46.610';
+var _BaseConfigSyncTime = '2025-09-05T12:19:45.277';
+var _PgModuleSyncTime = '2025-10-17T16:27:09.910';
+var _Msg_NoDataList = '조회할 목록이 없습니다.';
+var _CurrentPageUrl = '/WebSite/Mail/MailList.aspx';
+var _CurrentFullUrl = '/WebSite/Mail/MailList.aspx?system=Mail&fid=AQMkADhmZDgwZTQwLTQyMzEtNGU2NC1hODU0LWFjZTMyODJiM2FkYwAuAAADA2sDQfMQDEWDSssgki2SjAEATPu8dTiRi0%2BMZCigxbEgEgAAAgEMAAAA&issentitems=N';
+var _CacheManagedScriptVersion = '20250905_1';
+var _CacheManagedStyleVersion = '20250402_2';
+</script>
+
+<style type='text/css'>
+.Theme_body_bgcolor {background-color:#f1f1f3}
+</style>
+<link type="text/css" rel="stylesheet" href="/WebSite/Base/Controls/jquery-ui-1.12.1.custom.css?v=20250402_2" />
+<link type="text/css" rel="stylesheet" href="/WebSite/Base/Controls/jquery.selectbox.css?v=20250402_2" />
+<link type="text/css" rel="stylesheet" href="/WebSite/Base/Controls/Covi.Framework.Style.Controls.css?v=20250402_2" />
+<link type="text/css" rel="stylesheet" href="/Images/Css/Common.css?v=20250402_2" />
+<link type="text/css" rel="stylesheet" href="/Images/Css/Theme/jquery.mCustomScrollbar.css?v=20250402_2" />
+<link type="text/css" rel="stylesheet" href="/Images/Css/Controls.css?v=20250402_2" />
+<link type="text/css" rel="stylesheet" href="/Images/css/content_wp.css?v=20250402_2" />
+<link type="text/css" rel="stylesheet" href="/Images/css/MyPortal.css?v=20250402_2" />
+<link type="text/css" rel="stylesheet" href="/Images/css/Task.css?v=20250402_2" />
+<link type="text/css" rel="stylesheet" href="/Images/css/WebMail.css?v=20250402_2" />
+<link type="text/css" rel="stylesheet" href="/Images/Css/Theme/Ptype05_cauhgwangmyoung.css?v=20250402_2" />
+<script type="text/javascript" src="/WebSite/Base/Controls/jquery-last.js?v=20250905_1"></script>
+<script type="text/javascript" src="/WebSite/Base/Controls/jquery-ui-1.12.1.min.js?v=20250905_1"></script>
+<script type="text/javascript" src="/WebSite/Base/Controls/jquery.selectbox-0.6.1.js?v=20250905_1"></script>
+<script type="text/javascript" src="/WebSite/Base/Controls/Covi.Framework.Script.Const.js?v=20250905_1"></script>
+<script type="text/javascript" src="/WebSite/Base/Controls/Covi.Framework.Script.Common.js?v=20250905_1"></script>
+<script type="text/javascript" src="/WebSite/Base/Controls/Covi.Framework.Script.Controls.js?v=20250905_1"></script>
+<script type="text/javascript" src="/WebSite/Base/Controls/Covi.Framework.Script.Utils.js?v=20250905_1"></script>
+<script type="text/javascript" src="/WebSite/Common/Controls/Common.js?v=20250905_1"></script>
+<script type="text/javascript" src="/WebSite/Common/Controls/Utils.js?v=20250905_1"></script>
+<script type="text/javascript" src="/WebSite/Common/Controls/NameControl.js?v=20250905_1"></script>
+<script type="text/javascript" src="/WebSite/Common/Controls/Mustache.js?v=20250905_1"></script>
+<script type="text/javascript" src="/Images/Js/jquery.mCustomScrollbar.js?v=20250905_1"></script>
+<script type="text/javascript" src="/Images/Js/jquery.mousewheel.min.js?v=20250905_1"></script>
+<script type="text/javascript" src="/WebSite/Common/Controls/MyPortal.js?v=20250905_1"></script>
+<script type="text/javascript" src="/WebSite/Extension/Controls/Task.js?v=20250905_1"></script>
+<script type="text/javascript" src="/WebSite/Mail/Controls/WebMail.js?v=20250905_1"></script>
+<title>
+	CAUHS
+</title><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico" />
+    
+    <style type="text/css">
+        .mail_dragitem {
+            display: -webkit-inline-box;
+            display: -ms-inline-flexbox;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            position: fixed;
+            top: 40%;
+            min-width: 50px;
+            height: 22px;
+            padding: 0 5px;
+            background-color: #fff;
+            border: 1px solid #222;
+            color: #222;
+            font-size: 0.8125rem;
+            -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);
+        }
+    </style>
+	<script language="javascript" type="text/javascript">
+	    var wIntClickCount = 0;
+	    var wBolClickProcess = false;
+	    var g_GMTTime_Diff = new Number("-540");
+	</script>
+    <script type="text/javascript" src="Controls/MailList.aspx.js?v=20250905_1"></script>
+
+	<script type="text/javascript" src="Controls/WebMailMaster.master.js?v=20250905_1"></script>
+</head>
+    <script src="/WebSite/Common/Controls/TopMaster.js?v=20250905_1" type="text/javascript"></script>
+	<body oncontextmenu="//return false;" onselectstart="//return false;" class="Theme_body_bgcolor">
+		<form method="post" action="./MailList.aspx?system=Mail&amp;fid=AQMkADhmZDgwZTQwLTQyMzEtNGU2NC1hODU0LWFjZTMyODJiM2FkYwAuAAADA2sDQfMQDEWDSssgki2SjAEATPu8dTiRi0%2bMZCigxbEgEgAAAgEMAAAA&amp;issentitems=N" id="form1">
+<div class="aspNetHidden">
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__LASTFOCUS" id="__LASTFOCUS" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwULLTEwMzczMTA3NTYPFgIeE1ZhbGlkYXRlUmVxdWVzdE1vZGUCARYCZg9kFgJmD2QWAgIBD2QWCAIBDxYCHgdWaXNpYmxlaGQCAw9kFgICBg9kFgICAQ9kFgICAw9kFgwCAQ8QZA8WCmYCAQICAgMCBAIFAgYCBwIIAgkWChAFDOyghOyytO2VreuqqQUDQUxMZxAFFOydveydgCDrqZTsnbwg66qp66GdBQRSRUFEZxAFG+ydveyngCDslYrsnYAg66mU7J28IOuqqeuhnQUGVU5SRUFEZxAFFOuCtOu2gCDrqZTsnbwg66qp66GdBQVJTk5FUmcQBRTsmbjrtoAg66mU7J28IOuqqeuhnQUFT1VURVJnEAUP67O064K47IKs656M67OEBRFHUk9VUC5ESVNQTEFZRlJPTWcQBQ/rsJvsnYDsgqzrnozrs4QFD0dST1VQLkRJU1BMQVlUT2cQBQnsoJzrqqnrs4QFDUdST1VQLlNVQkpFQ1RnEAUM7ZSM656Y6re467OEBQpHUk9VUC5GTEFHZxAFCeuylOyjvOuzhAUOR1JPVVAuQ0FURUdPUllnFgFmZAICDxBkDxYEZgIBAgICAxYEEAUG7KCE7LK0BQNBTExnEAUG7KCc66qpBQdTVUJKRUNUZxAFDeuztOuCuCDsgqzrnowFBlNFTkRFUmcQBQ3rsJvripQg7IKs656MBQhSRUNFSVZFUmdkZAIPDw8WAh4EVGV4dGVkZAIQDw8WAh8CZWRkAhIPFgIfAWcWAmYPDxYCHhBQYWdlckN1cnJlbnRQYWdlAgFkZAITD2QWAmYPFgIeB2NoZWNrZWRkZAIFD2QWBmYPFgQeBGhyZWYFHC9XZWJzaXRlL01vYmlsZU5ldy9NYWluLmFzcHgfAWhkAgEPFgIeCWlubmVyaHRtbAWpAzxzcGFuIGNsYXNzPSd0eHRfbGFzdGxvZ2luX2xhYmxlJz7stZzsooUg66Gc6re47J24IOyLnOqwhDwvc3Bhbj48c3BhbiBjbGFzcz0ndHh0X2xhc3Rsb2dpbicgc3R5bGU9ImN1cnNvcjpwb2ludGVyOyIgb25tb3VzZWRvd249J0NvbW1vbi5TaG93RGlhbG9nKCIiLCAiRGl2UG9wXyIsIuy1nOq3vCDsoJHsho0g7JWM66a8IOygleuztCIsIi9XZWJTaXRlL1BvcnRhbC9XZWJQYXJ0L0NvbW1vbi9Qb3J0YWxQb3B1cC9SZWNlbnRDb25uZWN0X1BvcC5hc3B4IiwiNjAwcHgiLCIzMThweCIsImlmcmFtZS1pZk5vU2Nyb2xsIiknPjIwMjUtMTAtMTcg7Jik7ZuEIDc6MzQ6NTY8L3NwYW4+PHNwYW4gY2xhc3M9J3R4dF91c2VyaXBfbGFibGUnPuuhnOq3uOyduMKgSVA8L3NwYW4+PHNwYW4gY2xhc3M9J3R4dF91c2VyaXAnPjEwLjEwLjIzNC4yNDk8L3NwYW4+ZAICDxYCHwFoFgICAQ8WAh8FBRwvV2Vic2l0ZS9Nb2JpbGVOZXcvTWFpbi5hc3B4ZAIHDxYCHwFnZBgBBR5fX0NvbnRyb2xzUmVxdWlyZVBvc3RCYWNrS2V5X18WBAUwY3RsMDAkY3RsMDAkY3BoQ29udGVudCRjcGhDb250ZW50JGNoa0luY2x1ZGVCb2R5BTZjdGwwMCRjdGwwMCRjcGhDb250ZW50JGNwaENvbnRlbnQkY2hrSW5jbHVkZVN1YkZvbGRlcnMFOWN0bDAwJGN0bDAwJGNwaENvbnRlbnQkY3BoQ29udGVudCREZXRhaWxJbmNsdWRlU3ViRm9sZGVycwUrY3RsMDAkY3RsMDAkY3BoQ29udGVudCRjcGhDb250ZW50JGNoa1BlcmlvZIn2eAwWET3eDcjPzC/PBE+c0xmu2WW6J7kU3PUxS8Sn" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['form1'];
+if (!theForm) {
+    theForm = document.form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+
+<script type="text/javascript">
+//<![CDATA[
+var id_Head1 = 'Head1';
+var nm_Head1 = 'ctl00$ctl00$Head1';
+var id_cphHeader = 'cphHeader';
+var nm_cphHeader = 'ctl00$ctl00$cphHeader';
+var id_cphHeader = 'cphHeader_cphHeader';
+var nm_cphHeader = 'ctl00$ctl00$cphHeader$cphHeader';
+var id_form1 = 'form1';
+var nm_form1 = 'form1';
+var id_divAlwaysShowButton = 'divAlwaysShowButton';
+var nm_divAlwaysShowButton = 'ctl00$ctl00$divAlwaysShowButton';
+var id_btnShowDevHelperInfo = 'btnShowDevHelperInfo';
+var nm_btnShowDevHelperInfo = 'ctl00$ctl00$btnShowDevHelperInfo';
+var id_divPortalHeaderFix = 'divPortalHeaderFix';
+var nm_divPortalHeaderFix = 'ctl00$ctl00$divPortalHeaderFix';
+var id_divHeader = 'divHeader';
+var nm_divHeader = 'ctl00$ctl00$divHeader';
+var id_cphContent = 'cphContent';
+var nm_cphContent = 'ctl00$ctl00$cphContent';
+var id_divContent = 'cphContent_divContent';
+var nm_divContent = 'ctl00$ctl00$cphContent$divContent';
+var id_cphContent = 'cphContent_cphContent';
+var nm_cphContent = 'ctl00$ctl00$cphContent$cphContent';
+var id_MenuLocation = 'cphContent_cphContent_MenuLocation';
+var nm_MenuLocation = 'ctl00$ctl00$cphContent$cphContent$MenuLocation';
+var id_ddlFilterType = 'cphContent_cphContent_ddlFilterType';
+var nm_ddlFilterType = 'ctl00$ctl00$cphContent$cphContent$ddlFilterType';
+var id_ddlSearchType = 'cphContent_cphContent_ddlSearchType';
+var nm_ddlSearchType = 'ctl00$ctl00$cphContent$cphContent$ddlSearchType';
+var id_txtSearchText = 'cphContent_cphContent_txtSearchText';
+var nm_txtSearchText = 'ctl00$ctl00$cphContent$cphContent$txtSearchText';
+var id_chkIncludeBody = 'cphContent_cphContent_chkIncludeBody';
+var nm_chkIncludeBody = 'ctl00$ctl00$cphContent$cphContent$chkIncludeBody';
+var id_chkIncludeSubFolders = 'cphContent_cphContent_chkIncludeSubFolders';
+var nm_chkIncludeSubFolders = 'ctl00$ctl00$cphContent$cphContent$chkIncludeSubFolders';
+var id_DetailTitle = 'cphContent_cphContent_DetailTitle';
+var nm_DetailTitle = 'ctl00$ctl00$cphContent$cphContent$DetailTitle';
+var id_DetailContent = 'cphContent_cphContent_DetailContent';
+var nm_DetailContent = 'ctl00$ctl00$cphContent$cphContent$DetailContent';
+var id_DetailSender = 'cphContent_cphContent_DetailSender';
+var nm_DetailSender = 'ctl00$ctl00$cphContent$cphContent$DetailSender';
+var id_DetailReceiver = 'cphContent_cphContent_DetailReceiver';
+var nm_DetailReceiver = 'ctl00$ctl00$cphContent$cphContent$DetailReceiver';
+var id_DetailStartDate = 'cphContent_cphContent_DetailStartDate';
+var nm_DetailStartDate = 'ctl00$ctl00$cphContent$cphContent$DetailStartDate';
+var id_DetailEndDate = 'cphContent_cphContent_DetailEndDate';
+var nm_DetailEndDate = 'ctl00$ctl00$cphContent$cphContent$DetailEndDate';
+var id_DetailSearch = 'cphContent_cphContent_DetailSearch';
+var nm_DetailSearch = 'ctl00$ctl00$cphContent$cphContent$DetailSearch';
+var id_DetailIncludeSubFolders = 'cphContent_cphContent_DetailIncludeSubFolders';
+var nm_DetailIncludeSubFolders = 'ctl00$ctl00$cphContent$cphContent$DetailIncludeSubFolders';
+var id_hidSlideBarValue = 'cphContent_cphContent_hidSlideBarValue';
+var nm_hidSlideBarValue = 'ctl00$ctl00$cphContent$cphContent$hidSlideBarValue';
+var id_txtStartDate = 'cphContent_cphContent_txtStartDate';
+var nm_txtStartDate = 'ctl00$ctl00$cphContent$cphContent$txtStartDate';
+var id_txtEndDate = 'cphContent_cphContent_txtEndDate';
+var nm_txtEndDate = 'ctl00$ctl00$cphContent$cphContent$txtEndDate';
+var id_chkPeriod = 'cphContent_cphContent_chkPeriod';
+var nm_chkPeriod = 'ctl00$ctl00$cphContent$cphContent$chkPeriod';
+var id_divList = 'cphContent_cphContent_divList';
+var nm_divList = 'ctl00$ctl00$cphContent$cphContent$divList';
+var id_pagerList = 'cphContent_cphContent_pagerList';
+var nm_pagerList = 'ctl00$ctl00$cphContent$cphContent$pagerList';
+var id_divHorizontally = 'cphContent_cphContent_divHorizontally';
+var nm_divHorizontally = 'ctl00$ctl00$cphContent$cphContent$divHorizontally';
+var id_chkLineView = 'cphContent_cphContent_chkLineView';
+var nm_chkLineView = 'ctl00$ctl00$cphContent$cphContent$chkLineView';
+var id_pagerHorizontally = 'cphContent_cphContent_pagerHorizontally';
+var nm_pagerHorizontally = 'ctl00$ctl00$cphContent$cphContent$pagerHorizontally';
+var id_divVertically = 'cphContent_cphContent_divVertically';
+var nm_divVertically = 'ctl00$ctl00$cphContent$cphContent$divVertically';
+var id_pagerVertically = 'cphContent_cphContent_pagerVertically';
+var nm_pagerVertically = 'ctl00$ctl00$cphContent$cphContent$pagerVertically';
+var id_hidSystem = 'cphContent_cphContent_hidSystem';
+var nm_hidSystem = 'ctl00$ctl00$cphContent$cphContent$hidSystem';
+var id_hidViewFirstMail = 'cphContent_cphContent_hidViewFirstMail';
+var nm_hidViewFirstMail = 'ctl00$ctl00$cphContent$cphContent$hidViewFirstMail';
+var id_hidViewMode = 'cphContent_cphContent_hidViewMode';
+var nm_hidViewMode = 'ctl00$ctl00$cphContent$cphContent$hidViewMode';
+var id_hidPage = 'cphContent_cphContent_hidPage';
+var nm_hidPage = 'ctl00$ctl00$cphContent$cphContent$hidPage';
+var id_hidPageSize = 'cphContent_cphContent_hidPageSize';
+var nm_hidPageSize = 'ctl00$ctl00$cphContent$cphContent$hidPageSize';
+var id_hidDomain = 'cphContent_cphContent_hidDomain';
+var nm_hidDomain = 'ctl00$ctl00$cphContent$cphContent$hidDomain';
+var id_hidMailFID = 'cphContent_cphContent_hidMailFID';
+var nm_hidMailFID = 'ctl00$ctl00$cphContent$cphContent$hidMailFID';
+var id_hidFilterType = 'cphContent_cphContent_hidFilterType';
+var nm_hidFilterType = 'ctl00$ctl00$cphContent$cphContent$hidFilterType';
+var id_hidSearchType = 'cphContent_cphContent_hidSearchType';
+var nm_hidSearchType = 'ctl00$ctl00$cphContent$cphContent$hidSearchType';
+var id_hidSearchText = 'cphContent_cphContent_hidSearchText';
+var nm_hidSearchText = 'ctl00$ctl00$cphContent$cphContent$hidSearchText';
+var id_hidStartDate = 'cphContent_cphContent_hidStartDate';
+var nm_hidStartDate = 'ctl00$ctl00$cphContent$cphContent$hidStartDate';
+var id_hidEndDate = 'cphContent_cphContent_hidEndDate';
+var nm_hidEndDate = 'ctl00$ctl00$cphContent$cphContent$hidEndDate';
+var id_hidIncludeBody = 'cphContent_cphContent_hidIncludeBody';
+var nm_hidIncludeBody = 'ctl00$ctl00$cphContent$cphContent$hidIncludeBody';
+var id_hidIncludeSubFolders = 'cphContent_cphContent_hidIncludeSubFolders';
+var nm_hidIncludeSubFolders = 'ctl00$ctl00$cphContent$cphContent$hidIncludeSubFolders';
+var id_hidPeriodChecked = 'cphContent_cphContent_hidPeriodChecked';
+var nm_hidPeriodChecked = 'ctl00$ctl00$cphContent$cphContent$hidPeriodChecked';
+var id_hidDeleteOption = 'cphContent_cphContent_hidDeleteOption';
+var nm_hidDeleteOption = 'ctl00$ctl00$cphContent$cphContent$hidDeleteOption';
+var id_hidPopupOptionState = 'cphContent_cphContent_hidPopupOptionState';
+var nm_hidPopupOptionState = 'ctl00$ctl00$cphContent$cphContent$hidPopupOptionState';
+var id_hidSortField = 'cphContent_cphContent_hidSortField';
+var nm_hidSortField = 'ctl00$ctl00$cphContent$cphContent$hidSortField';
+var id_hidOrderBy = 'cphContent_cphContent_hidOrderBy';
+var nm_hidOrderBy = 'ctl00$ctl00$cphContent$cphContent$hidOrderBy';
+var id_hidLeftWidth = 'cphContent_cphContent_hidLeftWidth';
+var nm_hidLeftWidth = 'ctl00$ctl00$cphContent$cphContent$hidLeftWidth';
+var id_hidCurrentMID = 'cphContent_cphContent_hidCurrentMID';
+var nm_hidCurrentMID = 'ctl00$ctl00$cphContent$cphContent$hidCurrentMID';
+var id_hidCurrentMCK = 'cphContent_cphContent_hidCurrentMCK';
+var nm_hidCurrentMCK = 'ctl00$ctl00$cphContent$cphContent$hidCurrentMCK';
+var id_hidIsIE = 'cphContent_cphContent_hidIsIE';
+var nm_hidIsIE = 'ctl00$ctl00$cphContent$cphContent$hidIsIE';
+var id_hidMasterCategoryList = 'cphContent_cphContent_hidMasterCategoryList';
+var nm_hidMasterCategoryList = 'ctl00$ctl00$cphContent$cphContent$hidMasterCategoryList';
+var id_hidRefreshCheck = 'cphContent_cphContent_hidRefreshCheck';
+var nm_hidRefreshCheck = 'ctl00$ctl00$cphContent$cphContent$hidRefreshCheck';
+var id_btnSubmit = 'cphContent_cphContent_btnSubmit';
+var nm_btnSubmit = 'ctl00$ctl00$cphContent$cphContent$btnSubmit';
+var id_hidIsSentItems = 'cphContent_cphContent_hidIsSentItems';
+var nm_hidIsSentItems = 'ctl00$ctl00$cphContent$cphContent$hidIsSentItems';
+var id_hidMailItemInfo = 'cphContent_cphContent_hidMailItemInfo';
+var nm_hidMailItemInfo = 'ctl00$ctl00$cphContent$cphContent$hidMailItemInfo';
+var id_hidTimezoneGMT = 'cphContent_cphContent_hidTimezoneGMT';
+var nm_hidTimezoneGMT = 'ctl00$ctl00$cphContent$cphContent$hidTimezoneGMT';
+var id_hidAutoReloadTime = 'cphContent_cphContent_hidAutoReloadTime';
+var nm_hidAutoReloadTime = 'ctl00$ctl00$cphContent$cphContent$hidAutoReloadTime';
+var id_hidDetailSearchOption = 'cphContent_cphContent_hidDetailSearchOption';
+var nm_hidDetailSearchOption = 'ctl00$ctl00$cphContent$cphContent$hidDetailSearchOption';
+var id_hidSubSortColum = 'cphContent_cphContent_hidSubSortColum';
+var nm_hidSubSortColum = 'ctl00$ctl00$cphContent$cphContent$hidSubSortColum';
+var id_hidSubSortDirection = 'cphContent_cphContent_hidSubSortDirection';
+var nm_hidSubSortDirection = 'ctl00$ctl00$cphContent$cphContent$hidSubSortDirection';
+var id_hidNowIndex = 'cphContent_cphContent_hidNowIndex';
+var nm_hidNowIndex = 'ctl00$ctl00$cphContent$cphContent$hidNowIndex';
+var id_hidSystem = 'cphContent_hidSystem';
+var nm_hidSystem = 'ctl00$ctl00$cphContent$hidSystem';
+var id_hidFID = 'cphContent_hidFID';
+var nm_hidFID = 'ctl00$ctl00$cphContent$hidFID';
+var id_hidLeftMenuPopupOption = 'cphContent_hidLeftMenuPopupOption';
+var nm_hidLeftMenuPopupOption = 'ctl00$ctl00$cphContent$hidLeftMenuPopupOption';
+var id_hidMailWritable = 'cphContent_hidMailWritable';
+var nm_hidMailWritable = 'ctl00$ctl00$cphContent$hidMailWritable';
+var id_hidUseMailTreeAsync = 'cphContent_hidUseMailTreeAsync';
+var nm_hidUseMailTreeAsync = 'ctl00$ctl00$cphContent$hidUseMailTreeAsync';
+var id_hidMailFolderPath = 'cphContent_hidMailFolderPath';
+var nm_hidMailFolderPath = 'ctl00$ctl00$cphContent$hidMailFolderPath';
+var id_divFooter = 'divFooter';
+var nm_divFooter = 'ctl00$ctl00$divFooter';
+var id_btnMobileView = 'btnMobileView';
+var nm_btnMobileView = 'ctl00$ctl00$btnMobileView';
+var id_divUserIP_LastTime = 'divUserIP_LastTime';
+var nm_divUserIP_LastTime = 'ctl00$ctl00$divUserIP$LastTime';
+var id_btnMobileViewExt = 'btnMobileViewExt';
+var nm_btnMobileViewExt = 'ctl00$ctl00$btnMobileViewExt';
+var id_linkMobileViewExt = 'linkMobileViewExt';
+var nm_linkMobileViewExt = 'ctl00$ctl00$linkMobileViewExt';
+var id_divPopBtnArea = 'divPopBtnArea';
+var nm_divPopBtnArea = 'ctl00$ctl00$divPopBtnArea';
+var id_ulDarkModeBtn = 'ulDarkModeBtn';
+var nm_ulDarkModeBtn = 'ctl00$ctl00$ulDarkModeBtn';
+var id_liLightMode = 'liLightMode';
+var nm_liLightMode = 'ctl00$ctl00$liLightMode';
+var id_liDarkMode = 'liDarkMode';
+var nm_liDarkMode = 'ctl00$ctl00$liDarkMode';
+var id_hidLoginSelected = 'hidLoginSelected';
+var nm_hidLoginSelected = 'ctl00$ctl00$hidLoginSelected';
+var id_hidDevHelperInfo = 'hidDevHelperInfo';
+var nm_hidDevHelperInfo = 'ctl00$ctl00$hidDevHelperInfo';
+//]]>
+</script>
+
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="70E0FB03" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEdAEp6KdtDI5FBB3uCh5SZY4ADBbsfyvhNAhuf7KqJjflFT17mLj1q9uVeFDs/uJqf0tUqZWbDbaxg95LF+tBSnRJUZJNqeZbbWUo6EAZs57tgeBIlHvlxvZ8ZvXDG1y8su6WICqTqyp0EtUQDPgWNf5XNG/xiF0dyxdO4Balcnd76+ZAomLcmBX1i40o+eO9EFf61H8Gj4nyQDZp83ZMhRbniPKpYERsKbGndEuQwZH+XUGKAnXzAydJh4//Kfc4Ezkp7wri7KMgk1ysgLNBw0b2HW5ciM6sFMJjtOJq9HCXUwH5e67g6Hx6QUvsr0WxfE1GlQ7MfMhQLsvfjoOFLVwaqu9nrvQ4/Sos9a2/unCWntHMpz/yTXwo6hEjTgnrMZNS4qN+SAxkaOYOEts4xXPCKWW9VCZPAcn9l7bnr1h2jyeMW09LL0mVVKyvPE6wJydFZqeil7lgt8bqIkakEBXjKP8qFj5D/YtqiQzknS/yq4E3eGUYKbEZ+H/9gK8Rd/UkueUSD/hcsHLGeSBIrPVSygw41aihtxkfqPV+gtN3c/qaV3RcnJQdc/0Mqc/ZjVcX4GRzSslpA5wb61Co1IOfFlJmq5BjGkb6bRRVWa/f12Rhm9oy005XDSnTbZBnQgdWonUkG0gTqzD0m+D9rAp6Z59NIzy/pJicZlnvdDrbG4zsStGGJpqerrptDPK98U3mFaWStfDZJgGDm6JwIN1S7f2phj6t1ZTD1b7TIcA4I+Tgb1IYWsiX+i/BNI0znLOuYlpD/sCYL6409drelKumcwTdvud7x1Lucag7Yh1Gibw7q9LSl8yNqnvoPhpPvqSXdd1J5/M8FmfBVlrJaII3ahy07P5Qz55imMWZ1sPoWXMi1COJ5nyKRFunZzzWNLIXnyMwfIPvJtl3zZXSQe34RWmUp1Hfqs61SFbBBStyfezJkaIFRxF48n1pPnDug5bTHIvkcK42x1HthChPewyiXPXPbVam70cDDdelfqUeybXHmDo0au5Yqpqm4jO7rCdd+znRauvrW6wSQNsi595SFL9mKQmqo2kKeOxow0pOf+j/oHXliOI0BALhwvisSsLIlrjEogvzcyXxNi7ldUm3ZJYGVX/qmxg07hC+qT1ND+CwPf5Q87lfFZzbuc5wML/44QooEes1BQ6ZWHlcR52HqIHMOxyBIJitQpOo6mLeCjsrlawBvbY+YY02KEpphWHzDn/mT3rVwjtKYXUbOkNB/BSvi1QaaYG2ffiFe5mhzQwDtfMJj6glhN9NLD4ZHpH0E11/b1NaAIUU2DX7e4b0JAfFcg0prJEZtB+Qrz9uj2vJshFucjXOQX+EK/XudpmS0ATywAAvnZjvu7sXmzUpi4wLbI1kLwRbnHlAuhT775PUtUIV7swBt+PjqZSvE3+gl3r2JBMbYk6dg5/H+cemjVzSZLD5YIumJ6828NtXkte8vu0AkYWFpZBmwi+Z5r5TGm/FDchOZrJwBfquLhPUtKwvFuM4BPMtSfNhVV3bVS+qlZZQSXB7CSEd3GY35qmjsEDgK3lgtteADbR0toAYH5kiSF3jIHCBdmeF/kW9GlmqICdMK16UltEJaY3PRywVYuNugnhMbgat0Tl9GJLTX" />
+</div>
+            <div id="divHiddenAjaxLoadScript" style="display: none;"></div>
+            
+            <div id="divFixWrap">
+			    <div id="divFixConts">
+                <div id="divPortalHeaderFix">
+                    <!-- GNB -->
+                    <div class='ptype05_slide_group' style='display:none; height:500px;'><div class='ptype05_slide_box' id='divGlobalMenu' style='display:none;'><a class='ptype05_slide_box_close' href='javascript: XFn_GlobleMenu_OnClickClose();'></a><div class='ptype05_slide_box_menu'><div class="ptype05_slide_box_menu_wrap"><p class="ptype05_slide_box_menu_title"><span onclick="javascript:XFN_SystemMenuClick('/WebSite/Mail/Main.aspx', 'Mail');" style='cursor:pointer;'>메일</span></p><ul class="ptype05_slide_box_menu_list"><li><a id="top_MailContact" class='ptype05_menu_link' target="_self" href="javascript:XFN_SystemMenuClick('/WebSite/Mail/ContactList.aspx', 'MailContact');">연락처</a></li></ul></div><div class="ptype05_slide_box_menu_wrap"><p class="ptype05_slide_box_menu_title"><span onclick="javascript:XFN_SystemMenuClick('/WebSite/Approval/List.aspx?system=Approval&alias=P.APPROVAL.APPROVAL&mnid=134', 'P.APPROVAL.APPROVAL');" style='cursor:pointer;'>전자결재</span></p></div><div class="ptype05_slide_box_menu_wrap"><p class="ptype05_slide_box_menu_title"><span onclick="javascript:XFN_SystemMenuClick('/WebSite/Basic/Board/BoardMain.aspx', 'Board');" style='cursor:pointer;'>통합게시</span></p></div><div class="ptype05_slide_box_menu_wrap"><p class="ptype05_slide_box_menu_title"><span onclick="javascript:XFN_SystemMenuClick('/WebSite/Basic/Resource/Month.aspx?system=Resource&FD_ID=&Type=MC', 'Resource');" style='cursor:pointer;'>자원예약</span></p></div><div class="ptype05_slide_box_menu_wrap"><p class="ptype05_slide_box_menu_title"><span onclick="javascript:XFN_SystemMenuClick('/WebSite/Basic/Schedule/Month.aspx?SelectMenu=Schedule.Total', 'Schedule');" style='cursor:pointer;'>일정관리</span></p></div><div class="ptype05_slide_box_menu_wrap"><p class="ptype05_slide_box_menu_title"><span onclick="javascript:XFN_SystemMenuClick('/WebSite/Basic/Survey/Main.aspx?system=Survey', 'TaskHelper');" style='cursor:pointer;'>업무도우미</span></p><ul class="ptype05_slide_box_menu_list"><li><a id="top_Survey" class='ptype05_menu_link' target="_self" href="javascript:XFN_SystemMenuClick('/WebSite/Basic/Survey/Main.aspx', 'Survey');">전자설문</a></li><li><a id="top_BizCard" class='ptype05_menu_link' target="_self" href="javascript:XFN_SystemMenuClick('/Website/Basic/BizCard/PersonalList.aspx?system=BizCard&alias=BizCard.PersonalList&mnid=273', 'BizCard');">인명관리</a></li><li><a id="top_Community" class='ptype05_menu_link' target="_self" href="javascript:XFN_SystemMenuClick('/WebSite/Basic/Community/CommunityPortal.aspx', 'Community');">커뮤니티</a></li><li><a id="top_" class='ptype05_menu_link' href="http://10.10.15.52/g.htm"  target="_blank"  >병원업무프로그램 설치</a></li></ul></div></div></div><div class='bgptype05_bg' id='divGlobalBG'><iframe frameborder='0' id='Global_hideIfram' width='100%' height='500px' style='height: 423px; '></iframe></div></div>
+
+
+					<!-- Header 시작 -->
+					<div id="divHeader" class="hd">
+						<h1><a href="/Website/Portal/Main.aspx" class="logo_header" title="CAUHS"></a></h1>
+
+                        <div class="hd_btn_hmenu">
+                            <a href="javascript:XFn_GlobleMenu_OnClickOpen();"></a>
+                        </div>                        
+
+                        <!-- 근태관리 시작 -->
+                        <div id="divAttendanceManage" style="display: none;">
+                            <div class="attendance_header">
+                                <a href="javascript:XFN_Attendance_Click()" class="attendance_close_btn">
+                                    <img src="/Images/Images/common/todolist_x.gif" alt="닫기" title="닫기" />
+                                </a>
+                                <p>출근 / 퇴근 시간 체크</p>
+                            </div>
+                            <div class="attendance_body_wrap">
+                                <div class="attendance_body">
+                                    <div>
+                                        <strong>출근시간</strong>
+                                        <span id="checkInLabel" class="attendance_body_time_text"></span>
+                                        <a id="checkInButton" class="attendance_btn" disabled onclick="return false;" style="float:right;">
+                                            <img src="/images/images/common/btn/btn_confirm.gif" />
+                                            <span class="attendance_btn_label">
+                                                출근 등록
+                                            </span>
+                                        </a>
+                                    </div>
+                                    <div>
+                                        <strong>퇴근시간</strong>
+                                        <span id="checkOutLabel" class="attendance_body_time_text"></span>
+                                    </div>
+                                    <div>
+                                        <p><strong>비고</strong></p>
+                                        <label id="viewDesc"></label>
+                                        <div class="attendance_desc_text_wrap">
+                                            <textarea id="checkOutDesc" disabled></textarea>
+                                        </div>
+                                        <a id="checkOutButton" class="attendance_btn" disabled  onclick="return false;">
+                                            <img src="/images/images/common/btn/btn_confirm.gif" />
+                                            <span class="attendance_btn_label">
+                                                퇴근 기록
+                                            </span> 
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 근태관리 끝 -->
+                        <div class='hd_nav'><ul class="nav_list"><li class="off" onmouseover="LiTop_OnMouseOver(this);" id="liTopMenu_0"><a id="top_Mail" target="_self" href="javascript:ATop_OnClick('/WebSite/Mail/Main.aspx', 'Mail', '', '');"><span class='ico_Mail'></span><span class='tx'>메일</span></a><ul class="hd_level1" style="display:none;"><li><a id='top_MailContact' parentId='top_Mail' class='hd_smenu' target='_self' href='/WebSite/Mail/ContactList.aspx?system=MailContact' onclick='XFN_SelectedTopMenu("top_MailContact");'>연락처</a></li></ul></li><li class="off" onmouseover="LiTop_OnMouseOver(this);" id="liTopMenu_1"><a id="top_P.APPROVAL.APPROVAL" target="_self" href="javascript:ATop_OnClick('/WebSite/Approval/List.aspx', 'P.APPROVAL.APPROVAL', '/WebSite/Approval/List.aspx?system=Approval&alias=P.APPROVAL.APPROVAL&mnid=134', '');"><span class='ico_P_APPROVAL_APPROVAL'></span><span class='tx'>전자결재</span></a></li><li class="off" onmouseover="LiTop_OnMouseOver(this);" id="liTopMenu_2"><a id="top_Board" target="_self" href="javascript:ATop_OnClick('/WebSite/Basic/Board/BoardMain.aspx', 'Board', '', '');"><span class='ico_Board'></span><span class='tx'>통합게시</span></a></li><li class="off" onmouseover="LiTop_OnMouseOver(this);" id="liTopMenu_3"><a id="top_Resource" target="_self" href="javascript:ATop_OnClick('/WebSite/Basic/Resource/Month.aspx?system=Resource&FD_ID=&Type=MC
+', 'Resource', '/WebSite/Basic/Resource/Month.aspx?system=Resource&FD_ID=&Type=MC', '');"><span class='ico_Resource'></span><span class='tx'>자원예약</span></a></li><li class="off" onmouseover="LiTop_OnMouseOver(this);" id="liTopMenu_4"><a id="top_Schedule" target="_self" href="javascript:ATop_OnClick('/WebSite/Basic/Schedule/Month.aspx?SelectMenu=Schedule.Total', 'Schedule', '', '');"><span class='ico_Schedule'></span><span class='tx'>일정관리</span></a></li><li class="off" onmouseover="LiTop_OnMouseOver(this);" id="liTopMenu_5"><a id="top_TaskHelper" target="_self" href="javascript:ATop_OnClick('', 'TaskHelper', '/WebSite/Basic/Survey/Main.aspx?system=Survey', '');"><span class='ico_TaskHelper'></span><span class='tx'>업무도우미</span></a><ul class="hd_level1" style="display:none;"><li><a id='top_Survey' parentId='top_TaskHelper' class='hd_smenu' target='_self' href='/WebSite/Basic/Survey/Main.aspx?system=Survey' onclick='XFN_SelectedTopMenu("top_Survey");'>전자설문</a></li><li><a id='top_BizCard' parentId='top_TaskHelper' class='hd_smenu' target='_self' href="/Website/Basic/BizCard/PersonalList.aspx?system=BizCard&alias=BizCard.PersonalList&mnid=273">인명관리</a></li><li><a id='top_Community' parentId='top_TaskHelper' class='hd_smenu' target='_self' href='/WebSite/Basic/Community/CommunityPortal.aspx?system=Community' onclick='XFN_SelectedTopMenu("top_Community");'>커뮤니티</a></li><li><a id='top_807' parentId='top_TaskHelper' class='hd_smenu' target='_new' href="http://10.10.15.52/g.htm">병원업무프로그램 설치</a></li></ul></li></ul></div><div id='divMyMenu' class="hd_btn_group"><a class='btn_myportal' id='aMyportalOpen' href="javascript:XFN_MyPortal_Open('');" title='MyPortal' ><span class="tx">MyPortal</span></a> <a class="btn_todo" style='cursor:pointer;' title='ToDo List 열기' onclick="XFN_ToDoList_OnChange()">  <span class="tx">ToDo List 열기</span>  <span class="cnt" style="display: none;">{0}</span></a><div id = "divTodoList" class="todo_layer" style="display: none; "></div><a class="btn_org" id="aOrgMap" style='cursor:pointer;' onclick="XFN_aOrgMap_Click()" title="임직원조회"><span class="tx">임직원조회</span></a><script type="text/javascript" lang="javascript">$('.todo_layer').css('right', '-41.5px');</script></div><div class="hd_user_info"><a id="aUserMenu" class="user_info" style="cursor:pointer;" onclick="XFN_UtilMenu_Open()" onmouseover=""><span class='user_info_photo'><div style='background-position: center, center; background-image: url("/WebSite/GWStorage/PhotoPath/19415.jpg"), url("/Images/Images/Common/@user_img_default.jpg"); background-attachment: scroll, scroll; background-repeat: no-repeat, no-repeat; background-size: 100%; background-origin: padding-box, padding-box; background-clip: border-box, border-box; background-color: transparent;'></div></span><span class="user_info_name h_ellipsis2" style="line-height:1.2;">성준헌</span><span class="user_info_team h_ellipsis2" style="line-height:1.2;">심장뇌혈관 시술센터/중앙대학교의료원</span></a><div id="divUtilMenu" class="user_info_layer" style="display: none;" >    <ul class='user_info_layer_btn'><li><a class="top_ico_config" href="javascript:ATop_OnClick('/WebSite/Common/Personal/MyInfo/password.aspx', 'mypage', '', '265');"><span class="txt_config">개인환경설정</span></a></li> <li><a id='btn_CacheResetting' class="top_ico_resetting" href="javascript:XFN_OutputCacheAll();"><span class="txt_resetting">메뉴 초기화</span></a></li> </ul></div></div>
+
+
+                        <!-- 로그아웃 버튼 시작 -->
+                        <div class="hd_btn_logout">
+				            <a href="javascript:XFN_LogOut();" class="btn_logout"><span class="tx">로그아웃</span></a>
+			            </div>
+                        <!-- 로그아웃 버튼 끝 -->
+
+                        <!-- 겸직 시작 -->
+                        <div id="divAddJob" style="display:none;">
+                            <div style="position:relative;">
+                                <div style="background-color:#fff; padding: 10px; position: relative;">
+                                    <div id="divAddtionalJobInfo" style="min-height:90px;">
+
+                                    </div>
+                                    <div style="margin:8px auto; height:30px;">
+                                        <center>
+                                            <table class="pop_btn2" cellpadding="0" cellspacing="0">
+                                              <tbody>
+                                                  <tr>
+                                                    <td>
+                                                        <a href="javascript:XFN_btnAdditionalChange_OnClick('SetChangeAdditionalJob')"><em class="btn_bs_l"><span class="btn_bs_r"><strong class="txt_btn_bs">겸직변경</strong></span></em></a>                
+		                                                <a href="javascript:XFN_btnAdditionalChange_OnClick('SetChangeAdditionalLogin')"><em class="btn_bs_l"><span class="btn_bs_r"><strong class="txt_btn_bs">기본 로그인 지정</strong></span></em></a>
+                                                    </td>
+                                                  </tr>
+                                                </tbody>
+                                            </table>
+                                        </center>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 겸직 끝 -->
+
+						<div id="divAlert" class="notice_g" style="display:none;">
+							<div class="notice_ico"><img src="/Images/Images/common/notice_ico.gif" alt="" /></div>
+							<div class="notice_con"><a href="javascript:aAlert_OnClick();"><span id="spanAlertCount" class="txt_yb12"></span><span id="spanAlertMessage" class="txt_wn12"></span></a></div>
+							<div style="display:none;"><a href="javascript:XFN_Alert_OnChange(0);">닫기</a></div>
+						</div>
+					</div>
+					<!-- Header 끝 -->
+                    <div class="" id="divMyPortal" style="display:none; min-height:100px; background:#fff; text-align:center;"><div class="myportalsetting" id="divMyPortalSetting"><p class="myportal_title"><img src="/Images/Images/Portal/MyPortal/myportal_title.png" alt="" /> <a href="javascript:;" onclick="XFN_MyPortal_TaskPopup();" class="btn_myportal" style="display:none;" title="Import/Export"><img src="/Images/Images/Portal/MyPortal/mywp_btn01.png" alt="Import/Export" /></a><a href="javascript:;" onclick="XFN_MyPortal_ConfigOpen();" class="btn_myportal btn_layoutsetting" title="Setting"><img src="/Images/Images/Portal/MyPortal/mywp_btn02.png" alt="Setting" /></a><a href="javascript:;" onclick="XFN_MyPortal_Save();" class="btn_myportal" style="display:none;" title="Save"><img src="/Images/Images/Portal/MyPortal/mywp_btn03.png" alt="Save" /></a><span class="layout_save" style="display:none;"><input type="checkbox" id="chkMyPortalFixed" name="chkMyPortalFixed" value="Y" style="margin-left:10px; margin-right:0; border:0;" /><label for="chkMyPortalFixed">&nbsp;레이아웃을 현재 넓이로 저장</label></span></p><ul class="mywp_tabmenu" style="display:none;"><li class="mywp_tabmenu_off"><a href="javascript:;" onclick="_MyPortal.SettingTabMenu(this);"><span>Layout</span></a></li><li class="mywp_tabmenu_on"><a href="javascript:;" onclick="_MyPortal.SettingTabMenu(this);"><span>WebPart</span></a></li></ul><div class="myportalsetting_box" style="display:none;overflow:hidden;" id="divMyPortal_Tab_WebPart"><div id="divWebPartslides" style="overflow:hidden;"><ul class="myportalsetting_ul" id="ulMyPortal_WebPart" style="margin:0 45px;"><li>&nbsp;</li></ul></div></div><div class="myportalsetting_box" style="display:none;overflow: hidden;" id="divMyPortal_Tab_Layout"><div id="divLayoutslides" style="overflow:hidden;"><ul class="myportalsetting_ul" id="ulMyPortal_Layout" style="margin:0 45px;"><li>&nbsp;</li></ul></div></div></div><div class="portallayout" id="divMyPortalLayout" style="min-height:100px;"></div></div><input type="hidden" id="hidMyPortal_LayoutId" value="" /><input type="hidden" id="hidMyPortal_LayoutDetailOptionType" value="" /><input type="hidden" id="hidMyPortal_LayoutDetailOptionValue" value="" /><textarea id="hidMyPortal_LayoutDetailData" style="display:none;"></textarea><textarea id="hidMyPortal_LayoutFrame" class ="NoCheckXSS" style="display:none;"></textarea>
+                    
+                    
+<div class="ptype04_left">
+    <!--개인업무영역 시작 -->
+    <div class="ptype04_l_box" style="height: auto;">
+        <div class="ptype04_l_box_menu">
+            <div class="ptype04_l_box_menu_middle" style="height: 690px;">
+                <div id="gadgetLeft_divShortCutMenu" class="ptype04_l_box_menu_middle_scroll"></div>
+            </div>
+            <div class="ptype04_l_box_menu_bottom">
+                <a onclick="javascript: XFN_ShortCutUp();" class="btn_scroll_up"><span class="btn_scroll_img"></span></a>
+                <a onclick="javascript: XFN_ShortCutDown();" class="btn_scroll_down"><span class="btn_scroll_img"></span></a>
+            </div>
+            <div class="ptype04_l_box_menu_top2"><a href="javascript:gadget_fnShow('My_menu_popup');" class="ptype04_btn_setting"></a></div>
+        </div>
+    </div>
+    <div id="My_menu_popup" class="layer_divpop" style="z-index: 101; width: 760px; height: 583px; left: 85px; top: 57px; display: none;">
+        <div class="divpop_contents">
+            <h4 class="divpop_header"><span class="divpop_header_ico">나의 메뉴 설정</span></h4> <!-- 나의 메뉴 설정 -->
+            <div class="pop_btn_wrap"><a href="javascript:gadget_fnShow('My_menu_popup');" class="divpop_close" style="cursor: pointer;"></a></div>
+            <div class="divpop_body" style="overflow: hidden;">
+                <div style="width: 755px; height: 543px;">
+                    <div>
+                        <div class="ptype04_my_menu_contents">
+                            <ul id="gadgetLeft_divShortCutMenuAll" class="ptype04_my_menu_list"></ul>
+                        </div>
+                        <div class="ptype04_btn_g_bottom">
+                            <div class="ptype04_btn_group_c">
+                                <a href="javascript:setConfPopQuickData();" class="ptype04_btn_gr">저장</a> <!-- 저장 -->
+                                <a href="javascript:gadget_fnShow('My_menu_popup');" class="ptype04_btn_wh">취소</a> <!-- 취소 -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" name="ctl00$ctl00$gadgetLeft$hidQuickMenuConf" id="gadgetLeft_hidQuickMenuConf" />
+<script type="text/javascript" src="/WebSite/Common/Controls/jquery.slimscroll.min.js?v=20250905_1"></script>
+<script type="text/javascript">
+
+     // ready 이벤트
+    $(document).ready(function () {
+        XFN_SlimScrollBarResize();
+        $(".ptype04_l_box_menu_middle_scroll").slimScroll({
+            height: $(".ptype04_l_box_menu_middle_scroll").height() + 'px',
+            color: '#fff',
+            alwaysVisible: false
+        });
+       
+    });
+    // 리사이즈 이벤트
+    $(window).resize(function () {
+        XFN_SlimScrollBarResize();
+        $(".ptype04_l_box_menu_middle_scroll").slimScroll({
+            height: $(".ptype04_l_box_menu_middle_scroll").height() + 'px',
+            color: '#fff',
+            alwaysVisible: false
+        });
+    });
+
+    function XFN_SlimScrollBarResize() {
+        var l_iContentsHeight = (parseInt($(window).height(), 10) - 67);
+        $(".ptype04_l_box").css({ height: l_iContentsHeight + 7 });
+        $(".ptype04_l_box_menu_middle").css({ height: l_iContentsHeight - 125 });
+    }
+
+    // 퀵메뉴 Up
+    function XFN_ShortCutUp() {
+        $(".ptype04_l_box_menu_middle_scroll").stop(true, true);
+        $(".ptype04_l_box_menu_middle_scroll").animate({ scrollTop: 0 }, 250, function () { $(".ptype04_l_box_menu_middle_scroll").slimScroll({ scrollTo: 0 }) });
+    }
+
+    // 퀵메뉴 Down
+    function XFN_ShortCutDown() {
+        $(".ptype04_l_box_menu_middle_scroll").stop(true, true);
+        $(".ptype04_l_box_menu_middle_scroll").animate({ scrollTop: $(".ptype04_l_box_menu_middle_scroll").height() }, 250, function () { $(".ptype04_l_box_menu_middle_scroll").slimScroll({ scrollTo: $(".ptype04_l_box_menu_middle_scroll").height() }) });
+    }
+
+    function gadget_fnShow(obj) {
+        if ($("#" + obj).css("display") == "none") {
+            $("#" + obj).show();
+        } else {
+            $("#" + obj).hide();
+        }
+    }
+
+    function setConfPopQuickData() {
+        var selected = "";
+        $(".ptype04_my_menu_list").find("input[type=checkbox]").each(function () {
+            if ($(this).is(":checked"))
+                selected += $(this).attr("code") + ";";
+        });
+
+        var sURL = Common.GetPgModule("Portal.WebService");
+        var oResult = CFN_CallAjaxJson(sURL + "/SetWebPart_UserQuickMenu", "{pQuickMenuConf:'" + selected + "'}", false, null);
+        if ($.parseJSON(oResult).d == "OK") {
+            Common.Inform(Common.GetDic("msg_117"), "Infomation Dialog", function () { self.location.href = self.location.href }); //성공적으로 저장하였습니다.
+        } else {
+            Common.Warning(oResult);
+        }
+    }
+
+</script>
+
+                    
+<div class="ptype05_left">
+    <!--개인업무영역 시작 -->
+    <div class="ptype05_l_box" style="height: auto;">
+        <div class="ptype05_l_box_menu">
+            <div class="ptype05_l_box_menu_middle" style="height: 690px;">
+                <div id="gadgetType05_divShortCutMenu" class="ptype05_l_box_menu_middle_scroll"></div>
+            </div>
+            <div class="ptype05_l_box_menu_bottom">
+                <a onclick="javascript: XFN_ShortCutUp();" class="btn_scroll_up"><span class="btn_scroll_img"></span></a>
+                <a onclick="javascript: XFN_ShortCutDown();" class="btn_scroll_down"><span class="btn_scroll_img"></span></a>
+            </div>
+            <div class="ptype05_l_box_menu_top2"><a href="javascript:gadget_fnShow('My_menu_popupType05');" class="ptype05_btn_setting"></a></div>
+        </div>
+    </div>
+    <div id="My_menu_popupType05" class="layer_divpop" style="z-index: 101; width: 760px; height: 583px; left: 85px; top: 57px; display: none;">
+        <div class="divpop_contents">
+            <h4 class="divpop_header"><span class="divpop_header_ico">나의 메뉴 설정</span></h4> <!-- 나의 메뉴 설정 -->
+            <div class="pop_btn_wrap"><a href="javascript:gadget_fnShow('My_menu_popupType05');" class="divpop_close" style="cursor: pointer;"></a></div>
+            <div class="divpop_body" style="overflow: hidden;">
+                <div style="width: 755px; height: 543px;">
+                    <div>
+                        <div class="ptype05_my_menu_contents">
+                            <ul id="gadgetType05_divShortCutMenuAll" class="ptype05_my_menu_list"><li>   <div class="ptype05_my_menu_list_check">       <input class="ptype05_my_menu_check" type="checkbox" name="quickConf" id="quickConf_Approval" code="Approval">       <label for="quickConf_Approval">           <div class="ptype05_my_menu_ico"><span class="ptype04_pop_my_menu_approval"></span></div>           <p class="ptype05_my_menu_txt_box"><span class="ptype05_my_menu_txt">전자결재</span></p>           <div class="checkbox"><span class="checkbox_ico"></span></div>       </label>   </div></li><li>   <div class="ptype05_my_menu_list_check">       <input class="ptype05_my_menu_check" type="checkbox" name="quickConf" id="quickConf_Mail" code="Mail">       <label for="quickConf_Mail">           <div class="ptype05_my_menu_ico"><span class="ptype04_pop_my_menu_mail"></span></div>           <p class="ptype05_my_menu_txt_box"><span class="ptype05_my_menu_txt">메일</span></p>           <div class="checkbox"><span class="checkbox_ico"></span></div>       </label>   </div></li><li>   <div class="ptype05_my_menu_list_check">       <input class="ptype05_my_menu_check" type="checkbox" name="quickConf" id="quickConf_Schedule" code="Schedule">       <label for="quickConf_Schedule">           <div class="ptype05_my_menu_ico"><span class="ptype04_pop_my_menu_schedule"></span></div>           <p class="ptype05_my_menu_txt_box"><span class="ptype05_my_menu_txt">일정</span></p>           <div class="checkbox"><span class="checkbox_ico"></span></div>       </label>   </div></li><li>   <div class="ptype05_my_menu_list_check">       <input class="ptype05_my_menu_check" type="checkbox" name="quickConf" id="quickConf_Board" code="Board">       <label for="quickConf_Board">           <div class="ptype05_my_menu_ico"><span class="ptype04_pop_my_menu_board"></span></div>           <p class="ptype05_my_menu_txt_box"><span class="ptype05_my_menu_txt">게시판</span></p>           <div class="checkbox"><span class="checkbox_ico"></span></div>       </label>   </div></li><li>   <div class="ptype05_my_menu_list_check">       <input class="ptype05_my_menu_check" type="checkbox" name="quickConf" id="quickConf_Survey" code="Survey">       <label for="quickConf_Survey">           <div class="ptype05_my_menu_ico"><span class="ptype04_pop_my_menu_poll"></span></div>           <p class="ptype05_my_menu_txt_box"><span class="ptype05_my_menu_txt">설문</span></p>           <div class="checkbox"><span class="checkbox_ico"></span></div>       </label>   </div></li><li>   <div class="ptype05_my_menu_list_check">       <input class="ptype05_my_menu_check" type="checkbox" name="quickConf" id="quickConf_BizCard" code="BizCard">       <label for="quickConf_BizCard">           <div class="ptype05_my_menu_ico"><span class="ptype04_pop_my_menu_bizcard"></span></div>           <p class="ptype05_my_menu_txt_box"><span class="ptype05_my_menu_txt">인명관리</span></p>           <div class="checkbox"><span class="checkbox_ico"></span></div>       </label>   </div></li><li>   <div class="ptype05_my_menu_list_check">       <input class="ptype05_my_menu_check" type="checkbox" name="quickConf" id="quickConf_Resource" code="Resource">       <label for="quickConf_Resource">           <div class="ptype05_my_menu_ico"><span class="ptype04_pop_my_menu_resource"></span></div>           <p class="ptype05_my_menu_txt_box"><span class="ptype05_my_menu_txt">자원예약</span></p>           <div class="checkbox"><span class="checkbox_ico"></span></div>       </label>   </div></li></ul>
+                        </div>
+                        <div class="ptype05_btn_g_bottom">
+                            <div class="ptype05_btn_group_c">
+                                <a href="javascript:setConfPopQuickData_type05();" class="ptype05_btn_gr">저장</a> <!-- 저장 -->
+                                <a href="javascript:gadget_fnShow('My_menu_popupType05');" class="ptype05_btn_wh">취소</a> <!-- 취소 -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" name="ctl00$ctl00$gadgetType05$hidQuickMenuConf" id="gadgetType05_hidQuickMenuConf" />
+<script type="text/javascript" src="/WebSite/Common/Controls/jquery.slimscroll.min.js?v=20250905_1"></script>
+<script type="text/javascript">
+
+    // ready 이벤트
+    $(document).ready(function () {
+        XFN_SlimScrollBarResize();
+        $(".ptype05_l_box_menu_middle_scroll").slimScroll({
+            height: $(".ptype05_l_box_menu_middle_scroll").height() + 'px',
+            color: '#fff',
+            alwaysVisible: false
+        });
+
+    });
+    // 리사이즈 이벤트
+    $(window).resize(function () {
+        XFN_SlimScrollBarResize();
+        $(".ptype05_l_box_menu_middle_scroll").slimScroll({
+            height: $(".ptype05_l_box_menu_middle_scroll").height() + 'px',
+            color: '#fff',
+            alwaysVisible: false
+        });
+    });
+
+    function XFN_SlimScrollBarResize() {
+        var l_iContentsHeight = (parseInt($(window).height(), 10) - 67);
+        if ($(".ptype05_l_box_menu_middle_scroll").prop('scrollHeight') > ($(window).height() - 135)) {
+            $(".ptype05_l_box_menu_bottom").css("display", "block");
+            $(".ptype05_l_box").css({ height: l_iContentsHeight + 7 });
+            $(".ptype05_l_box_menu_middle").css({ height: l_iContentsHeight - 145 });
+        } else {
+            $(".ptype05_l_box_menu_bottom").css("display", "none");
+            $(".ptype05_l_box").css({ height: l_iContentsHeight + 7 });
+            $(".ptype05_l_box_menu_middle").css({ height: l_iContentsHeight - 75 });
+        }
+    }
+    // 퀵메뉴 Up 
+    function XFN_ShortCutUp() {
+        var iCurheight = $(".ptype05_l_box_menu_middle_scroll").scrollTop();    //스크롤 현재 위치
+        iCurheight = iCurheight - 300;
+        $(".ptype05_l_box_menu_middle_scroll").stop(true, true);
+        $(".ptype05_l_box_menu_middle_scroll").animate({ scrollTop: iCurheight }, 250, function () { $(".ptype05_l_box_menu_middle_scroll").slimScroll({ scrollTo: iCurheight }) });
+    }
+
+    // 퀵메뉴 Down
+    function XFN_ShortCutDown() {
+        var iCurheight = $(".ptype05_l_box_menu_middle_scroll").scrollTop();    //스크롤 현재 위치
+        iCurheight = iCurheight + 300;
+        $(".ptype05_l_box_menu_middle_scroll").stop(true, true);
+        $(".ptype05_l_box_menu_middle_scroll").animate({ scrollTop: iCurheight }, 250, function () { $(".ptype05_l_box_menu_middle_scroll").slimScroll({ scrollTo: iCurheight }) });
+    }
+
+    function gadget_fnShow(obj) {
+        if ($("#" + obj).css("display") == "none") {
+            $("#" + obj).show();
+        } else {
+            $("#" + obj).hide();
+        }
+    }
+
+    function setConfPopQuickData_type05() {
+        var selected = "";
+        $(".ptype05_my_menu_list").find("input[type=checkbox]").each(function () {
+            if ($(this).is(":checked"))
+                selected += $(this).attr("code") + ";";
+        });
+
+        var sURL = Common.GetPgModule("Portal.WebService");
+        var oResult = CFN_CallAjaxJson(sURL + "/SetWebPart_UserQuickMenu", "{pQuickMenuConf:'" + selected + "'}", false, null);
+        if ($.parseJSON(oResult).d == "OK") {
+            Common.Inform(Common.GetDic("msg_117"), "Infomation Dialog", function () { self.location.href = self.location.href }); //성공적으로 저장하였습니다.
+        } else {
+            Common.Warning(oResult);
+        }
+    }
+
+</script>
+
+					<!-- Content 시작 -->
+					<div class="layout">
+						<div id="divContainer" class="container">
+							
+    <div id="cphContent_divContent" class="content">
+        <div class="sub" id="pTag">
+            <div class="sub_l" id="lTag" style="min-height:692px;">
+                <h2 id="h2Title_Mail" class="lt_mail"><span class="txt_ltit">메일</span></h2><p class="lnb_close"><a href="javascript:XFN_CloseLeftMenu();"><img src="/Images/Images/common/Btn/btn_lnb_close.gif"></a></p><div class="btn_write"><a href="javascript:void_btnWrite_OnClick();" class="btn_write1"><img src="/images/images/common/icon/ico_write1.gif" /> 메일쓰기</a><a href="javascript:void_btnWriteMe_OnClick();" class="btn_write2"><img src="/images/images/common/icon/ico_write2.gif" /> 내게쓰기</a></div><div class="tree_scroll" style="width:196px;"><div class="btn_webmailsetting"><a href="javascript:void_btnFolderRefresh_OnClick();"><img src="/images/images/common/btn/btn_mailrefresh.gif" alt="새로고침" title="새로고침" /></a></div><ul id="ulDefaultMailBox" class="tree_dir" ><li id="leftMail_0" fid="" fck="" data-isRoot='Y' style="padding-left: 0px; background: none;"><a href="#" class="tree_ex2"><img src="/Images/Images/Controls/Tree/minus.gif" alt="dash_minus" /></a><a href="#" class="tree_ico"><img src="/Images/Images/Controls/Tree/root_close.gif" width="16" height="16" /></a><a href="javascript:void_btnMailHome_OnClick('leftMail_0', 'ALL');" class="tree_label"><span id="spanMailMenuText_0">성준헌</span></a><ul style="display: block;" alt="level_1"><li id="leftMail_7" fid="AQMkADhmZDgwZTQwLTQyMzEtNGU2NC1hODU0LWFjZTMyODJiM2FkYwAuAAADA2sDQfMQDEWDSssgki2SjAEATPu8dTiRi0+MZCigxbEgEgAAAgEMAAAA" fck="AQAAABYAAABM+7x1OJGLT4xkKKDFsSASAAN3pREJ" name="받은 편지함" archiveYN="N" sentitemsYN="N" deleteditemsYN="N"><a href="#" class="tree_ico"><img src="/Images/Images/Controls/Tree/ico_mail01_close.gif" /></a><a href="javascript:void_btnTreeMenu_OnClick('leftMail_7', 'ALL');" class="tree_label"><span id="spanMailMenuText_7">받은 편지함<span id="spanMailCount_7"></span></span></a></li><li id="leftMail_10" fid="AQMkADhmZDgwZTQwLTQyMzEtNGU2NC1hODU0LWFjZTMyODJiM2FkYwAuAAADA2sDQfMQDEWDSssgki2SjAEATPu8dTiRi0+MZCigxbEgEgAAAgEJAAAA" fck="AQAAABYAAABM+7x1OJGLT4xkKKDFsSASAAN2dNum" name="보낸 편지함" archiveYN="N" sentitemsYN="Y" deleteditemsYN="N"><a href="#" class="tree_ico"><img src="/Images/Images/Controls/Tree/ico_mail04_close.gif" /></a><a href="javascript:void_btnTreeMenu_OnClick('leftMail_10', 'ALL');" class="tree_label"><span id="spanMailMenuText_10">보낸 편지함<span id="spanMailCount_10"></span></span></a></li><li id="leftMail_9" fid="AQMkADhmZDgwZTQwLTQyMzEtNGU2NC1hODU0LWFjZTMyODJiM2FkYwAuAAADA2sDQfMQDEWDSssgki2SjAEATPu8dTiRi0+MZCigxbEgEgAAAgELAAAA" fck="AQAAABYAAABM+7x1OJGLT4xkKKDFsSASAAMpIgwx" name="보낼 편지함" archiveYN="N" sentitemsYN="Y" deleteditemsYN="N"><a href="#" class="tree_ico"><img src="/Images/Images/Controls/Tree/ico_mail05_close.gif" /></a><a href="javascript:void_btnTreeMenu_OnClick('leftMail_9', 'ALL');" class="tree_label"><span id="spanMailMenuText_9">보낼 편지함<span id="spanMailCount_9"></span></span></a></li><li id="leftMail_5" fid="AQMkADhmZDgwZTQwLTQyMzEtNGU2NC1hODU0LWFjZTMyODJiM2FkYwAuAAADA2sDQfMQDEWDSssgki2SjAEATPu8dTiRi0+MZCigxbEgEgAAAgEPAAAA" fck="AQAAABYAAABM+7x1OJGLT4xkKKDFsSASAAN2dNuh" name="임시 보관함" archiveYN="N" sentitemsYN="Y" deleteditemsYN="N"><a href="#" class="tree_ico"><img src="/Images/Images/Controls/Tree/ico_mail06_close.gif" /></a><a href="javascript:void_btnTreeMenu_OnClick('leftMail_5', 'ALL');" class="tree_label"><span id="spanMailMenuText_5">임시 보관함<span id="spanMailCount_5"></span></span></a></li><li id="leftMail_8" fid="AQMkADhmZDgwZTQwLTQyMzEtNGU2NC1hODU0LWFjZTMyODJiM2FkYwAuAAADA2sDQfMQDEWDSssgki2SjAEATPu8dTiRi0+MZCigxbEgEgAAAgEUAAAA" fck="AQAAABYAAABM+7x1OJGLT4xkKKDFsSASAAN2dNuk" name="정크 메일" archiveYN="N" sentitemsYN="N" deleteditemsYN="N"><a href="#" class="tree_ico"><img src="/Images/Images/Controls/Tree/ico_mail07_close.gif" /></a><a href="javascript:void_btnTreeMenu_OnClick('leftMail_8', 'ALL');" class="tree_label"><span id="spanMailMenuText_8">정크 메일<span id="spanMailCount_8"></span></span></a></li><li id="leftMail_4" fid="AQMkADhmZDgwZTQwLTQyMzEtNGU2NC1hODU0LWFjZTMyODJiM2FkYwAuAAADA2sDQfMQDEWDSssgki2SjAEATPu8dTiRi0+MZCigxbEgEgAAAgEKAAAA" fck="AQAAABYAAABM+7x1OJGLT4xkKKDFsSASAAN2dNuf" name="지운 편지함" archiveYN="N" sentitemsYN="N" deleteditemsYN="Y"><a href="#" class="tree_ico"><img src="/Images/Images/Controls/Tree/ico_mail08_close.gif" /></a><a href="javascript:void_btnTreeMenu_OnClick('leftMail_4', 'ALL');" class="tree_label"><span id="spanMailMenuText_4">지운 편지함<span id="spanMailCount_4"></span></span></a></li><li id="leftMail_1" fid="AAMkADhmZDgwZTQwLTQyMzEtNGU2NC1hODU0LWFjZTMyODJiM2FkYwAuAAAAAAADawNB8xAMRYNKyyCSLZKMAQBM+7x1OJGLT4xkKKDFsSASAAAV+sMDAAA=" fck="AQAAABYAAABM+7x1OJGLT4xkKKDFsSASAAMpIgwI" name="Archive" archiveYN="N" sentitemsYN="N" deleteditemsYN="N"><a href="#" class="tree_ico"><img src="/Images/Images/Controls/Tree/FOLDER_close.gif" /></a><a href="javascript:void_btnTreeMenu_OnClick('leftMail_1', 'ALL');" class="tree_label"><span id="spanMailMenuText_1">Archive<span id="spanMailCount_1"></span></span></a></li><li id="leftMail_2" fid="AQMkADhmZDgwZTQwLTQyMzEtNGU2NC1hODU0LWFjZTMyODJiM2FkYwAuAAADA2sDQfMQDEWDSssgki2SjAEATPu8dTiRi0+MZCigxbEgEgAAAgEZAAAA" fck="AQAAABYAAABM+7x1OJGLT4xkKKDFsSASAAN2dNud" name="Conversation History" archiveYN="N" sentitemsYN="N" deleteditemsYN="N"><a href="#" class="tree_ex2"><img id="__ex_2" src="/Images/Images/Controls/Tree/plus.gif" width="11" height="11" alt="dash_plus" /></a><a href="#" class="tree_ico"><img src="/Images/Images/Controls/Tree/FOLDER_close.gif" /></a><a href="javascript:void_btnTreeMenu_OnClick('leftMail_2', 'ALL');" class="tree_label"><span id="spanMailMenuText_2">Conversation History<span id="spanMailCount_2"></span></span></a><ul id="leftMailUL_2" style="display:none"  alt="level_2"><li id="leftMail_3" fid="AQMkADhmZDgwZTQwLTQyMzEtNGU2NC1hODU0LWFjZTMyODJiM2FkYwAuAAADA2sDQfMQDEWDSssgki2SjAEATPu8dTiRi0+MZCigxbEgEgAAAgEaAAAA" fck="AQAAABYAAABM+7x1OJGLT4xkKKDFsSASAAJIAho1" name="Team Chat" archiveYN="N" sentitemsYN="N" deleteditemsYN="N" class="tree_last_node"><a href="#" class="tree_ico"><img src="/Images/Images/Controls/Tree/FOLDER_close.gif" /></a><a href="javascript:void_btnTreeMenu_OnClick('leftMail_3', 'ALL');" class="tree_label"><span id="spanMailMenuText_3">Team Chat<span id="spanMailCount_3"></span></span></a></li></ul></li><li id="leftMail_6" fid="AQMkADhmZDgwZTQwLTQyMzEtNGU2NC1hODU0LWFjZTMyODJiM2FkYwAuAAADA2sDQfMQDEWDSssgki2SjAEATPu8dTiRi0+MZCigxbEgEgABcvnTFgAAAA==" fck="AQAAABYAAABM+7x1OJGLT4xkKKDFsSASAAMpIgwk" name="EventCheckPoints" archiveYN="N" sentitemsYN="N" deleteditemsYN="N"><a href="#" class="tree_ico"><img src="/Images/Images/Controls/Tree/FOLDER_close.gif" /></a><a href="javascript:void_btnTreeMenu_OnClick('leftMail_6', 'ALL');" class="tree_label"><span id="spanMailMenuText_6">EventCheckPoints<span id="spanMailCount_6"></span></span></a></li></ul></li></ul><p class="space"></p><div class="use_size"><p id="pUseSize" class="use_size_txt"></p><div id="divUseSize" class="use_size_in"></div></div><input type="hidden" id="hidMailFolderIndex" value="10"></div><ul class="leftmenu"><li class="leftmenu01"><a Alias="" AclList="____RV____AWRV" id="left_340" href="/WebSite/Mail/ContactList.aspx?system=MailContact"  class=''>연락처</a></li><li class="leftmenu01"><a Alias="" AclList="____RV____AWRV" id="left_411" href="/WebSite/Mail/MailOption_Configuration.aspx?system=Mail"  class=''>환경설정</a></li></ul>
+            </div>
+            <div class="sub_l_f" id="lTag_f" style="display: none">
+			    <p class="lnb_open"><a href="javascript:XFN_OpenLeftMenu();"><img src="/Images/Images/common/Btn/btn_lnb_open.gif" alt="close" /></a></p>
+			</div>
+            <div class="sub_c" id="cTag" style="min-height:692px;overflow:hidden;">
+                
+	<div class="" id="cTag">
+		<div class="con_in">
+			<h2 id="h2Title" class="stit"></h2>
+			<ul class='location'><li class='location_list'>&nbsp;&gt;&nbsp;<a target="_self" href="javascript:ATop_OnClick('/WebSite/Mail/Main.aspx', 'Mail', '', '');">메일</a></li></ul>
+			<div class="board_btop">
+				<div>
+					<ul class="board_btop_g">
+						<li style="float: left;">
+
+							<a href="javascript:aWrite_onclick();"><em class="btn_cs_l"><span class="btn_cs_r"><strong class="txt_btn_cs"><!--<img src="/Images/images/Common/Icon/ico_re.gif" alt="" class="ico_btn" />-->메일쓰기</strong></span></em></a>
+
+                             
+							<a href="javascript:aReplyExtension_Default_OnClick();" style="display:none;"><em class="btn_bs_l"><span class="btn_bs_r"><strong class="txt_btn_bs"><!--<img src="/Images/images/Common/Icon/ico_re.gif" alt="" class="ico_btn" />-->회신</strong></span></em></a>
+							<a href="javascript:aReplyAllExtension_Default_OnClick();" style="display:none;"><em class="btn_bs_l"><span class="btn_bs_r"><strong class="txt_btn_bs"><!--<img src="/Images/images/Common/Icon/ico_reall.gif" alt="" class="ico_btn" />-->전체회신</strong></span></em></a>
+							<a href="javascript:aForwardExtension_Default_OnClick();" style="display:none;"><em class="btn_bs_l"><span class="btn_bs_r"><strong class="txt_btn_bs"><!--<img src="/Images/images/Common/Icon/ico_fw.gif" alt="" class="ico_btn" />-->전달</strong></span></em></a>
+
+                            <div class="WebmailtopbtnN">
+                                <a id="aReplyText" href="javascript:aReplyExtension_Default_OnClick();"><em class="btn_ws_l"><span class="btn_ws_r"><strong class="txt_btn_ws">회신</strong></span></em></a>
+                                <a class="Webmailtopbtnd" href="javascript:aReplyExtension_OnClick();"><img class="img_align" src="/Images/Images/Board/btn_list.gif" alt="" /></a>
+                                <ul class="ex_menu" id="ulReplyExtension" style="display: none;">
+                                    <li style="cursor: pointer;" onclick="aReplyExtension_Default_OnClick();">회신</li>
+                                    <li style="cursor: pointer;" onclick="aReplyExtension_InFile_OnClick();">첨부파일 포함 회신</li>
+                                </ul>
+                                <input id="ReplyOption" type="hidden" value="0" />
+                            </div>
+                            <div class="WebmailtopbtnN">
+                                <a id="aReplyAllText" href="javascript:aReplyAllExtension_Default_OnClick();"><em class="btn_ws_l"><span class="btn_ws_r"><strong class="txt_btn_ws">전체회신</strong></span></em></a>
+                                <a class="Webmailtopbtnd" href="javascript:aReplyAllExtension_OnClick();"><img class="img_align" src="/Images/Images/Board/btn_list.gif" alt="" /></a>
+                                <ul class="ex_menu" id="ulReplyAllExtension" style="display: none;">
+                                    <li style="cursor: pointer;" onclick="aReplyAllExtension_Default_OnClick();">전체회신</li>
+                                    <li style="cursor: pointer;" onclick="aReplyAllExtension_InFile_OnClick();">첨부파일 포함 전체회신</li>
+                                </ul>
+                                <input id="ReplyAllOption" type="hidden" value="0" />
+                            </div>
+                            <div class="WebmailtopbtnN">
+                                <a id="aForwardText" href="javascript:aForwardExtension_Default_OnClick();"><em class="btn_ws_l"><span class="btn_ws_r"><strong class="txt_btn_ws">전달</strong></span></em></a>
+                                <a class="Webmailtopbtnd" href="javascript:aForwardExtension_OnClick();"><img class="img_align" src="/Images/Images/Board/btn_list.gif" alt="" /></a>
+                                <ul class="ex_menu" id="ulForwardExtension" style="display: none;">
+                                    <li style="cursor: pointer;" onclick="aForwardExtension_Default_OnClick();">전달</li>
+                                    <li style="cursor: pointer;" onclick="aForwardExtension_InFile_OnClick();">첨부파일로 전달</li>
+                                </ul>
+                            </div>
+
+                            <a href="javascript:aRefresh_onclick();"><em class="btn_bs_l"><span class="btn_bs_r"><strong class="txt_btn_bs"><!--<img src="/Images/images/Board/ico_re.gif" alt="" class="ico_btn" />-->새로고침</strong></span></em></a>
+                            <a id="aCopy" href="javascript:aCopy_onclick();"><em class="btn_ws_l"><span class="btn_ws_r"><strong class="txt_btn_ws">복사</strong></span></em></a>
+                            <a id="aMove" href="javascript:aMove_onclick();"><em class="btn_ws_l"><span class="btn_ws_r"><strong class="txt_btn_ws">이동</strong></span></em></a>
+                            <div class="WebmailtopbtnN">
+                                <a id="aDeleteText" href="javascript:aDeleteExtension_Default_OnClick();"><em class="btn_ws_l"><span class="btn_ws_r"><strong class="txt_btn_ws">삭제</strong></span></em></a>
+                                <a class="Webmailtopbtnd" href="javascript:aDeleteExtension_OnClick();"><img class="img_align" src="/Images/Images/Board/btn_list.gif" alt="" /></a>
+                                <ul class="ex_menu" id="ulDeleteExtension" style="display: none;">
+                                    <li style="cursor: pointer;" id="aDelete" onclick="aDelete_onclick('MOVETODELETEDITEMS');">삭제</li>
+                                    <li style="cursor: pointer;" id="aDeleteForever" onclick="aDelete_onclick('SOFTDELETE');">완전삭제</li>
+                                    <li style="cursor: pointer;" id="aDeleteOnlyFile" onclick="aDelete_onclick('ONLYFILE');">첨부파일만 삭제</li>
+                                </ul>
+                            </div>
+                            <a href="javascript:aReceiptCheck_onclick();" id="aReceiptCheck" style="display:none;"><em class="btn_ws_l"><span class="btn_ws_r"><strong class="txt_btn_ws">수신확인</strong></span></em></a>
+						</li>
+						<li class="WebmailtopbtnN">
+							<a id="aAddOnsText" href="javascript:aAddOns_onclick();"><em class="btn_ws_l"><span class="btn_ws_r"><strong class="txt_btn_ws">추가기능</strong></span></em></a>
+                            <a class="Webmailtopbtnd" href="javascript:aAddOns_onclick();"><img class="img_align" src="/Images/Images/Board/btn_list.gif" alt="" /></a>
+							<ul class="ex_menu" id="ulAddOns" style="display: none;">
+								<li style="cursor: pointer;" onclick="aChangeUnread_onclick();">읽지 않은 상태로 표시</li>
+								<li style="cursor: pointer;" onclick="aChangeRead_onclick();">읽은 상태로 표시</li>
+								<li style="cursor: pointer;" onclick="aMsgExport_onclick();">메일 PC로 내보내기</li>
+								<li style="cursor: pointer;" onclick="aMsgImport_onclick();">메일 PC에서 가져오기</li>
+                                
+								<li style="cursor: pointer;" id="liReceiptRefusal" onclick="aReceiptRefusalSettings_onclick();">수신거부</li>
+                                <li style="cursor: pointer; display:none;" id="liReceiptRefusalUnLock" onclick="aReceiptRefusalUnLockSettings_onclick();">수신거부 해제</li>
+								<li onclick="aTransfer_onclick();" style="cursor: pointer;">게시이관</li>
+
+							</ul>
+						</li>
+					</ul>
+				</div>
+				<div class="board_search">
+					
+					<div class="select2" style="float: left;">
+						<select name="ctl00$ctl00$cphContent$cphContent$ddlFilterType" onchange="javascript:setTimeout(&#39;__doPostBack(\&#39;ctl00$ctl00$cphContent$cphContent$ddlFilterType\&#39;,\&#39;\&#39;)&#39;, 0)" id="cphContent_cphContent_ddlFilterType" class="JquerySelectBox" style="width: 130px; height: 21px; line-height: 21px; float: left;">
+	<option selected="selected" value="ALL">전체항목</option>
+	<option value="READ">읽은 메일 목록</option>
+	<option value="UNREAD">읽지 않은 메일 목록</option>
+	<option value="INNER">내부 메일 목록</option>
+	<option value="OUTER">외부 메일 목록</option>
+	<option value="GROUP.DISPLAYFROM">보낸사람별</option>
+	<option value="GROUP.DISPLAYTO">받은사람별</option>
+	<option value="GROUP.SUBJECT">제목별</option>
+	<option value="GROUP.FLAG">플래그별</option>
+	<option value="GROUP.CATEGORY">범주별</option>
+
+</select>
+					</div>
+					<div class="select2" style="margin-left: 3px; float: left;">
+						<select name="ctl00$ctl00$cphContent$cphContent$ddlSearchType" id="cphContent_cphContent_ddlSearchType" class="JquerySelectBox" onchange="ddlSearchType_OnChange();" style="width: 80px; height: 21px; line-height: 21px; float: left;">
+	<option selected="selected" value="ALL">전체</option>
+	<option value="SUBJECT">제목</option>
+	<option value="SENDER">보낸 사람</option>
+	<option value="RECEIVER">받는 사람</option>
+
+</select>
+					</div>
+					<input name="ctl00$ctl00$cphContent$cphContent$txtSearchText" type="text" id="cphContent_cphContent_txtSearchText" style="width: 160px; float: left; margin-right: 2px !important; margin-left: 3px !important; height: 17px; line-height: 17px; margin-right: 3px;" />
+					<a id="aSearch" href="javascript:aSearch_onclick();"><em class="btn_search_l"><span class="btn_search_r"><strong class="txt_btn_search">
+						<img src="/Images/images/Board/ico_search.gif" alt="" class="ico_btn" />검색</strong></span></em></a>
+					<div style="display: none;">
+                        <input name="ctl00$ctl00$cphContent$cphContent$chkIncludeBody" type="checkbox" id="cphContent_cphContent_chkIncludeBody" class="input_check5" style="cursor: pointer;" /><label for="cphContent_cphContent_chkIncludeBody" class="txt_gn11" style="cursor: pointer;">본문 포함</label>
+					    <input name="ctl00$ctl00$cphContent$cphContent$chkIncludeSubFolders" type="checkbox" id="cphContent_cphContent_chkIncludeSubFolders" class="input_check5" style="cursor: pointer;" /><label id="lblIncludeSubFolders" for="cphContent_cphContent_chkIncludeSubFolders" class="txt_gn11" style="cursor: pointer;">하위폴더포함</label>
+					</div>
+                    <div class="WebmailtopbtnN">
+                        <a id="aDetailAddon" href="javascript:aDetailAddon_onclick();"><em class="btn_ws_l"><span class="btn_ws_r"><strong class="txt_btn_ws">상세</strong></span></em></a>
+                        <a class="Webmailtopbtnd" href="javascript:aDetailAddon_onclick();"><img class="img_align" src="/Images/Images/Board/btn_list.gif" alt="" /></a>
+                    </div>
+                    <ul id="ulDetailSearch" class="mail_details" style="display:none;">
+                        <li><label class="txt_gn11" style="padding-top:0px; /*padding-right:8px; padding-left:8px;*/ padding-bottom:0px;  height:24px; line-height:24px; list-style:none; list-style-position:outside; list-style-image:none; margin-right:22px;">제목 :</label><input name="ctl00$ctl00$cphContent$cphContent$DetailTitle" type="text" id="cphContent_cphContent_DetailTitle" style="width:133px;  margin-left:3px; height:15px;  margin-right:3px;" /></li>
+                        <li><label class="txt_gn11" style="padding-top:0px; /*padding-right:8px; padding-left:8px;*/ padding-bottom:0px;  height:24px; line-height:24px; list-style:none; list-style-position:outside; list-style-image:none; margin-right:22px;">본문 :</label><input name="ctl00$ctl00$cphContent$cphContent$DetailContent" type="text" id="cphContent_cphContent_DetailContent" style="width:133px; margin-left:3px; height:15px; margin-right:3px;" /></li>
+                        <li><label class="txt_gn11" style="padding-top:0px; /*padding-right:8px; padding-left:8px;*/ padding-bottom:0px;  height:24px; line-height:24px; list-style:none; list-style-position:outside; list-style-image:none;">보낸사람 :</label><input name="ctl00$ctl00$cphContent$cphContent$DetailSender" type="text" id="cphContent_cphContent_DetailSender" style="width:133px; margin-left:3px; height:15px; margin-right:3px;" /></li>
+                        <li><label class="txt_gn11" style="padding-top:0px; /*padding-right:8px; padding-left:8px;*/ padding-bottom:0px;  height:24px; line-height:24px; list-style:none; list-style-position:outside; list-style-image:none;">받는사람 :</label><input name="ctl00$ctl00$cphContent$cphContent$DetailReceiver" type="text" id="cphContent_cphContent_DetailReceiver" style="width:133px; margin-left:3px; height:15px; margin-right:3px;" /></li>
+                        <li><label class="txt_gn11" style="padding-top:0px; /*padding-right:8px; padding-left:8px;*/ padding-bottom:0px;  height:24px; line-height:24px; list-style:none; list-style-position:outside; list-style-image:none;">기간 :</label><input name="ctl00$ctl00$cphContent$cphContent$DetailStartDate" type="text" maxlength="10" id="cphContent_cphContent_DetailStartDate" Size="10" onkeydown="return CFN_CheckMaxLength(this, &#39;10&#39;)" class="ime_calender_mode" onfocus="CFN_RemoveDateFromat(&#39;yyyy.MM.dd&#39;)" onblur="CFN_ConvertDate(&#39;yyyy.MM.dd&#39;)" onkeypress="CFN_CheckIsDateNum(&#39;yyyy.MM.dd&#39;)" onkeyup="CFN_OnKeyUpIsDate(this)" onclick="CFN_CalenderPopup(this,&#39;&#39;, &#39;&#39;, &#39;&#39;);" DateFormat="yyyy.MM.dd" DisplayDay="false" style="height:14px;vertical-align:middle;text-align:center;" /> - <input name="ctl00$ctl00$cphContent$cphContent$DetailEndDate" type="text" maxlength="10" id="cphContent_cphContent_DetailEndDate" Size="10" onkeydown="return CFN_CheckMaxLength(this, &#39;10&#39;)" class="ime_calender_mode" onfocus="CFN_RemoveDateFromat(&#39;yyyy.MM.dd&#39;)" onblur="CFN_ConvertDate(&#39;yyyy.MM.dd&#39;)" onkeypress="CFN_CheckIsDateNum(&#39;yyyy.MM.dd&#39;)" onkeyup="CFN_OnKeyUpIsDate(this)" onclick="CFN_CalenderPopup(this,&#39;&#39;, &#39;&#39;, &#39;&#39;);" DateFormat="yyyy.MM.dd" DisplayDay="false" style="height:14px;vertical-align:middle;text-align:center;" /></li>
+                        <li><a href="javascript:aDetailSearch_onclick();" id="cphContent_cphContent_DetailSearch" style="float:right; margin-left:5px;"><em class="btn_search_l" style="float:right; margin-right:5px; margin-top:4px;"><span class="btn_search_r"><strong class="txt_btn_search">검색</strong></span></em></a><span style="float:right;"><input name="ctl00$ctl00$cphContent$cphContent$DetailIncludeSubFolders" type="checkbox" id="cphContent_cphContent_DetailIncludeSubFolders" class="input_check5" style="cursor:pointer; margin-top:4px;" /><label for="DetailIncludeSubFolders" class="txt_gn11" style="cursor:pointer; margin-top:4px;">하위폴더포함</label></span></li>
+                     </ul>
+
+					<div style="float: right;">
+						<dl id="dlPeriod_1" class="data1" style="margin-top: -3px;">
+							<dd id="SliderDateBar" style="margin-left: 3px; width: 150px; min-height: 10px;"></dd>
+							<input type="hidden" name="ctl00$ctl00$cphContent$cphContent$hidSlideBarValue" id="cphContent_cphContent_hidSlideBarValue" value="300" />
+							<dd style="padding-top: 10px;" class="data1_3">
+								<span class="txt_gn11" style="margin-left: 0px; position: absolute;">오늘</span>
+								<span class="txt_gn11" style="margin-left: 45px; position: absolute;">7일</span>
+								<span class="txt_gn11" style="margin-left: 90px; position: absolute;">30일</span>
+								<span class="txt_gn11" style="margin-left: 135px; position: absolute;">전체</span>
+							</dd>
+						</dl>
+						<dl id="dlPeriod_2" class="data2" style="display: none">
+							<dd class="data2_2">
+								<input name="ctl00$ctl00$cphContent$cphContent$txtStartDate" type="text" maxlength="10" id="cphContent_cphContent_txtStartDate" size="10" onkeydown="return CFN_CheckMaxLength(this, &#39;10&#39;)" class="ime_calender_mode" onfocus="CFN_RemoveDateFromat(&#39;yyyy.MM.dd&#39;)" onblur="CFN_ConvertDate(&#39;yyyy.MM.dd&#39;)" onkeypress="CFN_CheckIsDateNum(&#39;yyyy.MM.dd&#39;)" onkeyup="CFN_OnKeyUpIsDate(this)" onclick="CFN_CalenderPopup(this,&#39;&#39;, &#39;&#39;, &#39;&#39;);" DateFormat="yyyy.MM.dd" DisplayDay="false" style="vertical-align:middle;text-align:center;" />
+								<pre>~</pre>
+								<input name="ctl00$ctl00$cphContent$cphContent$txtEndDate" type="text" maxlength="10" id="cphContent_cphContent_txtEndDate" size="10" onkeydown="return CFN_CheckMaxLength(this, &#39;10&#39;)" class="ime_calender_mode" onfocus="CFN_RemoveDateFromat(&#39;yyyy.MM.dd&#39;)" onblur="CFN_ConvertDate(&#39;yyyy.MM.dd&#39;)" onkeypress="CFN_CheckIsDateNum(&#39;yyyy.MM.dd&#39;)" onkeyup="CFN_OnKeyUpIsDate(this)" onclick="CFN_CalenderPopup(this,&#39;&#39;, &#39;&#39;, &#39;&#39;);" DateFormat="yyyy.MM.dd" DisplayDay="false" style="vertical-align:middle;text-align:center;" />
+								<a id="aSearchTerm" href="javascript:aSearchTerm_onclick();"><em class="btn_ws_l"><span class="btn_ws_r"><strong class="txt_btn_ws">적용</strong></span></em></a>
+							</dd>
+						</dl>
+					</div>
+					<p class="data_select">
+						<input name="ctl00$ctl00$cphContent$cphContent$chkPeriod" type="checkbox" id="cphContent_cphContent_chkPeriod" class="input_check5" onclick="chkPeriod_OnClick();" /><label for="cphContent_cphContent_chkPeriod" class="txt_gn12">기간</label><span class="menubar_gray">I</span>
+					</p>
+				    
+				</div>
+				<img src="/Images/Images/board/bg_btop1.gif" class="trans tl" alt="" /><img src="/Images/Images/board/bg_btop2.gif" class="trans tr" alt="" /><img src="/Images/Images/board/bg_btop3.gif" class="trans bl" alt="" /><img src="/Images/Images/board/bg_btop4.gif" class="trans br" alt="" />
+			</div>
+			
+			<div id="divDragDropMove" class="mail_dragitem" style="left: -50px; top: -50px; z-index: 9999; position: fixed; display: none; cursor: pointer;"></div>
+			
+			
+			<div id="cphContent_cphContent_divList" class="table_list">
+				<p class="total">총 (1097개) <span class="txt_webmail_save" name="lblGroupInform" style="display:none;">최신 1000개의 항목에 대해서 그룹핑된 결과 입니다.</span></p>
+				<ul class="list_many">
+					<li id="liPageSize10_LIST" class="list_many_off"><a name="aPageSize" href="javascript:aPageSize_onclick('10');">10</a></li>
+					<li id="liPageSize15_LIST" class="list_many_off"><a name="aPageSize" href="javascript:aPageSize_onclick('15');">15</a></li>
+					<li id="liPageSize20_LIST" class="list_many_off"><a name="aPageSize" href="javascript:aPageSize_onclick('20');">20</a></li>
+					<li id="liPageSize30_LIST" class="list_many_off"><a name="aPageSize" href="javascript:aPageSize_onclick('30');">30</a></li>
+
+				</ul>
+				<p class="list_view3"><a name="aViewListMode" href="javascript:aViewListMode_onclick();">
+					<img name="imgViewListMode" src="/Images/Images/common/Btn/list_off.gif" alt="목록 보기" title="목록 보기" /></a><a name="aViewHorizontallyMode" href="javascript:aViewHorizontallyMode_onclick();"><img name="imgViewHorizontallyMode" src="/Images/Images/common/Btn/list2_off.gif" alt="좌우 분할 보기" title="좌우 분할 보기" class="view_sum_r" /></a><a name="aViewVerticallyMode" href="javascript:aViewVerticallyMode_onclick();"><img name="imgViewVerticallyMode" src="/Images/Images/common/Btn/list3_off.gif" alt="상하 분할 보기" title="상하 분할 보기" class="view_sum_r" /></a></p>
+				
+				<div class="list2_paging">
+					<div class="paging">
+						<table width='100%'><tbody><tr><td><div class='paginate'></div></td></tr></tbody></table><span id="cphContent_cphContent_pagerList"></span>
+					</div>
+				</div>
+			</div>
+			
+			
+			
+			
+			
+			
+			
+		</div>
+	</div>
+	<div style="display: none;">
+		<input id="hidSelectedItemID" type="hidden" />
+
+		<input type="hidden" name="ctl00$ctl00$cphContent$cphContent$hidSystem" id="cphContent_cphContent_hidSystem" value="Mail" />
+		<input type="hidden" name="ctl00$ctl00$cphContent$cphContent$hidViewFirstMail" id="cphContent_cphContent_hidViewFirstMail" value="N" />
+		<input type="hidden" name="ctl00$ctl00$cphContent$cphContent$hidViewMode" id="cphContent_cphContent_hidViewMode" value="LIST" />
+		
+		<input type="hidden" name="ctl00$ctl00$cphContent$cphContent$hidPage" id="cphContent_cphContent_hidPage" value="1" />
+		<input type="hidden" name="ctl00$ctl00$cphContent$cphContent$hidPageSize" id="cphContent_cphContent_hidPageSize" value="10" />
+		<input type="hidden" name="ctl00$ctl00$cphContent$cphContent$hidDomain" id="cphContent_cphContent_hidDomain" value="caumc.or.kr;cauhs.or.kr;" />
+		<input type="hidden" name="ctl00$ctl00$cphContent$cphContent$hidMailFID" id="cphContent_cphContent_hidMailFID" value="AQMkADhmZDgwZTQwLTQyMzEtNGU2NC1hODU0LWFjZTMyODJiM2FkYwAuAAADA2sDQfMQDEWDSssgki2SjAEATPu8dTiRi0+MZCigxbEgEgAAAgEMAAAA" />
+		<input type="hidden" name="ctl00$ctl00$cphContent$cphContent$hidFilterType" id="cphContent_cphContent_hidFilterType" value="ALL" />
+		<input type="hidden" name="ctl00$ctl00$cphContent$cphContent$hidSearchType" id="cphContent_cphContent_hidSearchType" value="ALL" />
+		<input type="hidden" name="ctl00$ctl00$cphContent$cphContent$hidSearchText" id="cphContent_cphContent_hidSearchText" />
+		<input type="hidden" name="ctl00$ctl00$cphContent$cphContent$hidStartDate" id="cphContent_cphContent_hidStartDate" />
+		<input type="hidden" name="ctl00$ctl00$cphContent$cphContent$hidEndDate" id="cphContent_cphContent_hidEndDate" />
+		<input type="hidden" name="ctl00$ctl00$cphContent$cphContent$hidIncludeBody" id="cphContent_cphContent_hidIncludeBody" />
+		<input type="hidden" name="ctl00$ctl00$cphContent$cphContent$hidIncludeSubFolders" id="cphContent_cphContent_hidIncludeSubFolders" />
+		<input type="hidden" name="ctl00$ctl00$cphContent$cphContent$hidPeriodChecked" id="cphContent_cphContent_hidPeriodChecked" />
+		<input type="hidden" name="ctl00$ctl00$cphContent$cphContent$hidDeleteOption" id="cphContent_cphContent_hidDeleteOption" value="MOVETODELETEDITEMS" />
+		<input type="hidden" name="ctl00$ctl00$cphContent$cphContent$hidPopupOptionState" id="cphContent_cphContent_hidPopupOptionState" value="WINDOW" />
+		<input type="hidden" name="ctl00$ctl00$cphContent$cphContent$hidSortField" id="cphContent_cphContent_hidSortField" value="RECEIVEDATE" />
+		<input type="hidden" name="ctl00$ctl00$cphContent$cphContent$hidOrderBy" id="cphContent_cphContent_hidOrderBy" value="DESC" />
+		<input type="hidden" name="ctl00$ctl00$cphContent$cphContent$hidLeftWidth" id="cphContent_cphContent_hidLeftWidth" value="378" />
+		<input type="hidden" name="ctl00$ctl00$cphContent$cphContent$hidCurrentMID" id="cphContent_cphContent_hidCurrentMID" />
+		<input type="hidden" name="ctl00$ctl00$cphContent$cphContent$hidCurrentMCK" id="cphContent_cphContent_hidCurrentMCK" />
+        <input type="hidden" name="ctl00$ctl00$cphContent$cphContent$hidIsIE" id="cphContent_cphContent_hidIsIE" />
+        <input type="hidden" name="ctl00$ctl00$cphContent$cphContent$hidMasterCategoryList" id="cphContent_cphContent_hidMasterCategoryList" value="&amp;amp;lt;CategoryInfo>&amp;amp;lt;Category>&amp;amp;lt;CategoryName>Red category&amp;amp;lt;/CategoryName>&amp;amp;lt;CategoryColor>red&amp;amp;lt;/CategoryColor>&amp;amp;lt;/Category>&amp;amp;lt;Category>&amp;amp;lt;CategoryName>Orange category&amp;amp;lt;/CategoryName>&amp;amp;lt;CategoryColor>orange&amp;amp;lt;/CategoryColor>&amp;amp;lt;/Category>&amp;amp;lt;Category>&amp;amp;lt;CategoryName>Yellow category&amp;amp;lt;/CategoryName>&amp;amp;lt;CategoryColor>yellow&amp;amp;lt;/CategoryColor>&amp;amp;lt;/Category>&amp;amp;lt;Category>&amp;amp;lt;CategoryName>Green category&amp;amp;lt;/CategoryName>&amp;amp;lt;CategoryColor>green&amp;amp;lt;/CategoryColor>&amp;amp;lt;/Category>&amp;amp;lt;Category>&amp;amp;lt;CategoryName>Blue category&amp;amp;lt;/CategoryName>&amp;amp;lt;CategoryColor>blue&amp;amp;lt;/CategoryColor>&amp;amp;lt;/Category>&amp;amp;lt;Category>&amp;amp;lt;CategoryName>Purple category&amp;amp;lt;/CategoryName>&amp;amp;lt;CategoryColor>purple&amp;amp;lt;/CategoryColor>&amp;amp;lt;/Category>&amp;amp;lt;/CategoryInfo>" />
+        
+        
+        <input type="hidden" name="ctl00$ctl00$cphContent$cphContent$hidRefreshCheck" id="cphContent_cphContent_hidRefreshCheck" />
+        
+        
+        <input type="hidden" id="hidCategoryName" />
+
+        
+        <input id="hidtagId" type="hidden" />
+
+		
+		<input type="submit" name="ctl00$ctl00$cphContent$cphContent$btnSubmit" value="" id="cphContent_cphContent_btnSubmit" />
+
+		
+		<input id="hidHorizontallyDragMinWidth" type="hidden" value="250" />
+        <input id="hidHorizontallyDragMaxWidth" type="hidden" value="500" />
+
+		
+		<input id="hidAtagId" type="hidden" />
+		<input id="hidSelctedItemId" type="hidden" />
+
+        
+		<input id="hidImportanceId" type="hidden" />
+		<input id="hidImportanceSelectedId" type="hidden" />
+		<input id="hidImportanceSelectedChangeId" type="hidden" />
+
+		
+		<input type="hidden" id="hidSelectedItemInfo" />
+
+		
+		<input type="hidden" id="hidIsRecoverMail" />
+        
+		
+        <input type="hidden" name="ctl00$ctl00$cphContent$cphContent$hidIsSentItems" id="cphContent_cphContent_hidIsSentItems" value="N" />
+        
+		
+        <input type="hidden" name="ctl00$ctl00$cphContent$cphContent$hidMailItemInfo" id="cphContent_cphContent_hidMailItemInfo" value="&amp;amp;lt;MailItems>&amp;amp;lt;MailItem>&amp;amp;lt;ItemID>&amp;amp;lt;![CDATA[AQMkADhmZDgwZTQwLTQyMzEtNGU2NC1hODU0LWFjZTMyODJiM2FkYwBGAAADA2sDQfMQDEWDSssgki2SjAcATPu8dTiRi0+MZCigxbEgEgAAAgEMAAAATPu8dTiRi0+MZCigxbEgEgADdpnQtAAAAA==]]>&amp;amp;lt;/ItemID>&amp;amp;lt;ChangeKey>&amp;amp;lt;![CDATA[CQAAABYAAABM+7x1OJGLT4xkKKDFsSASAAN2dRY5]]>&amp;amp;lt;/ChangeKey>&amp;amp;lt;/MailItem>&amp;amp;lt;MailItem>&amp;amp;lt;ItemID>&amp;amp;lt;![CDATA[AQMkADhmZDgwZTQwLTQyMzEtNGU2NC1hODU0LWFjZTMyODJiM2FkYwBGAAADA2sDQfMQDEWDSssgki2SjAcATPu8dTiRi0+MZCigxbEgEgAAAgEMAAAATPu8dTiRi0+MZCigxbEgEgADdpnQswAAAA==]]>&amp;amp;lt;/ItemID>&amp;amp;lt;ChangeKey>&amp;amp;lt;![CDATA[CQAAABYAAABM+7x1OJGLT4xkKKDFsSASAAN2dRBR]]>&amp;amp;lt;/ChangeKey>&amp;amp;lt;/MailItem>&amp;amp;lt;MailItem>&amp;amp;lt;ItemID>&amp;amp;lt;![CDATA[AQMkADhmZDgwZTQwLTQyMzEtNGU2NC1hODU0LWFjZTMyODJiM2FkYwBGAAADA2sDQfMQDEWDSssgki2SjAcATPu8dTiRi0+MZCigxbEgEgAAAgEMAAAATPu8dTiRi0+MZCigxbEgEgADdpnQsgAAAA==]]>&amp;amp;lt;/ItemID>&amp;amp;lt;ChangeKey>&amp;amp;lt;![CDATA[CQAAABYAAABM+7x1OJGLT4xkKKDFsSASAAN2dNuV]]>&amp;amp;lt;/ChangeKey>&amp;amp;lt;/MailItem>&amp;amp;lt;MailItem>&amp;amp;lt;ItemID>&amp;amp;lt;![CDATA[AQMkADhmZDgwZTQwLTQyMzEtNGU2NC1hODU0LWFjZTMyODJiM2FkYwBGAAADA2sDQfMQDEWDSssgki2SjAcATPu8dTiRi0+MZCigxbEgEgAAAgEMAAAATPu8dTiRi0+MZCigxbEgEgADdo6w8gAAAA==]]>&amp;amp;lt;/ItemID>&amp;amp;lt;ChangeKey>&amp;amp;lt;![CDATA[CQAAABYAAABM+7x1OJGLT4xkKKDFsSASAAN2dLht]]>&amp;amp;lt;/ChangeKey>&amp;amp;lt;/MailItem>&amp;amp;lt;MailItem>&amp;amp;lt;ItemID>&amp;amp;lt;![CDATA[AQMkADhmZDgwZTQwLTQyMzEtNGU2NC1hODU0LWFjZTMyODJiM2FkYwBGAAADA2sDQfMQDEWDSssgki2SjAcATPu8dTiRi0+MZCigxbEgEgAAAgEMAAAATPu8dTiRi0+MZCigxbEgEgADddZgbwAAAA==]]>&amp;amp;lt;/ItemID>&amp;amp;lt;ChangeKey>&amp;amp;lt;![CDATA[CQAAABYAAABM+7x1OJGLT4xkKKDFsSASAAN1si6p]]>&amp;amp;lt;/ChangeKey>&amp;amp;lt;/MailItem>&amp;amp;lt;MailItem>&amp;amp;lt;ItemID>&amp;amp;lt;![CDATA[AQMkADhmZDgwZTQwLTQyMzEtNGU2NC1hODU0LWFjZTMyODJiM2FkYwBGAAADA2sDQfMQDEWDSssgki2SjAcATPu8dTiRi0+MZCigxbEgEgAAAgEMAAAATPu8dTiRi0+MZCigxbEgEgADddZgbgAAAA==]]>&amp;amp;lt;/ItemID>&amp;amp;lt;ChangeKey>&amp;amp;lt;![CDATA[CQAAABYAAABM+7x1OJGLT4xkKKDFsSASAAN2UekC]]>&amp;amp;lt;/ChangeKey>&amp;amp;lt;/MailItem>&amp;amp;lt;MailItem>&amp;amp;lt;ItemID>&amp;amp;lt;![CDATA[AQMkADhmZDgwZTQwLTQyMzEtNGU2NC1hODU0LWFjZTMyODJiM2FkYwBGAAADA2sDQfMQDEWDSssgki2SjAcATPu8dTiRi0+MZCigxbEgEgAAAgEMAAAATPu8dTiRi0+MZCigxbEgEgADddZgbQAAAA==]]>&amp;amp;lt;/ItemID>&amp;amp;lt;ChangeKey>&amp;amp;lt;![CDATA[CQAAABYAAABM+7x1OJGLT4xkKKDFsSASAAN2UekA]]>&amp;amp;lt;/ChangeKey>&amp;amp;lt;/MailItem>&amp;amp;lt;MailItem>&amp;amp;lt;ItemID>&amp;amp;lt;![CDATA[AQMkADhmZDgwZTQwLTQyMzEtNGU2NC1hODU0LWFjZTMyODJiM2FkYwBGAAADA2sDQfMQDEWDSssgki2SjAcATPu8dTiRi0+MZCigxbEgEgAAAgEMAAAATPu8dTiRi0+MZCigxbEgEgADddZgbAAAAA==]]>&amp;amp;lt;/ItemID>&amp;amp;lt;ChangeKey>&amp;amp;lt;![CDATA[CQAAABYAAABM+7x1OJGLT4xkKKDFsSASAAN2Uej+]]>&amp;amp;lt;/ChangeKey>&amp;amp;lt;/MailItem>&amp;amp;lt;MailItem>&amp;amp;lt;ItemID>&amp;amp;lt;![CDATA[AQMkADhmZDgwZTQwLTQyMzEtNGU2NC1hODU0LWFjZTMyODJiM2FkYwBGAAADA2sDQfMQDEWDSssgki2SjAcATPu8dTiRi0+MZCigxbEgEgAAAgEMAAAATPu8dTiRi0+MZCigxbEgEgADddZgawAAAA==]]>&amp;amp;lt;/ItemID>&amp;amp;lt;ChangeKey>&amp;amp;lt;![CDATA[CQAAABYAAABM+7x1OJGLT4xkKKDFsSASAAN1si5V]]>&amp;amp;lt;/ChangeKey>&amp;amp;lt;/MailItem>&amp;amp;lt;MailItem>&amp;amp;lt;ItemID>&amp;amp;lt;![CDATA[AQMkADhmZDgwZTQwLTQyMzEtNGU2NC1hODU0LWFjZTMyODJiM2FkYwBGAAADA2sDQfMQDEWDSssgki2SjAcATPu8dTiRi0+MZCigxbEgEgAAAgEMAAAATPu8dTiRi0+MZCigxbEgEgADddZgagAAAA==]]>&amp;amp;lt;/ItemID>&amp;amp;lt;ChangeKey>&amp;amp;lt;![CDATA[CQAAABYAAABM+7x1OJGLT4xkKKDFsSASAAN1sihu]]>&amp;amp;lt;/ChangeKey>&amp;amp;lt;/MailItem>&amp;amp;lt;/MailItems>" />
+
+		
+        <input type="hidden" name="ctl00$ctl00$cphContent$cphContent$hidTimezoneGMT" id="cphContent_cphContent_hidTimezoneGMT" />
+
+		
+        <input type="hidden" name="ctl00$ctl00$cphContent$cphContent$hidAutoReloadTime" id="cphContent_cphContent_hidAutoReloadTime" value="-1" />
+
+		
+        <input type="hidden" name="ctl00$ctl00$cphContent$cphContent$hidDetailSearchOption" id="cphContent_cphContent_hidDetailSearchOption" value="N" />
+
+        <input type="hidden" name="ctl00$ctl00$cphContent$cphContent$hidSubSortColum" id="cphContent_cphContent_hidSubSortColum" value="READDATE" />
+        <input type="hidden" name="ctl00$ctl00$cphContent$cphContent$hidSubSortDirection" id="cphContent_cphContent_hidSubSortDirection" value="ASC" />
+        
+        <input type="hidden" name="ctl00$ctl00$cphContent$cphContent$hidNowIndex" id="cphContent_cphContent_hidNowIndex" value="0" />
+
+	</div>
+
+            </div>
+        </div>
+    </div>
+    <div style="display: none;">
+        <input type="hidden" name="ctl00$ctl00$cphContent$hidSystem" id="cphContent_hidSystem" value="Mail" />
+        <input type="hidden" name="ctl00$ctl00$cphContent$hidFID" id="cphContent_hidFID" value="AQMkADhmZDgwZTQwLTQyMzEtNGU2NC1hODU0LWFjZTMyODJiM2FkYwAuAAADA2sDQfMQDEWDSssgki2SjAEATPu8dTiRi0+MZCigxbEgEgAAAgEMAAAA" />
+        <input type="hidden" name="ctl00$ctl00$cphContent$hidLeftMenuPopupOption" id="cphContent_hidLeftMenuPopupOption" value="WINDOW" />
+		<input type="hidden" name="ctl00$ctl00$cphContent$hidMailWritable" id="cphContent_hidMailWritable" value="Y" />
+		<input type="hidden" name="ctl00$ctl00$cphContent$hidUseMailTreeAsync" id="cphContent_hidUseMailTreeAsync" value="N" />
+		<input type="hidden" name="ctl00$ctl00$cphContent$hidMailFolderPath" id="cphContent_hidMailFolderPath" />
+		<input id="hidSelParentFolderId" type="hidden"/>
+		<input id="hidSelParentFolderChangeKey" type="hidden"/>
+		<input id="hidSelFolderId" type="hidden"/>
+		<input id="hidSelFolderChangeKey" type="hidden"/>
+		<input id="hidSelFolderName" type="hidden"/>
+		<input id="hidSelecetedSharedItem" type="hidden"/>
+    </div>
+
+						</div>
+						
+					</div>
+                </div>
+				<!-- Content 끝 -->
+				<!-- Footer 시작 -->
+				<div id="divFooter" class="footer">
+					<div class="copyright">
+                        <span class="txt_copyright">Copyright 2018. Covision corp. All Rights Reserved.</span>
+                        
+                        <!-- 타임아웃 체크 관련 -->
+                        <span id="spn_TimeOutCheck" class="txt_timeout" title="TimeOut"></span>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <span id="spn_TimeOutNoticeMessage"></span>
+                        <font color='white'> - 2025.10.17 21:32:33 </font>
+                        <!-- 사용자 IP/최종접속시간 표시 -->
+                        <div id="divUserIP_LastTime" class="user_ip_lasttime"><span class='txt_lastlogin_lable'>최종 로그인 시간</span><span class='txt_lastlogin' style="cursor:pointer;" onmousedown='Common.ShowDialog("", "DivPop_","최근 접속 알림 정보","/WebSite/Portal/WebPart/Common/PortalPopup/RecentConnect_Pop.aspx","600px","318px","iframe-ifNoScroll")'>2025-10-17 오후 7:34:56</span><span class='txt_userip_lable'>로그인 IP</span><span class='txt_userip'>10.10.234.249</span></div>  
+                        <script type="text/javascript">
+                            var g_StayTimeOutMinSetting = "180";
+                            var g_StayTimeOutAfterPage = "Lock";
+                            var g_StayTimeOutSec = g_StayTimeOutMinSetting * 60;
+                            var g_StayTimeOutInterval = null;
+                            if (g_StayTimeOutMinSetting > 0) {
+                                g_StayTimeOutInterval = setInterval("XFN_StayTimeOutCheckStart()", 1000);
+                            }
+                        </script>
+                    </div>  
+                    <!-- 모바일 버전 보기 시작 -->
+                    
+                    <!-- 모바일 버전 보기 끝 -->
+				</div>
+				<!-- Footer 끝 -->
+			</div>
+            </div>
+            <!-- 우측하단버튼 -->
+            <div id="divPopBtnArea" class="PN_simplePop">
+                
+                <ul class="PN_popBtn">
+                    <li class="PN_btnMore active"><a href="#">더보기</a><span class="toolTip2">더보기</span></li>
+                    <li class="PN_btnClose"><a href="#">닫기</a><span class="toolTip2">닫기</span></li>
+                </ul>
+                
+                <ul class="PN_popBtn2_noneVideoConf" style="display:none">
+                    <li class="PN_btnSimple"><a href="#" id="btnSimpleWrite">간편작성</a><span class="toolTip2">간편작성</span></li>
+                </ul>
+
+                </div>
+            <!-- 우측하단버튼 -->
+            <div style="display: none;">
+                <input type="hidden" name="ctl00$ctl00$hidLoginSelected" id="hidLoginSelected" value="Default" />
+                <input type="hidden" name="ctl00$ctl00$hidDevHelperInfo" id="hidDevHelperInfo" />
+            </div>
+		</form>
+        <!-- 이기종 시스템에 우리 시스템을 삽입시 사이즈 변경을 위한 처리 -->
+        <iframe id="ifrmHidden" src='' height='0' width='0' frameborder='0'></iframe>
+        <script type="text/javascript">
+            function XFN_EmbaddedIframeResize() {
+                // What's the page height?
+                var height = document.body.scrollHeight;
+                // Going to 'pipe' the data to the parent through the ifrmHidden.
+                var pipe = document.getElementById('ifrmHidden');
+                // Cachebuster a precaution here to stop browser caching interfering
+                if ('' != "") {
+                    pipe.src = '' + height + '&cacheb=' + Math.random();
+                }
+            }
+        </script>
+        
+            <script type="text/javascript">
+                /* 간편버튼 관련 */
+                $(".PN_btnMore").click(function () {
+                    $(this).removeClass('active');
+                    $(this).siblings().addClass('active');
+                    $('.PN_popBtn2').fadeIn(100).addClass('active');
+                    $('.PN_popBtn2_noneVideoConf').css("display", "block");
+                    $('.PN_popBtn2_noneVideoConf').fadeIn(100).addClass('active');
+                });
+                $(".PN_btnClose").click(function () {
+                    $(this).removeClass('active');
+                    $(this).siblings().addClass('active');
+                    $('.PN_popBtn2_noneVideoConf').css("display", "none");
+                    $('.PN_popBtn2').fadeOut(100).removeClass('active');
+                    $('.PN_popBtn2_noneVideoConf').removeClass('active');
+                });
+
+                /* 간편신청 팝업 */
+                $("#btnSimpleWrite").click(function () {
+                    //$(this).parents().find(".simpleMakeLayerPopUp").stop().fadeIn(100);
+                    XFN_SimpleWritePopOpen();
+                });
+                $(".btnOrderContClose").click(function () {
+                    var oPrev = $('.tabMenuArrow>li.active');
+                    if (oPrev.attr('value') != "Approval" && SimpleWrite_CheckTempData(oPrev.attr('value'))) {
+                        SimpleWrite_InitData(oPrev.attr('value'));
+                        $(this).parents().find(".simpleMakeLayerPopUp").stop().fadeOut(100);
+                    } else {
+                        $(this).parents().find(".simpleMakeLayerPopUp").stop().fadeOut(100);
+                    }
+                });
+            </script>
+        
+	</body>
+</html>

@@ -1,0 +1,212 @@
+<Window x:Class="AgentAssistant.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="설정 - 에이전트 비서" 
+        Height="400" 
+        Width="500"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="#F5F5F5">
+    
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <!-- 헤더 -->
+        <TextBlock Grid.Row="0" 
+                   Text="설정"
+                   FontSize="24"
+                   FontWeight="Bold"
+                   Foreground="#2D3436"
+                   Margin="0,0,0,20"/>
+        
+        <!-- 설정 옵션들 -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <!-- 일반 설정 -->
+                <Border Background="White" 
+                        Padding="15" 
+                        CornerRadius="10"
+                        Margin="0,0,0,15">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.1"/>
+                    </Border.Effect>
+                    <StackPanel>
+                        <TextBlock Text="일반 설정" 
+                                   FontSize="16" 
+                                   FontWeight="SemiBold"
+                                   Foreground="#2D3436"
+                                   Margin="0,0,0,15"/>
+                        
+                        <CheckBox x:Name="StartupCheckBox"
+                                  Content="윈도우 시작 시 자동 실행"
+                                  Margin="0,0,0,10"
+                                  IsChecked="False"/>
+                        
+                        <CheckBox x:Name="TopmostCheckBox"
+                                  Content="항상 위에 표시"
+                                  Margin="0,0,0,10"
+                                  IsChecked="True"
+                                  Checked="TopmostCheckBox_Changed"
+                                  Unchecked="TopmostCheckBox_Changed"/>
+                        
+                        <CheckBox x:Name="ShowInTaskbarCheckBox"
+                                  Content="작업 표시줄에 표시"
+                                  IsChecked="True"
+                                  Checked="ShowInTaskbarCheckBox_Changed"
+                                  Unchecked="ShowInTaskbarCheckBox_Changed"/>
+                    </StackPanel>
+                </Border>
+                
+                <!-- 외관 설정 -->
+                <Border Background="White" 
+                        Padding="15" 
+                        CornerRadius="10"
+                        Margin="0,0,0,15">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.1"/>
+                    </Border.Effect>
+                    <StackPanel>
+                        <TextBlock Text="외관 설정" 
+                                   FontSize="16" 
+                                   FontWeight="SemiBold"
+                                   Foreground="#2D3436"
+                                   Margin="0,0,0,15"/>
+                        
+                        <TextBlock Text="캐릭터 색상" Margin="0,0,0,5"/>
+                        <ComboBox x:Name="ColorComboBox" 
+                                  SelectedIndex="0"
+                                  Margin="0,0,0,10"
+                                  SelectionChanged="ColorComboBox_SelectionChanged">
+                            <ComboBoxItem Content="보라색 (기본)" Tag="#6C5CE7"/>
+                            <ComboBoxItem Content="파란색" Tag="#0984E3"/>
+                            <ComboBoxItem Content="분홍색" Tag="#FD79A8"/>
+                            <ComboBoxItem Content="초록색" Tag="#00B894"/>
+                            <ComboBoxItem Content="주황색" Tag="#E17055"/>
+                        </ComboBox>
+                        
+                        <TextBlock Text="투명도" Margin="0,10,0,5"/>
+                        <Slider x:Name="OpacitySlider" 
+                                Minimum="0.3" 
+                                Maximum="1.0" 
+                                Value="1.0"
+                                TickFrequency="0.1"
+                                IsSnapToTickEnabled="True"
+                                ValueChanged="OpacitySlider_ValueChanged"/>
+                    </StackPanel>
+                </Border>
+                
+                <!-- 알림 설정 -->
+                <Border Background="White" 
+                        Padding="15" 
+                        CornerRadius="10">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.1"/>
+                    </Border.Effect>
+                    <StackPanel>
+                        <TextBlock Text="알림 설정" 
+                                   FontSize="16" 
+                                   FontWeight="SemiBold"
+                                   Foreground="#2D3436"
+                                   Margin="0,0,0,15"/>
+                        
+                        <CheckBox x:Name="RandomMessagesCheckBox"
+                                  Content="랜덤 메시지 표시"
+                                  Margin="0,0,0,10"
+                                  IsChecked="True"
+                                  Checked="RandomMessagesCheckBox_Changed"
+                                  Unchecked="RandomMessagesCheckBox_Changed"/>
+                        
+                        <TextBlock Text="메시지 주기 (초)" Margin="0,0,0,5"/>
+                        <Slider x:Name="MessageIntervalSlider" 
+                                Minimum="10" 
+                                Maximum="120" 
+                                Value="30"
+                                TickFrequency="10"
+                                IsSnapToTickEnabled="True"
+                                ValueChanged="MessageIntervalSlider_ValueChanged"/>
+                        <TextBlock x:Name="MessageIntervalText" 
+                                   Text="30초" 
+                                   Foreground="#636E72"
+                                   FontSize="12"
+                                   Margin="0,5,0,0"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+        
+        <!-- 버튼 영역 -->
+        <StackPanel Grid.Row="2" 
+                    Orientation="Horizontal" 
+                    HorizontalAlignment="Right"
+                    Margin="0,20,0,0">
+            <Button Content="확인" 
+                    Width="80" 
+                    Height="35"
+                    Background="#6C5CE7"
+                    Foreground="White"
+                    BorderThickness="0"
+                    Cursor="Hand"
+                    Click="OK_Click"
+                    Margin="0,0,10,0">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}" 
+                                            CornerRadius="5"
+                                            Padding="15,8">
+                                        <ContentPresenter HorizontalAlignment="Center" 
+                                                        VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#5F4FD1"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            
+            <Button Content="취소" 
+                    Width="80" 
+                    Height="35"
+                    Background="#DFE6E9"
+                    Foreground="#2D3436"
+                    BorderThickness="0"
+                    Cursor="Hand"
+                    Click="Cancel_Click">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}" 
+                                            CornerRadius="5"
+                                            Padding="15,8">
+                                        <ContentPresenter HorizontalAlignment="Center" 
+                                                        VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#B2BEC3"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </StackPanel>
+    </Grid>
+</Window>
+
+
