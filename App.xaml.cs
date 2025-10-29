@@ -16,6 +16,9 @@ namespace AgentAssistant
             
             // 애플리케이션 시작 시 초기화 작업
             ShutdownMode = ShutdownMode.OnMainWindowClose;
+            
+            // 평문 쿠키 파일을 암호화 파일로 자동 마이그레이션
+            CookieMigrationHelper.AutoMigrate();
         }
 
         private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)

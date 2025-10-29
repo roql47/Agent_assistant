@@ -51,7 +51,10 @@
                                     <Border Background="#F8F9FA" 
                                             Padding="10" 
                                             CornerRadius="5"
-                                            Margin="0,0,0,8">
+                                            Margin="0,0,0,8"
+                                            MouseLeftButtonDown="EventItem_Click"
+                                            Tag="{Binding}"
+                                            Cursor="Hand">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*"/>

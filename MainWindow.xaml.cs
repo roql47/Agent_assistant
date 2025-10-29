@@ -55,6 +55,9 @@ namespace AgentAssistant
             InitializeComponent();
             random = new Random();
             
+            // 저장된 동기화 설정 자동 적용
+            LoadAndApplySyncSettings();
+            
             // 타이머 설정 (주기적인 인사말)
             idleTimer = new DispatcherTimer
             {
@@ -92,6 +95,34 @@ namespace AgentAssistant
             
             // 시작 인사
             ShowMessage("안녕하세요! 저는 여러분의 비서예요! 😊");
+        }
+        
+        /// <summary>
+        /// 저장된 동기화 설정을 로드하고 자동으로 적용
+        /// </summary>
+        private async void LoadAndApplySyncSettings()
+        {
+            var settings = SyncSettings.Load();
+            
+            // 동기화가 활성화되어 있으면 자동으로 연결
+            if (settings.EnableSync && !string.IsNullOrWhiteSpace(settings.ServerUrl) && settings.SelectedDepartmentId > 0)
+            {
+                // 캘린더가 열려있으면 자동 연결
+                await System.Threading.Tasks.Task.Delay(1000); // UI 로드 대기
+                
+                var calendarWindow = CalendarWindow.GetCurrentInstance();
+                if (calendarWindow != null)
+                {
+                    try
+                    {
+                        await calendarWindow.EnableSyncAsync(settings.ServerUrl, settings.SelectedDepartmentId);
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"자동 동기화 연결 오류: {ex.Message}");
+                    }
+                }
+            }
         }
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -250,9 +281,9 @@ namespace AgentAssistant
                 
                 if (cookies.Count > 0)
                 {
-                    // 쿠키 저장
+                    // 쿠키 암호화하여 저장
                     var json = System.Text.Json.JsonSerializer.Serialize(cookies, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
-                    File.WriteAllText("manual_cookies.json", json);
+                    CookieEncryption.SaveEncryptedCookies(json, "manual_cookies.dat");
                     return true;
                 }
             }
@@ -376,7 +407,7 @@ namespace AgentAssistant
             SpeechBubble.BeginAnimation(OpacityProperty, fadeOut);
         }
 
-        private void Settings_Click(object sender, RoutedEventArgs e)
+        private async void Settings_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -387,6 +418,21 @@ namespace AgentAssistant
                 if (result == true)
                 {
                     ShowMessage("설정이 적용되었어요! ✨", 3);
+                    
+                    // 동기화 설정 적용
+                    var calendarWindow = CalendarWindow.GetCurrentInstance();
+                    if (calendarWindow != null)
+                    {
+                        if (settingsWindow.EnableSync && !string.IsNullOrWhiteSpace(settingsWindow.ServerUrl) && settingsWindow.SelectedDepartmentId > 0)
+                        {
+                            await calendarWindow.EnableSyncAsync(settingsWindow.ServerUrl, settingsWindow.SelectedDepartmentId);
+                            ShowMessage("캘린더 동기화가 활성화되었습니다! 🔄", 3);
+                        }
+                        else
+                        {
+                            await calendarWindow.DisableSyncAsync();
+                        }
+                    }
                 }
             }
             catch (Exception ex)
@@ -403,7 +449,13 @@ namespace AgentAssistant
         {
             try
             {
-                var calendarWindow = new CalendarWindow();
+                // 저장된 동기화 설정에서 부서 ID 가져오기
+                var syncSettings = SyncSettings.Load();
+                int? departmentId = syncSettings.EnableSync && syncSettings.SelectedDepartmentId > 0 
+                    ? syncSettings.SelectedDepartmentId 
+                    : null;
+                
+                var calendarWindow = new CalendarWindow(departmentId);
                 calendarWindow.Show();
                 ShowMessage("캘린더를 열었어요! 📅", 3);
             }
@@ -417,16 +469,16 @@ namespace AgentAssistant
             }
         }
 
-        private void CheckBoard_Notice_Click(object sender, RoutedEventArgs e)
+        private async void CheckBoard_Notice_Click(object sender, RoutedEventArgs e)
         {
             string boardUrl = "https://ngw.cauhs.or.kr/WebSite/Basic/Board/BoardList.aspx?system=Board&fdid=5565";
-            CheckBoardAsync("공지사항", boardUrl);
+            await CheckBoardAsync("공지사항", boardUrl);
         }
 
-        private void CheckBoard_WorkRules_Click(object sender, RoutedEventArgs e)
+        private async void CheckBoard_WorkRules_Click(object sender, RoutedEventArgs e)
         {
             string boardUrl = "https://ngw.cauhs.or.kr/WebSite/Basic/Board/BoardList.aspx?system=Board&fdid=5997";
-            CheckBoardAsync("업무규정", boardUrl);
+            await CheckBoardAsync("업무규정", boardUrl);
         }
 
         private async void CheckMail_Inbox_Click(object sender, RoutedEventArgs e)
@@ -447,18 +499,152 @@ namespace AgentAssistant
 
                 var crawler = new HttpIntranetCrawler();
                 string baseUrl = "https://ngw.cauhs.or.kr";
+                string loginUrl = "https://ngw.cauhs.or.kr/WebSite/Login.aspx?isMobile=0";
                 
                 // 쿠키 로드
                 bool cookieLoginSuccess = crawler.LoadCookies(baseUrl);
                 
                 if (!cookieLoginSuccess)
                 {
-                    MessageBox.Show(
-                        "쿠키를 찾을 수 없습니다.\n\n먼저 로그인하거나 쿠키를 입력해주세요.",
-                        "쿠키 필요",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Warning);
-                    return;
+                    // 로그인 방법 선택 대화상자
+                    var loginMethodDialog = new Window
+                    {
+                        Title = "로그인 필요",
+                        Width = 400,
+                        Height = 250,
+                        WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                        Owner = this,
+                        ResizeMode = ResizeMode.NoResize
+                    };
+                    
+                    var grid = new System.Windows.Controls.Grid { Margin = new Thickness(20) };
+                    grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                    grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                    grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                    grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                    grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                    
+                    var title = new System.Windows.Controls.TextBlock
+                    {
+                        Text = "로그인이 필요합니다",
+                        FontSize = 16,
+                        FontWeight = FontWeights.Bold,
+                        Margin = new Thickness(0, 0, 0, 15)
+                    };
+                    System.Windows.Controls.Grid.SetRow(title, 0);
+                    grid.Children.Add(title);
+                    
+                    var description = new System.Windows.Controls.TextBlock
+                    {
+                        Text = "메일함에 접근하려면 로그인이 필요합니다.\n로그인 방법을 선택해주세요:",
+                        TextWrapping = TextWrapping.Wrap,
+                        Margin = new Thickness(0, 0, 0, 20)
+                    };
+                    System.Windows.Controls.Grid.SetRow(description, 1);
+                    grid.Children.Add(description);
+                    
+                    var buttonPanel = new System.Windows.Controls.StackPanel
+                    {
+                        Orientation = Orientation.Vertical,
+                        HorizontalAlignment = HorizontalAlignment.Stretch
+                    };
+                    
+                    var loginButton = new System.Windows.Controls.Button
+                    {
+                        Content = "🔐 ID/PW로 로그인",
+                        Height = 40,
+                        Margin = new Thickness(0, 0, 0, 10),
+                        FontSize = 14
+                    };
+                    loginButton.Click += (s, e) =>
+                    {
+                        loginMethodDialog.Tag = "login";
+                        loginMethodDialog.DialogResult = true;
+                        loginMethodDialog.Close();
+                    };
+                    buttonPanel.Children.Add(loginButton);
+                    
+                    var cookieButton = new System.Windows.Controls.Button
+                    {
+                        Content = "🍪 쿠키로 로그인",
+                        Height = 40,
+                        FontSize = 14
+                    };
+                    cookieButton.Click += (s, e) =>
+                    {
+                        loginMethodDialog.Tag = "cookie";
+                        loginMethodDialog.DialogResult = true;
+                        loginMethodDialog.Close();
+                    };
+                    buttonPanel.Children.Add(cookieButton);
+                    
+                    System.Windows.Controls.Grid.SetRow(buttonPanel, 2);
+                    grid.Children.Add(buttonPanel);
+                    
+                    var cancelButton = new System.Windows.Controls.Button
+                    {
+                        Content = "취소",
+                        Width = 100,
+                        Height = 35,
+                        HorizontalAlignment = HorizontalAlignment.Right,
+                        Margin = new Thickness(0, 10, 0, 0)
+                    };
+                    cancelButton.Click += (s, e) => loginMethodDialog.Close();
+                    System.Windows.Controls.Grid.SetRow(cancelButton, 4);
+                    grid.Children.Add(cancelButton);
+                    
+                    loginMethodDialog.Content = grid;
+                    
+                    if (loginMethodDialog.ShowDialog() == true)
+                    {
+                        var method = loginMethodDialog.Tag?.ToString();
+                        
+                        if (method == "login")
+                        {
+                            // ID/PW 로그인
+                            var loginDialog = new IntranetLoginDialog { Owner = this };
+                            if (loginDialog.ShowDialog() == true)
+                            {
+                                ShowMessage("Selenium으로 자동 로그인 중... 🤖", 3);
+                                
+                                var loginResult = SeleniumCookieExtractor.AutoLogin(loginDialog.Username, loginDialog.Password, loginUrl);
+                                
+                                if (loginResult.success && loginResult.cookies.Count > 0)
+                                {
+                                    // 쿠키 암호화하여 저장
+                                    var json = System.Text.Json.JsonSerializer.Serialize(loginResult.cookies, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
+                                    CookieEncryption.SaveEncryptedCookies(json, "manual_cookies.dat");
+                                    
+                                    ShowMessage($"로그인 성공! {loginResult.cookies.Count}개 쿠키 암호화 저장! 🔒🎉", 4);
+                                    
+                                    // 쿠키 다시 로드
+                                    cookieLoginSuccess = crawler.LoadCookies(baseUrl);
+                                }
+                                else
+                                {
+                                    MessageBox.Show(
+                                        $"로그인에 실패했습니다.\n\n{loginResult.debugInfo}",
+                                        "로그인 실패",
+                                        MessageBoxButton.OK,
+                                        MessageBoxImage.Error);
+                                }
+                            }
+                        }
+                        else if (method == "cookie")
+                        {
+                            // 쿠키 수동 입력
+                            var cookieDialog = new CookieInputDialog { Owner = this };
+                            if (cookieDialog.ShowDialog() == true)
+                            {
+                                cookieLoginSuccess = crawler.LoadCookies(baseUrl);
+                            }
+                        }
+                    }
+                    
+                    if (!cookieLoginSuccess)
+                    {
+                        return;
+                    }
                 }
                 
                 // 메일 폴더 목록 가져오기
@@ -477,10 +663,10 @@ namespace AgentAssistant
                     return;
                 }
                 
-                // 폴더 URL 생성
-                string mailUrl = $"https://ngw.cauhs.or.kr/WebSite/Mail/MailList.aspx?system=Mail&fid={Uri.EscapeDataString(targetFolder.Fid)}&issentitems={(isSentItems ? "Y" : "N")}";
+                // 폴더 URL 생성 (leftidinit=Y 필수!)
+                string mailUrl = $"https://ngw.cauhs.or.kr/WebSite/Mail/MailList.aspx?system=Mail&fid={Uri.EscapeDataString(targetFolder.Fid)}&leftidinit=Y";
                 
-                CheckMailAsync(folderName, mailUrl);
+                await CheckMailAsync(folderName, mailUrl);
             }
             catch (Exception ex)
             {
@@ -492,7 +678,7 @@ namespace AgentAssistant
             }
         }
 
-        private async void CheckMailAsync(string mailName, string mailUrl)
+        private async System.Threading.Tasks.Task CheckMailAsync(string mailName, string mailUrl)
         {
             try
             {
@@ -500,21 +686,152 @@ namespace AgentAssistant
 
                 var crawler = new HttpIntranetCrawler();
                 string baseUrl = "https://ngw.cauhs.or.kr";
+                string loginUrl = "https://ngw.cauhs.or.kr/WebSite/Login.aspx?isMobile=0";
                 
                 // 쿠키 로드
                 bool cookieLoginSuccess = crawler.LoadCookies(baseUrl);
                 
                 if (!cookieLoginSuccess)
                 {
-                    var debugMessage = crawler.GetLastCookieDebugInfo();
-                    MessageBox.Show(
-                        $"쿠키를 찾을 수 없습니다.\n\n" +
-                        $"먼저 로그인하거나 쿠키를 입력해주세요.\n\n" +
-                        "🔐 로그인 (ID/PW) 또는 🔑 쿠키 입력을 사용하세요.",
-                        "쿠키 필요",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Warning);
-                    return;
+                    // 로그인 방법 선택 대화상자
+                    var loginMethodDialog = new Window
+                    {
+                        Title = "로그인 필요",
+                        Width = 400,
+                        Height = 250,
+                        WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                        Owner = this,
+                        ResizeMode = ResizeMode.NoResize
+                    };
+                    
+                    var grid = new System.Windows.Controls.Grid { Margin = new Thickness(20) };
+                    grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                    grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                    grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                    grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                    grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                    
+                    var title = new System.Windows.Controls.TextBlock
+                    {
+                        Text = "로그인이 필요합니다",
+                        FontSize = 16,
+                        FontWeight = FontWeights.Bold,
+                        Margin = new Thickness(0, 0, 0, 15)
+                    };
+                    System.Windows.Controls.Grid.SetRow(title, 0);
+                    grid.Children.Add(title);
+                    
+                    var description = new System.Windows.Controls.TextBlock
+                    {
+                        Text = "메일함에 접근하려면 로그인이 필요합니다.\n로그인 방법을 선택해주세요:",
+                        TextWrapping = TextWrapping.Wrap,
+                        Margin = new Thickness(0, 0, 0, 20)
+                    };
+                    System.Windows.Controls.Grid.SetRow(description, 1);
+                    grid.Children.Add(description);
+                    
+                    var buttonPanel = new System.Windows.Controls.StackPanel
+                    {
+                        Orientation = Orientation.Vertical,
+                        HorizontalAlignment = HorizontalAlignment.Stretch
+                    };
+                    
+                    var loginButton = new System.Windows.Controls.Button
+                    {
+                        Content = "🔐 ID/PW로 로그인",
+                        Height = 40,
+                        Margin = new Thickness(0, 0, 0, 10),
+                        FontSize = 14
+                    };
+                    loginButton.Click += (s, e) =>
+                    {
+                        loginMethodDialog.Tag = "login";
+                        loginMethodDialog.DialogResult = true;
+                        loginMethodDialog.Close();
+                    };
+                    buttonPanel.Children.Add(loginButton);
+                    
+                    var cookieButton = new System.Windows.Controls.Button
+                    {
+                        Content = "🍪 쿠키로 로그인",
+                        Height = 40,
+                        FontSize = 14
+                    };
+                    cookieButton.Click += (s, e) =>
+                    {
+                        loginMethodDialog.Tag = "cookie";
+                        loginMethodDialog.DialogResult = true;
+                        loginMethodDialog.Close();
+                    };
+                    buttonPanel.Children.Add(cookieButton);
+                    
+                    System.Windows.Controls.Grid.SetRow(buttonPanel, 2);
+                    grid.Children.Add(buttonPanel);
+                    
+                    var cancelButton = new System.Windows.Controls.Button
+                    {
+                        Content = "취소",
+                        Width = 100,
+                        Height = 35,
+                        HorizontalAlignment = HorizontalAlignment.Right,
+                        Margin = new Thickness(0, 10, 0, 0)
+                    };
+                    cancelButton.Click += (s, e) => loginMethodDialog.Close();
+                    System.Windows.Controls.Grid.SetRow(cancelButton, 4);
+                    grid.Children.Add(cancelButton);
+                    
+                    loginMethodDialog.Content = grid;
+                    
+                    if (loginMethodDialog.ShowDialog() == true)
+                    {
+                        var method = loginMethodDialog.Tag?.ToString();
+                        
+                        if (method == "login")
+                        {
+                            // ID/PW 로그인
+                            var loginDialog = new IntranetLoginDialog { Owner = this };
+                            if (loginDialog.ShowDialog() == true)
+                            {
+                                ShowMessage("Selenium으로 자동 로그인 중... 🤖", 3);
+                                
+                                var loginResult = SeleniumCookieExtractor.AutoLogin(loginDialog.Username, loginDialog.Password, loginUrl);
+                                
+                                if (loginResult.success && loginResult.cookies.Count > 0)
+                                {
+                                    // 쿠키 암호화하여 저장
+                                    var json = System.Text.Json.JsonSerializer.Serialize(loginResult.cookies, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
+                                    CookieEncryption.SaveEncryptedCookies(json, "manual_cookies.dat");
+                                    
+                                    ShowMessage($"로그인 성공! {loginResult.cookies.Count}개 쿠키 암호화 저장! 🔒🎉", 4);
+                                    
+                                    // 쿠키 다시 로드
+                                    cookieLoginSuccess = crawler.LoadCookies(baseUrl);
+                                }
+                                else
+                                {
+                                    MessageBox.Show(
+                                        $"로그인에 실패했습니다.\n\n{loginResult.debugInfo}",
+                                        "로그인 실패",
+                                        MessageBoxButton.OK,
+                                        MessageBoxImage.Error);
+                                }
+                            }
+                        }
+                        else if (method == "cookie")
+                        {
+                            // 쿠키 수동 입력
+                            var cookieDialog = new CookieInputDialog { Owner = this };
+                            if (cookieDialog.ShowDialog() == true)
+                            {
+                                cookieLoginSuccess = crawler.LoadCookies(baseUrl);
+                            }
+                        }
+                    }
+                    
+                    if (!cookieLoginSuccess)
+                    {
+                        return;
+                    }
                 }
                 
                 ShowMessage($"{mailName}을 불러오고 있어요... 📧", 3);
@@ -626,7 +943,7 @@ namespace AgentAssistant
             CheckBoard_Notice_Click(sender, e);
         }
 
-        private async void CheckBoardAsync(string boardName, string boardUrl)
+        private async System.Threading.Tasks.Task CheckBoardAsync(string boardName, string boardUrl)
         {
             try
             {
@@ -652,98 +969,138 @@ namespace AgentAssistant
                 
                 if (!cookieLoginSuccess)
                 {
-                    // 복사 가능한 디버그 정보 창 생성
-                    var debugWindow = new Window
+                    // 로그인 방법 선택 대화상자
+                    var loginMethodDialog = new Window
                     {
-                        Title = "쿠키 디버그 정보",
-                        Width = 600,
-                        Height = 400,
-                        WindowStartupLocation = WindowStartupLocation.CenterScreen,
-                        Owner = this
+                        Title = "로그인 필요",
+                        Width = 400,
+                        Height = 250,
+                        WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                        Owner = this,
+                        ResizeMode = ResizeMode.NoResize
                     };
                     
                     var grid = new System.Windows.Controls.Grid { Margin = new Thickness(20) };
+                    grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                    grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
                     grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
                     grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
                     grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
                     
                     var title = new System.Windows.Controls.TextBlock
                     {
-                        Text = "쿠키를 찾을 수 없습니다",
+                        Text = "로그인이 필요합니다",
                         FontSize = 16,
                         FontWeight = FontWeights.Bold,
-                        Margin = new Thickness(0, 0, 0, 10)
+                        Margin = new Thickness(0, 0, 0, 15)
                     };
                     System.Windows.Controls.Grid.SetRow(title, 0);
                     grid.Children.Add(title);
                     
-                    var debugTextBox = new System.Windows.Controls.TextBox
+                    var description = new System.Windows.Controls.TextBlock
                     {
-                        Text = $"디버그 정보:\n{debugMessage}\n\nChrome 또는 Edge에서 https://ngw.cauhs.or.kr 에 로그인되어 있나요?\n\n아래 정보를 복사해서 개발자에게 전달할 수 있습니다.",
-                        IsReadOnly = true,
+                        Text = "인트라넷에 접근하려면 로그인이 필요합니다.\n로그인 방법을 선택해주세요:",
                         TextWrapping = TextWrapping.Wrap,
-                        VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
-                        FontFamily = new System.Windows.Media.FontFamily("Consolas"),
-                        Padding = new Thickness(10),
-                        Margin = new Thickness(0, 0, 0, 10)
+                        Margin = new Thickness(0, 0, 0, 20)
                     };
-                    System.Windows.Controls.Grid.SetRow(debugTextBox, 1);
-                    grid.Children.Add(debugTextBox);
+                    System.Windows.Controls.Grid.SetRow(description, 1);
+                    grid.Children.Add(description);
                     
                     var buttonPanel = new System.Windows.Controls.StackPanel
                     {
-                        Orientation = Orientation.Horizontal,
-                        HorizontalAlignment = HorizontalAlignment.Right
+                        Orientation = Orientation.Vertical,
+                        HorizontalAlignment = HorizontalAlignment.Stretch
                     };
                     
-                    var copyButton = new System.Windows.Controls.Button
+                    var loginButton = new System.Windows.Controls.Button
                     {
-                        Content = "📋 복사",
-                        Width = 100,
-                        Height = 35,
-                        Margin = new Thickness(0, 0, 10, 0)
+                        Content = "🔐 ID/PW로 로그인",
+                        Height = 40,
+                        Margin = new Thickness(0, 0, 0, 10),
+                        FontSize = 14
                     };
-                    copyButton.Click += (s, e) =>
+                    loginButton.Click += (s, e) =>
                     {
-                        Clipboard.SetText(debugMessage);
-                        MessageBox.Show("디버그 정보가 클립보드에 복사되었습니다!", "복사 완료", MessageBoxButton.OK, MessageBoxImage.Information);
+                        loginMethodDialog.Tag = "login";
+                        loginMethodDialog.DialogResult = true;
+                        loginMethodDialog.Close();
                     };
-                    buttonPanel.Children.Add(copyButton);
+                    buttonPanel.Children.Add(loginButton);
                     
-                    var manualInputButton = new System.Windows.Controls.Button
+                    var cookieButton = new System.Windows.Controls.Button
                     {
-                        Content = "수동 입력",
-                        Width = 100,
-                        Height = 35,
-                        Margin = new Thickness(0, 0, 10, 0)
+                        Content = "🍪 쿠키로 로그인",
+                        Height = 40,
+                        FontSize = 14
                     };
-                    manualInputButton.Click += (s, e) =>
+                    cookieButton.Click += (s, e) =>
                     {
-                        debugWindow.DialogResult = true;
-                        debugWindow.Close();
+                        loginMethodDialog.Tag = "cookie";
+                        loginMethodDialog.DialogResult = true;
+                        loginMethodDialog.Close();
                     };
-                    buttonPanel.Children.Add(manualInputButton);
-                    
-                    var closeButton = new System.Windows.Controls.Button
-                    {
-                        Content = "닫기",
-                        Width = 100,
-                        Height = 35
-                    };
-                    closeButton.Click += (s, e) => debugWindow.Close();
-                    buttonPanel.Children.Add(closeButton);
+                    buttonPanel.Children.Add(cookieButton);
                     
                     System.Windows.Controls.Grid.SetRow(buttonPanel, 2);
                     grid.Children.Add(buttonPanel);
                     
-                    debugWindow.Content = grid;
-                    
-                    if (debugWindow.ShowDialog() == true)
+                    var cancelButton = new System.Windows.Controls.Button
                     {
-                        var cookieDialog = new CookieInputDialog { Owner = this };
-                        if (cookieDialog.ShowDialog() == true)
+                        Content = "취소",
+                        Width = 100,
+                        Height = 35,
+                        HorizontalAlignment = HorizontalAlignment.Right,
+                        Margin = new Thickness(0, 10, 0, 0)
+                    };
+                    cancelButton.Click += (s, e) => loginMethodDialog.Close();
+                    System.Windows.Controls.Grid.SetRow(cancelButton, 4);
+                    grid.Children.Add(cancelButton);
+                    
+                    loginMethodDialog.Content = grid;
+                    
+                    if (loginMethodDialog.ShowDialog() == true)
+                    {
+                        var method = loginMethodDialog.Tag?.ToString();
+                        
+                        if (method == "login")
                         {
-                            cookieLoginSuccess = crawler.LoadCookies(baseUrl);
+                            // ID/PW 로그인
+                            var loginDialog = new IntranetLoginDialog { Owner = this };
+                            if (loginDialog.ShowDialog() == true)
+                            {
+                                ShowMessage("Selenium으로 자동 로그인 중... 🤖", 3);
+                                
+                                var loginResult = SeleniumCookieExtractor.AutoLogin(loginDialog.Username, loginDialog.Password, loginUrl);
+                                
+                                if (loginResult.success && loginResult.cookies.Count > 0)
+                                {
+                                    // 쿠키 암호화하여 저장
+                                    var json = System.Text.Json.JsonSerializer.Serialize(loginResult.cookies, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
+                                    CookieEncryption.SaveEncryptedCookies(json, "manual_cookies.dat");
+                                    
+                                    ShowMessage($"로그인 성공! {loginResult.cookies.Count}개 쿠키 암호화 저장! 🔒🎉", 4);
+                                    
+                                    // 쿠키 다시 로드
+                                    cookieLoginSuccess = crawler.LoadCookies(baseUrl);
+                                }
+                                else
+                                {
+                                    MessageBox.Show(
+                                        $"로그인에 실패했습니다.\n\n{loginResult.debugInfo}",
+                                        "로그인 실패",
+                                        MessageBoxButton.OK,
+                                        MessageBoxImage.Error);
+                                }
+                            }
+                        }
+                        else if (method == "cookie")
+                        {
+                            // 쿠키 수동 입력
+                            var cookieDialog = new CookieInputDialog { Owner = this };
+                            if (cookieDialog.ShowDialog() == true)
+                            {
+                                cookieLoginSuccess = crawler.LoadCookies(baseUrl);
+                            }
                         }
                     }
                     
@@ -826,11 +1183,11 @@ namespace AgentAssistant
                     
                     if (loginResult.success && loginResult.cookies.Count > 0)
                     {
-                        // 쿠키 저장
+                        // 쿠키 암호화하여 저장
                         var json = System.Text.Json.JsonSerializer.Serialize(loginResult.cookies, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
-                        File.WriteAllText("manual_cookies.json", json);
+                        CookieEncryption.SaveEncryptedCookies(json, "manual_cookies.dat");
                         
-                        ShowMessage($"로그인 성공! {loginResult.cookies.Count}개 쿠키 저장했어요! 🎉", 4);
+                        ShowMessage($"로그인 성공! {loginResult.cookies.Count}개 쿠키 암호화 저장! 🔒🎉", 4);
                         
                         // 로그인 정보를 파일로 저장 (자동 로그인용)
                         var loginInfo = new { username = loginDialog.Username, password = loginDialog.Password, loginUrl = loginUrl };
@@ -930,78 +1287,32 @@ namespace AgentAssistant
         {
             try
             {
-                ShowMessage("쿠키를 진단하고 있어요... 🔍", 3);
-                var diagnosis = TestCookieReader.GetAllCookieDomains();
+                ShowMessage("쿠키 진단은 개발 중입니다. 준비되면 알려드릴게요! 🔧", 3);
                 
+                // TestCookieReader는 제거되었으므로 간단한 안내 메시지로 변경
                 var diagWindow = new Window
                 {
                     Title = "쿠키 진단 결과",
-                    Width = 700,
-                    Height = 500,
+                    Width = 500,
+                    Height = 300,
                     WindowStartupLocation = WindowStartupLocation.CenterScreen,
                     Owner = this
                 };
                 
                 var grid = new Grid { Margin = new Thickness(20) };
-                grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
                 grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-                grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
                 
-                var title = new TextBlock
+                var message = new TextBlock
                 {
-                    Text = "브라우저 쿠키 진단 결과",
-                    FontSize = 16,
-                    FontWeight = FontWeights.Bold,
-                    Margin = new Thickness(0, 0, 0, 10)
-                };
-                Grid.SetRow(title, 0);
-                grid.Children.Add(title);
-                
-                var diagTextBox = new TextBox
-                {
-                    Text = diagnosis,
-                    IsReadOnly = true,
+                    Text = "🔧 쿠키 진단 기능\n\n현재 개발 중입니다.\n\n다음과 같은 기능을 준비 중입니다:\n• Chrome 쿠키 읽기\n• Edge 쿠키 읽기\n• 쿠키 유효성 검사\n\n곧 업데이트될 예정입니다.",
                     TextWrapping = TextWrapping.Wrap,
-                    VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
-                    FontFamily = new FontFamily("Consolas"),
-                    FontSize = 12,
-                    Padding = new Thickness(10)
-                };
-                Grid.SetRow(diagTextBox, 1);
-                grid.Children.Add(diagTextBox);
-                
-                var buttonPanel = new StackPanel
-                {
-                    Orientation = Orientation.Horizontal,
-                    HorizontalAlignment = HorizontalAlignment.Right,
-                    Margin = new Thickness(0, 10, 0, 0)
+                    VerticalAlignment = VerticalAlignment.Center,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    FontSize = 14
                 };
                 
-                var copyButton = new System.Windows.Controls.Button
-                {
-                    Content = "📋 복사",
-                    Width = 100,
-                    Height = 35,
-                    Margin = new Thickness(0, 0, 10, 0)
-                };
-                copyButton.Click += (s, ev) =>
-                {
-                    Clipboard.SetText(diagnosis);
-                    MessageBox.Show("진단 정보가 클립보드에 복사되었습니다!", "복사 완료", MessageBoxButton.OK, MessageBoxImage.Information);
-                };
-                buttonPanel.Children.Add(copyButton);
-                
-                var closeButton = new System.Windows.Controls.Button
-                {
-                    Content = "닫기",
-                    Width = 100,
-                    Height = 35
-                };
-                closeButton.Click += (s, ev) => diagWindow.Close();
-                buttonPanel.Children.Add(closeButton);
-                
-                Grid.SetRow(buttonPanel, 2);
-                grid.Children.Add(buttonPanel);
+                Grid.SetRow(message, 0);
+                grid.Children.Add(message);
                 
                 diagWindow.Content = grid;
                 diagWindow.ShowDialog();
@@ -1009,7 +1320,7 @@ namespace AgentAssistant
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    $"쿠키 진단 오류:\n\n{ex.Message}",
+                    $"쿠키 진단 중 오류 발생:\n{ex.Message}",
                     "오류",
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
@@ -1028,6 +1339,13 @@ namespace AgentAssistant
             {
                 Application.Current.Shutdown();
             }
+        }
+
+        private void AdminModeButton_Click(object sender, RoutedEventArgs e)
+        {
+            var adminWindow = new AdminWindow();
+            adminWindow.Owner = this;
+            adminWindow.ShowDialog();
         }
     }
 }

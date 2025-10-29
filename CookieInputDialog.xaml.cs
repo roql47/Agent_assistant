@@ -21,9 +21,11 @@ namespace AgentAssistant
         {
             try
             {
-                if (File.Exists("manual_cookies.json"))
+                // 암호화된 쿠키 파일 읽기
+                string json = CookieEncryption.LoadEncryptedCookies("manual_cookies.dat");
+                
+                if (!string.IsNullOrEmpty(json))
                 {
-                    var json = File.ReadAllText("manual_cookies.json");
                     var savedCookies = JsonSerializer.Deserialize<Dictionary<string, string>>(json);
                     
                     if (savedCookies != null && savedCookies.Count > 0)
@@ -100,22 +102,23 @@ namespace AgentAssistant
                 return;
             }
 
-            // 쿠키 저장
+            // 쿠키 암호화하여 저장
             try
             {
                 var json = JsonSerializer.Serialize(Cookies, new JsonSerializerOptions { WriteIndented = true });
-                File.WriteAllText("manual_cookies.json", json);
+                CookieEncryption.SaveEncryptedCookies(json, "manual_cookies.dat");
                 
                 MessageBox.Show(
-                    $"{Cookies.Count}개의 쿠키를 저장했습니다:\n\n" + 
-                    string.Join("\n", Cookies.Keys),
+                    $"{Cookies.Count}개의 쿠키를 암호화하여 저장했습니다:\n\n" + 
+                    string.Join("\n", Cookies.Keys) + 
+                    "\n\n🔒 Windows DPAPI로 암호화됨 (현재 사용자만 복호화 가능)",
                     "저장 완료",
                     MessageBoxButton.OK,
                     MessageBoxImage.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"쿠키 저장 실패: {ex.Message}", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"쿠키 암호화 저장 실패: {ex.Message}", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             DialogResult = true;

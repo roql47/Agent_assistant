@@ -182,6 +182,69 @@ namespace AgentAssistant
             Close();
         }
 
+        private async void BoardItem_Click(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (sender is System.Windows.Controls.Border border && border.Tag is BoardItem boardItem)
+            {
+                System.Diagnostics.Debug.WriteLine($"[게시글 클릭] 번호: {boardItem.Number}, 제목: {boardItem.Title}");
+                System.Diagnostics.Debug.WriteLine($"[게시글 클릭] URL: '{boardItem.Url}'");
+                System.Diagnostics.Debug.WriteLine($"[게시글 클릭] boardUrl: '{boardUrl}'");
+                
+                // URL이 없으면 상세 조회 불가
+                if (string.IsNullOrEmpty(boardItem.Url))
+                {
+                    System.Windows.MessageBox.Show(
+                        $"게시글 URL을 찾을 수 없습니다.\n\n게시글 정보:\n번호: {boardItem.Number}\n제목: {boardItem.Title}\n작성자: {boardItem.Author}\n날짜: {boardItem.Date}",
+                        "알림",
+                        System.Windows.MessageBoxButton.OK,
+                        MessageBoxImage.Information);
+                    return;
+                }
+
+                try
+                {
+                    // 로딩 표시
+                    this.Cursor = System.Windows.Input.Cursors.Wait;
+
+                    // 게시글 상세 정보 가져오기 (ViewState 정보 전달)
+                    var detail = await crawler?.GetBoardDetailAsync(
+                        boardItem.Url, 
+                        boardUrl ?? "", 
+                        viewState ?? "", 
+                        viewStateGenerator ?? "", 
+                        eventValidation ?? "")!;
+
+                    // 정보가 없으면 기본 정보로 채우기
+                    if (string.IsNullOrEmpty(detail.Title))
+                        detail.Title = boardItem.Title;
+                    if (string.IsNullOrEmpty(detail.Author))
+                        detail.Author = boardItem.Author;
+                    if (string.IsNullOrEmpty(detail.Date))
+                        detail.Date = boardItem.Date;
+                    if (string.IsNullOrEmpty(detail.Number))
+                        detail.Number = boardItem.Number;
+
+                    // 상세 창 열기
+                    var detailWindow = new BoardDetailWindow(detail);
+                    detailWindow.Owner = this;
+                    detailWindow.ShowDialog();
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[게시글 클릭 오류] {ex.ToString()}");
+                    System.Windows.MessageBox.Show(
+                        $"게시글을 불러오는 중 오류가 발생했습니다:\n\n{ex.Message}\n\n게시글 URL:\n{boardItem.Url}",
+                        "오류",
+                        System.Windows.MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+                }
+                finally
+                {
+                    this.Cursor = System.Windows.Input.Cursors.Arrow;
+                }
+            }
+        }
+
         private void AddToCalendar_Click(object sender, RoutedEventArgs e)
         {
             if (sender is System.Windows.Controls.MenuItem menuItem && menuItem.Tag is BoardItem boardItem)
@@ -203,7 +266,8 @@ namespace AgentAssistant
                     {
                         Title = boardItem.Title,
                         Time = selectedTime,
-                        Description = $"작성자: {boardItem.Author}\n날짜: {boardItem.Date}\n\n게시글 URL: {boardItem.Url}"
+                        Description = $"작성자: {boardItem.Author}\n날짜: {boardItem.Date}",
+                        Url = boardItem.Url
                     };
                     
                     if (!events.ContainsKey(selectedDate))

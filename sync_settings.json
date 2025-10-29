@@ -1,0 +1,6 @@
+{
+  "EnableSync": true,
+  "ServerUrl": "http://127.0.0.1:5000/",
+  "SelectedDepartmentId": 0,
+  "SelectedDepartmentName": ""
+}

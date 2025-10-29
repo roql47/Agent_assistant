@@ -79,4 +79,16 @@ $RECYCLE.BIN/
 *.temp
 *.log
 
+# Sensitive data (보안 - 쿠키, 로그인 정보, 개인 데이터)
+manual_cookies.json
+manual_cookies.dat
+manual_cookies*.json
+login_info.json
+login.txt
+send.txt
+recieve.txt
+reciece2.txt
+calendar_events.json
+mail_page_*.html
+
 

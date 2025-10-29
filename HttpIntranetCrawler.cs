@@ -27,7 +27,9 @@ namespace AgentAssistant
                 AllowAutoRedirect = true
             };
             httpClient = new HttpClient(handler);
-            httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36");
+            httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 Edg/141.0.0.0");
+            httpClient.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7");
+            httpClient.DefaultRequestHeaders.Add("Accept-Language", "ko,en;q=0.9,en-US;q=0.8");
         }
 
         public async Task<(bool success, string debugInfo)> LoginAsyncWithDebug(string username, string password, string loginUrl)
@@ -134,6 +136,11 @@ namespace AgentAssistant
             {
                 var response = await httpClient.GetAsync(boardUrl);
                 var html = await response.Content.ReadAsStringAsync();
+                
+                // 디버깅용으로 HTML 저장
+                var savePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "board_list_page.html");
+                System.IO.File.WriteAllText(savePath, html);
+                System.Diagnostics.Debug.WriteLine($"[게시판 목록] HTML 저장됨: {savePath}");
 
                 var doc = new HtmlDocument();
                 doc.LoadHtml(html);
@@ -215,14 +222,88 @@ namespace AgentAssistant
                                     item.Title = System.Net.WebUtility.HtmlDecode(titleLink.InnerText.Trim());
                                     
                                     var href = titleLink.GetAttributeValue("href", "");
-                                    if (!string.IsNullOrEmpty(href) && !href.StartsWith("http"))
+                                    var onclick = titleLink.GetAttributeValue("onclick", "");
+                                    var linkId = titleLink.GetAttributeValue("id", "");
+                                    
+                                    System.Diagnostics.Debug.WriteLine($"[GetBoardItems] 제목: {item.Title}");
+                                    System.Diagnostics.Debug.WriteLine($"[GetBoardItems] href: '{href}'");
+                                    System.Diagnostics.Debug.WriteLine($"[GetBoardItems] onclick: '{onclick}'");
+                                    System.Diagnostics.Debug.WriteLine($"[GetBoardItems] id: '{linkId}'");
+                                    
+                                    // 링크 ID에서 MsgId 추출 시도 (예: aBoardSubject_73362)
+                                    string? msgId = null;
+                                    if (!string.IsNullOrEmpty(linkId) && linkId.Contains("_"))
                                     {
-                                        var baseUri = new Uri(boardUrl);
-                                        item.Url = new Uri(baseUri, href).ToString();
+                                        var parts = linkId.Split('_');
+                                        if (parts.Length > 1 && int.TryParse(parts[parts.Length - 1], out _))
+                                        {
+                                            msgId = parts[parts.Length - 1];
+                                            System.Diagnostics.Debug.WriteLine($"[GetBoardItems] ID에서 MsgId 추출: {msgId}");
+                                        }
                                     }
-                                    else
+                                    
+                                    // onclick에서 MsgId 추출 시도
+                                    if (msgId == null && !string.IsNullOrEmpty(onclick))
                                     {
-                                        item.Url = href;
+                                        var match = System.Text.RegularExpressions.Regex.Match(onclick, @"GotoBoardView\((\d+)\)");
+                                        if (match.Success)
+                                        {
+                                            msgId = match.Groups[1].Value;
+                                            System.Diagnostics.Debug.WriteLine($"[GetBoardItems] onclick에서 MsgId 추출: {msgId}");
+                                        }
+                                    }
+                                    
+                                    // MsgId를 찾았으면 BoardView.aspx URL 생성
+                                    if (!string.IsNullOrEmpty(msgId))
+                                    {
+                                        // 게시판 URL에서 fdid 추출
+                                        var boardUri = new Uri(boardUrl);
+                                        var fdid = "";
+                                        
+                                        // 쿼리 스트링에서 fdid 추출
+                                        var query = boardUri.Query.TrimStart('?');
+                                        foreach (var param in query.Split('&'))
+                                        {
+                                            var parts = param.Split('=');
+                                            if (parts.Length == 2 && parts[0].Equals("fdid", StringComparison.OrdinalIgnoreCase))
+                                            {
+                                                fdid = parts[1];
+                                                break;
+                                            }
+                                        }
+                                        
+                                        System.Diagnostics.Debug.WriteLine($"[GetBoardItems] 추출된 fdid: {fdid}");
+                                        
+                                        var baseUri = new Uri(boardUrl);
+                                        var boardViewUrl = new Uri(baseUri, $"/WebSite/Basic/Board/BoardView.aspx?system=Board&BoardType=Normal&FromOuterYN=N&fdid={fdid}&MsgId={msgId}&DateBarYN=Y&BoardGubun=Normal&PageSize=15&PageCurrent=1&SortField=MessageID&SortDirection=DESC&Cate=0&CateGubunYN=N&SearchGubun=All&SelectedDay=All");
+                                        item.Url = boardViewUrl.ToString();
+                                        System.Diagnostics.Debug.WriteLine($"[GetBoardItems] 생성된 URL: {item.Url}");
+                                    }
+                                    // onclick에 __doPostBack이 있으면 그것을 사용
+                                    else if (!string.IsNullOrEmpty(onclick) && onclick.Contains("__doPostBack"))
+                                    {
+                                        item.Url = "javascript:" + onclick;
+                                        System.Diagnostics.Debug.WriteLine($"[GetBoardItems] PostBack 사용: {item.Url}");
+                                    }
+                                    else if (!string.IsNullOrEmpty(href))
+                                    {
+                                        // javascript: 링크는 그대로 저장
+                                        if (href.StartsWith("javascript:", StringComparison.OrdinalIgnoreCase))
+                                        {
+                                            item.Url = href;
+                                            System.Diagnostics.Debug.WriteLine($"[GetBoardItems] JavaScript 링크: {href}");
+                                        }
+                                        // http로 시작하는 절대 URL도 그대로 저장
+                                        else if (href.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+                                        {
+                                            item.Url = href;
+                                        }
+                                        // 상대 URL은 절대 URL로 변환
+                                        else
+                                        {
+                                            var baseUri = new Uri(boardUrl);
+                                            item.Url = new Uri(baseUri, href).ToString();
+                                        }
                                     }
                                 }
                                 else
@@ -402,14 +483,76 @@ namespace AgentAssistant
                                     item.Title = System.Net.WebUtility.HtmlDecode(titleLink.InnerText.Trim());
                                     
                                     var href = titleLink.GetAttributeValue("href", "");
-                                    if (!string.IsNullOrEmpty(href) && !href.StartsWith("http"))
+                                    var onclick = titleLink.GetAttributeValue("onclick", "");
+                                    var linkId = titleLink.GetAttributeValue("id", "");
+                                    
+                                    // 링크 ID에서 MsgId 추출 시도
+                                    string? msgId = null;
+                                    if (!string.IsNullOrEmpty(linkId) && linkId.Contains("_"))
                                     {
-                                        var baseUri = new Uri(boardUrl);
-                                        item.Url = new Uri(baseUri, href).ToString();
+                                        var parts = linkId.Split('_');
+                                        if (parts.Length > 1 && int.TryParse(parts[parts.Length - 1], out _))
+                                        {
+                                            msgId = parts[parts.Length - 1];
+                                        }
                                     }
-                                    else
+                                    
+                                    // onclick에서 MsgId 추출 시도
+                                    if (msgId == null && !string.IsNullOrEmpty(onclick))
                                     {
-                                        item.Url = href;
+                                        var match = System.Text.RegularExpressions.Regex.Match(onclick, @"GotoBoardView\((\d+)\)");
+                                        if (match.Success)
+                                        {
+                                            msgId = match.Groups[1].Value;
+                                        }
+                                    }
+                                    
+                                    // MsgId를 찾았으면 BoardView.aspx URL 생성
+                                    if (!string.IsNullOrEmpty(msgId))
+                                    {
+                                        // 게시판 URL에서 fdid 추출
+                                        var boardUri = new Uri(boardUrl);
+                                        var fdid = "";
+                                        
+                                        // 쿼리 스트링에서 fdid 추출
+                                        var query = boardUri.Query.TrimStart('?');
+                                        foreach (var param in query.Split('&'))
+                                        {
+                                            var parts = param.Split('=');
+                                            if (parts.Length == 2 && parts[0].Equals("fdid", StringComparison.OrdinalIgnoreCase))
+                                            {
+                                                fdid = parts[1];
+                                                break;
+                                            }
+                                        }
+                                        
+                                        var baseUri = new Uri(boardUrl);
+                                        var boardViewUrl = new Uri(baseUri, $"/WebSite/Basic/Board/BoardView.aspx?system=Board&BoardType=Normal&FromOuterYN=N&fdid={fdid}&MsgId={msgId}&DateBarYN=Y&BoardGubun=Normal&PageSize=15&PageCurrent=1&SortField=MessageID&SortDirection=DESC&Cate=0&CateGubunYN=N&SearchGubun=All&SelectedDay=All");
+                                        item.Url = boardViewUrl.ToString();
+                                    }
+                                    // onclick에 __doPostBack이 있으면 그것을 사용
+                                    else if (!string.IsNullOrEmpty(onclick) && onclick.Contains("__doPostBack"))
+                                    {
+                                        item.Url = "javascript:" + onclick;
+                                    }
+                                    else if (!string.IsNullOrEmpty(href))
+                                    {
+                                        // javascript: 링크는 그대로 저장
+                                        if (href.StartsWith("javascript:", StringComparison.OrdinalIgnoreCase))
+                                        {
+                                            item.Url = href;
+                                        }
+                                        // http로 시작하는 절대 URL도 그대로 저장
+                                        else if (href.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+                                        {
+                                            item.Url = href;
+                                        }
+                                        // 상대 URL은 절대 URL로 변환
+                                        else
+                                        {
+                                            var baseUri = new Uri(boardUrl);
+                                            item.Url = new Uri(baseUri, href).ToString();
+                                        }
                                     }
                                 }
                                 else
@@ -590,31 +733,35 @@ namespace AgentAssistant
                     // Chrome 쿠키 읽기 실패해도 계속 진행
                 }
 
-                // 2단계: 수동으로 입력한 쿠키 읽기 시도 (백업)
-                lastCookieDebugInfo += "\nmanual_cookies.json 확인...\n";
-                if (File.Exists("manual_cookies.json"))
+                // 2단계: 수동으로 입력한 쿠키 읽기 시도 (백업) - 암호화된 파일
+                lastCookieDebugInfo += "\nmanual_cookies.dat (암호화) 확인...\n";
+                if (File.Exists("manual_cookies.dat"))
                 {
                     try
                     {
-                        var manualJson = File.ReadAllText("manual_cookies.json");
-                        var manualCookies = JsonSerializer.Deserialize<Dictionary<string, string>>(manualJson);
+                        var manualJson = CookieEncryption.LoadEncryptedCookies("manual_cookies.dat");
                         
-                        if (manualCookies != null && manualCookies.Count > 0)
+                        if (!string.IsNullOrEmpty(manualJson))
                         {
-                            lastCookieDebugInfo += $"✓ manual_cookies.json에서 {manualCookies.Count}개 찾음\n";
-                            System.Diagnostics.Debug.WriteLine($"manual_cookies.json에서 {manualCookies.Count}개의 쿠키를 찾았습니다.");
-                            foreach (var kvp in manualCookies)
+                            var manualCookies = JsonSerializer.Deserialize<Dictionary<string, string>>(manualJson);
+                            
+                            if (manualCookies != null && manualCookies.Count > 0)
                             {
-                                var cookie = new Cookie(kvp.Key, kvp.Value, "/", uri.Host);
-                                cookieContainer.Add(uri, cookie);
+                                lastCookieDebugInfo += $"✓ manual_cookies.dat에서 {manualCookies.Count}개 찾음 (DPAPI 복호화)\n";
+                                System.Diagnostics.Debug.WriteLine($"manual_cookies.dat에서 {manualCookies.Count}개의 쿠키를 복호화했습니다.");
+                                foreach (var kvp in manualCookies)
+                                {
+                                    var cookie = new Cookie(kvp.Key, kvp.Value, "/", uri.Host);
+                                    cookieContainer.Add(uri, cookie);
+                                }
+                                return true;
                             }
-                            return true;
                         }
                     }
                     catch (Exception ex)
                     {
-                        lastCookieDebugInfo += $"✗ 읽기 오류: {ex.Message}\n";
-                        System.Diagnostics.Debug.WriteLine($"manual_cookies.json 읽기 실패: {ex.Message}");
+                        lastCookieDebugInfo += $"✗ 복호화 오류: {ex.Message}\n";
+                        System.Diagnostics.Debug.WriteLine($"manual_cookies.dat 복호화 실패: {ex.Message}");
                     }
                 }
                 else
@@ -670,18 +817,34 @@ namespace AgentAssistant
         {
             try
             {
+                System.Diagnostics.Debug.WriteLine($"===== 메일 페이지 GET 요청 =====");
+                System.Diagnostics.Debug.WriteLine($"URL: {mailUrl}");
+                System.Diagnostics.Debug.WriteLine($"요청 페이지: {pageNumber}");
+                
                 var response = await httpClient.GetAsync(mailUrl);
                 var html = await response.Content.ReadAsStringAsync();
+                
+                System.Diagnostics.Debug.WriteLine($"응답 상태: {response.StatusCode}");
+                System.Diagnostics.Debug.WriteLine($"응답 HTML 길이: {html.Length}");
+                
+                // 디버깅용: 첫 GET 요청 HTML 저장
+                File.WriteAllText($"mail_initial_get.html", html);
+                System.Diagnostics.Debug.WriteLine($"첫 GET 요청 HTML 저장됨: mail_initial_get.html");
                 
                 lastMailPageHtml = html; // 다음 페이지 이동을 위해 저장
                 
                 var result = MailCrawler.ParseMailPageResult(html);
                 
+                System.Diagnostics.Debug.WriteLine($"파싱 결과 - 현재 페이지: {result.CurrentPage}, 총 페이지: {result.TotalPages}, 메일 개수: {result.Items.Count}");
+                System.Diagnostics.Debug.WriteLine($"추출된 Form 필드 개수: {result.AllFormFields.Count}");
+                
                 // 첫 페이지가 아닌 경우, 페이지 번호가 안 맞으면 페이지네이션 필요
                 if (pageNumber > 1 && result.CurrentPage != pageNumber)
                 {
-                    result = await NavigateToMailPageAsync(mailUrl, pageNumber, result.ViewState, result.ViewStateGenerator, result.EventValidation);
+                    result = await NavigateToMailPageAsync(mailUrl, pageNumber, result.AllFormFields, result.ViewState, result.ViewStateGenerator, result.EventValidation);
                 }
+                
+                System.Diagnostics.Debug.WriteLine($"================================");
                 
                 return result;
             }
@@ -693,28 +856,116 @@ namespace AgentAssistant
 
         private string lastMailPageHtml = "";
 
-        public async Task<MailPageResult> NavigateToMailPageAsync(string mailUrl, int pageNumber, string viewState, string viewStateGenerator, string eventValidation)
+        public async Task<MailPageResult> NavigateToMailPageAsync(string mailUrl, int pageNumber, Dictionary<string, string> previousFormFields, string viewState, string viewStateGenerator, string eventValidation)
         {
             try
             {
-                // 이전 페이지의 모든 필드 사용
-                var previousResult = MailCrawler.ParseMailPageResult(lastMailPageHtml);
+                // 이전 페이지의 모든 필드를 복사 (브라우저처럼)
+                var formData = new Dictionary<string, string>(previousFormFields);
                 
-                // 이전 페이지의 모든 필드를 가져옴
-                var formData = new Dictionary<string, string>(previousResult.AllFormFields);
+                System.Diagnostics.Debug.WriteLine($"[NavigateToMailPageAsync] 전달받은 Form 필드 개수: {previousFormFields.Count}");
                 
-                // 페이지네이션에 필요한 필드만 덮어쓰기
-                formData["__VIEWSTATE"] = viewState;
-                formData["__VIEWSTATEGENERATOR"] = viewStateGenerator;
-                formData["__EVENTVALIDATION"] = eventValidation;
+                // 체크박스 관련 필드 제거 (페이지네이션에는 불필요)
+                var keysToRemove = formData.Keys.Where(k => 
+                    k.Contains("chkSelect") || 
+                    k == "chkSelectAll").ToList();
+                foreach (var key in keysToRemove)
+                {
+                    formData.Remove(key);
+                }
+                System.Diagnostics.Debug.WriteLine($"[NavigateToMailPageAsync] 체크박스 {keysToRemove.Count}개 제거");
+                
+                // select 드롭다운 필드 추가 (필수!)
+                if (!formData.ContainsKey("ctl00$ctl00$cphContent$cphContent$ddlFilterType"))
+                    formData["ctl00$ctl00$cphContent$cphContent$ddlFilterType"] = formData.GetValueOrDefault("ctl00$ctl00$cphContent$cphContent$hidFilterType", "ALL");
+                if (!formData.ContainsKey("ctl00$ctl00$cphContent$cphContent$ddlSearchType"))
+                    formData["ctl00$ctl00$cphContent$cphContent$ddlSearchType"] = formData.GetValueOrDefault("ctl00$ctl00$cphContent$cphContent$hidSearchType", "ALL");
+                
+                // complete 필드는 현재 페이지 (이동하기 전 페이지!)
+                var currentPageInForm = formData.GetValueOrDefault("ctl00$ctl00$cphContent$cphContent$hidPage", "1");
+                formData["complete"] = currentPageInForm;
+                
+                // 텍스트 검색 필드들 (빈 값이라도 필요)
+                if (!formData.ContainsKey("ctl00$ctl00$cphContent$cphContent$txtSearchText"))
+                    formData["ctl00$ctl00$cphContent$cphContent$txtSearchText"] = "";
+                if (!formData.ContainsKey("ctl00$ctl00$cphContent$cphContent$txtStartDate"))
+                    formData["ctl00$ctl00$cphContent$cphContent$txtStartDate"] = "";
+                if (!formData.ContainsKey("ctl00$ctl00$cphContent$cphContent$txtEndDate"))
+                    formData["ctl00$ctl00$cphContent$cphContent$txtEndDate"] = "";
+                
+                // 상세 검색 필드들
+                if (!formData.ContainsKey("ctl00$ctl00$cphContent$cphContent$DetailTitle"))
+                    formData["ctl00$ctl00$cphContent$cphContent$DetailTitle"] = "";
+                if (!formData.ContainsKey("ctl00$ctl00$cphContent$cphContent$DetailContent"))
+                    formData["ctl00$ctl00$cphContent$cphContent$DetailContent"] = "";
+                if (!formData.ContainsKey("ctl00$ctl00$cphContent$cphContent$DetailSender"))
+                    formData["ctl00$ctl00$cphContent$cphContent$DetailSender"] = "";
+                if (!formData.ContainsKey("ctl00$ctl00$cphContent$cphContent$DetailReceiver"))
+                    formData["ctl00$ctl00$cphContent$cphContent$DetailReceiver"] = "";
+                if (!formData.ContainsKey("ctl00$ctl00$cphContent$cphContent$DetailStartDate"))
+                    formData["ctl00$ctl00$cphContent$cphContent$DetailStartDate"] = "";
+                if (!formData.ContainsKey("ctl00$ctl00$cphContent$cphContent$DetailEndDate"))
+                    formData["ctl00$ctl00$cphContent$cphContent$DetailEndDate"] = "";
+                
+                // hidPeriodChecked는 N으로 설정
+                formData["ctl00$ctl00$cphContent$cphContent$hidPeriodChecked"] = "N";
+                
+                System.Diagnostics.Debug.WriteLine($"[NavigateToMailPageAsync] 추가 필드 설정 완료: complete={pageNumber}");
+                
+                // 페이지네이션 필드만 덮어쓰기
+                formData["__VIEWSTATE"] = viewState ?? "";
+                formData["__VIEWSTATEGENERATOR"] = viewStateGenerator ?? "";
+                formData["__EVENTVALIDATION"] = eventValidation ?? "";
                 formData["__EVENTTARGET"] = "ctl00$ctl00$cphContent$cphContent$pagerList";
                 formData["__EVENTARGUMENT"] = pageNumber.ToString();
-
-                System.Diagnostics.Debug.WriteLine($"페이지 이동: {pageNumber}");
+                formData["__LASTFOCUS"] = "";
+                
+                // hidPage는 업데이트하지 않음! 현재 페이지를 유지해야 함
+                
+                // 상위 레벨 필드들 추가 (브라우저에서 확인)
+                var mailFID = formData.GetValueOrDefault("ctl00$ctl00$cphContent$cphContent$hidMailFID", "");
+                formData["ctl00$ctl00$cphContent$hidSystem"] = "Mail";
+                formData["ctl00$ctl00$cphContent$hidFID"] = mailFID;
+                formData["ctl00$ctl00$cphContent$hidLeftMenuPopupOption"] = "WINDOW";
+                formData["ctl00$ctl00$cphContent$hidMailWritable"] = "Y";
+                formData["ctl00$ctl00$cphContent$hidUseMailTreeAsync"] = "N";
+                formData["ctl00$ctl00$cphContent$hidMailFolderPath"] = "";
+                formData["ctl00$ctl00$hidLoginSelected"] = "Default";
+                formData["ctl00$ctl00$hidDevHelperInfo"] = "";
+                
+                // gadget 필드들
+                formData["ctl00$ctl00$gadgetLeft$hidQuickMenuConf"] = "";
+                formData["ctl00$ctl00$gadgetType05$hidQuickMenuConf"] = "";
+                
+                System.Diagnostics.Debug.WriteLine($"===== 메일 페이지 이동 (전체 필드 복사) =====");
+                System.Diagnostics.Debug.WriteLine($"요청 페이지: {pageNumber}");
                 System.Diagnostics.Debug.WriteLine($"POST 필드 개수: {formData.Count}");
+                System.Diagnostics.Debug.WriteLine($"__EVENTTARGET: {formData.GetValueOrDefault("__EVENTTARGET")}");
+                System.Diagnostics.Debug.WriteLine($"__EVENTARGUMENT: {formData.GetValueOrDefault("__EVENTARGUMENT")}");
+                System.Diagnostics.Debug.WriteLine($"complete: {formData.GetValueOrDefault("complete")}");
+                System.Diagnostics.Debug.WriteLine($"hidPage: {formData.GetValueOrDefault("ctl00$ctl00$cphContent$cphContent$hidPage")}");
+                
+                // POST 페이로드를 파일로 저장
+                var payload = string.Join("\n", formData.OrderBy(kvp => kvp.Key).Select(kvp => $"{kvp.Key} = {kvp.Value}"));
+                File.WriteAllText($"mail_post_payload_page_{pageNumber}.txt", payload);
+                System.Diagnostics.Debug.WriteLine($"POST 페이로드 저장됨: mail_post_payload_page_{pageNumber}.txt");
+                System.Diagnostics.Debug.WriteLine($"==========================================");
 
                 var content = new FormUrlEncodedContent(formData);
-                var response = await httpClient.PostAsync(mailUrl, content);
+                
+                System.Diagnostics.Debug.WriteLine($"POST 요청 URL: {mailUrl}");
+                
+                // Referer 헤더 추가 (브라우저처럼)
+                var request = new HttpRequestMessage(HttpMethod.Post, mailUrl);
+                request.Content = content;
+                request.Headers.Referrer = new Uri(mailUrl);
+                var originUri = new Uri(mailUrl);
+                request.Headers.Add("Origin", $"{originUri.Scheme}://{originUri.Host}");
+                
+                System.Diagnostics.Debug.WriteLine($"Referer: {request.Headers.Referrer}");
+                System.Diagnostics.Debug.WriteLine($"Origin: {originUri.Scheme}://{originUri.Host}");
+                
+                var response = await httpClient.SendAsync(request);
                 var html = await response.Content.ReadAsStringAsync();
                 
                 System.Diagnostics.Debug.WriteLine($"응답 HTML 길이: {html.Length}");
@@ -724,7 +975,11 @@ namespace AgentAssistant
                 System.Diagnostics.Debug.WriteLine($"응답 HTML 저장됨: mail_page_{pageNumber}_response.html");
 
                 lastMailPageHtml = html;
-                return MailCrawler.ParseMailPageResult(html);
+                var result = MailCrawler.ParseMailPageResult(html);
+                
+                System.Diagnostics.Debug.WriteLine($"파싱 결과 - 페이지: {result.CurrentPage}, 메일 개수: {result.Items.Count}");
+                
+                return result;
             }
             catch (Exception ex)
             {
@@ -762,6 +1017,154 @@ namespace AgentAssistant
             }
             catch { }
         }
+
+        public async Task<BoardDetail> GetBoardDetailAsync(string detailUrl, string boardPageUrl = "", string viewState = "", string viewStateGenerator = "", string eventValidation = "")
+        {
+            try
+            {
+                string html;
+                
+                System.Diagnostics.Debug.WriteLine($"[게시글 상세조회] URL: {detailUrl}");
+                System.Diagnostics.Debug.WriteLine($"[게시글 상세조회] boardPageUrl: {boardPageUrl}");
+                
+                // javascript: 링크인 경우 PostBack으로 처리
+                if (detailUrl.StartsWith("javascript:", StringComparison.OrdinalIgnoreCase))
+                {
+                    // javascript:__doPostBack('ctl00$ctl00$...','') 형태에서 파라미터 추출
+                    var match = System.Text.RegularExpressions.Regex.Match(detailUrl, @"__doPostBack\('([^']+)','([^']*)'\)");
+                    
+                    System.Diagnostics.Debug.WriteLine($"[게시글 상세조회] Regex 매칭 성공: {match.Success}");
+                    
+                    if (!match.Success)
+                    {
+                        throw new Exception($"지원하지 않는 JavaScript 링크입니다.\n\n링크: {detailUrl}\n\n이 게시판은 JavaScript 함수를 사용하므로 상세 내용을 볼 수 없습니다.");
+                    }
+                    
+                    if (string.IsNullOrEmpty(boardPageUrl))
+                    {
+                        throw new Exception("게시판 페이지 URL이 필요합니다.");
+                    }
+
+                    var eventTarget = match.Groups[1].Value;
+                    var eventArgument = match.Groups[2].Value;
+                    
+                    System.Diagnostics.Debug.WriteLine($"[게시글 상세조회] EventTarget: {eventTarget}");
+                    System.Diagnostics.Debug.WriteLine($"[게시글 상세조회] EventArgument: {eventArgument}");
+
+                    // POST 요청으로 게시글 내용 가져오기
+                    var formData = new Dictionary<string, string>
+                    {
+                        ["__VIEWSTATE"] = viewState ?? "",
+                        ["__VIEWSTATEGENERATOR"] = viewStateGenerator ?? "",
+                        ["__EVENTVALIDATION"] = eventValidation ?? "",
+                        ["__EVENTTARGET"] = eventTarget,
+                        ["__EVENTARGUMENT"] = eventArgument
+                    };
+
+                    var content = new FormUrlEncodedContent(formData);
+                    var response = await httpClient.PostAsync(boardPageUrl, content);
+                    html = await response.Content.ReadAsStringAsync();
+                    
+                    // 디버깅용으로 응답 저장
+                    var savePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "board_detail_response.html");
+                    System.IO.File.WriteAllText(savePath, html);
+                    System.Diagnostics.Debug.WriteLine($"[게시글 상세조회] 응답 HTML 저장됨: {savePath}");
+                }
+                else
+                {
+                    // 일반 URL인 경우 GET 요청
+                    System.Diagnostics.Debug.WriteLine($"[게시글 상세조회] 일반 URL로 GET 요청");
+                    var response = await httpClient.GetAsync(detailUrl);
+                    html = await response.Content.ReadAsStringAsync();
+                    
+                    // 디버깅용으로 응답 저장
+                    var savePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "board_detail_response.html");
+                    System.IO.File.WriteAllText(savePath, html);
+                    System.Diagnostics.Debug.WriteLine($"[게시글 상세조회] 응답 HTML 저장됨: {savePath}");
+                }
+
+                var doc = new HtmlDocument();
+                doc.LoadHtml(html);
+
+                var detail = new BoardDetail();
+                detail.Url = detailUrl;
+
+                // 제목 찾기 - 여러 패턴 시도
+                var titleNode = doc.DocumentNode.SelectSingleNode("//span[@class='txt_bb14_view']")
+                             ?? doc.DocumentNode.SelectSingleNode("//span[@id='lblSubject']") 
+                             ?? doc.DocumentNode.SelectSingleNode("//td[contains(@class,'subject')]")
+                             ?? doc.DocumentNode.SelectSingleNode("//div[contains(@class,'subject')]")
+                             ?? doc.DocumentNode.SelectSingleNode("//h4/span[1]");
+                
+                if (titleNode != null)
+                {
+                    detail.Title = System.Net.WebUtility.HtmlDecode(titleNode.InnerText.Trim());
+                    System.Diagnostics.Debug.WriteLine($"[게시글 상세조회] 제목 찾음: {detail.Title}");
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine($"[게시글 상세조회] 제목 노드를 찾지 못함");
+                }
+
+                // 번호 찾기
+                var numberNode = doc.DocumentNode.SelectSingleNode("//span[@id='lblMessageID']");
+                if (numberNode != null)
+                {
+                    detail.Number = System.Net.WebUtility.HtmlDecode(numberNode.InnerText.Trim());
+                }
+
+                // 작성자 찾기
+                var authorNode = doc.DocumentNode.SelectSingleNode("//span[@id='lblCreateUser']")
+                              ?? doc.DocumentNode.SelectSingleNode("//span[contains(@id,'CreateUser')]")
+                              ?? doc.DocumentNode.SelectSingleNode("//td[contains(@class,'writer')]//span");
+                if (authorNode != null)
+                {
+                    detail.Author = System.Net.WebUtility.HtmlDecode(authorNode.InnerText.Trim());
+                }
+
+                // 작성일 찾기
+                var dateNode = doc.DocumentNode.SelectSingleNode("//span[@id='lblCreateDate']")
+                            ?? doc.DocumentNode.SelectSingleNode("//span[contains(@id,'CreateDate')]")
+                            ?? doc.DocumentNode.SelectSingleNode("//td[contains(@class,'date')]");
+                if (dateNode != null)
+                {
+                    detail.Date = System.Net.WebUtility.HtmlDecode(dateNode.InnerText.Trim());
+                }
+
+                // 본문 내용 찾기 - 여러 패턴 시도
+                var contentNode = doc.DocumentNode.SelectSingleNode("//span[@id='dext_body']")
+                               ?? doc.DocumentNode.SelectSingleNode("//div[@id='divContent']")
+                               ?? doc.DocumentNode.SelectSingleNode("//div[@id='divMessageContent']")
+                               ?? doc.DocumentNode.SelectSingleNode("//td[contains(@class,'content')]")
+                               ?? doc.DocumentNode.SelectSingleNode("//div[contains(@class,'content')]")
+                               ?? doc.DocumentNode.SelectSingleNode("//div[@class='message-content']");
+
+                if (contentNode != null)
+                {
+                    // HTML 태그를 유지한 채로 가져오기 (표, 이미지 등 보존)
+                    var content = contentNode.InnerHtml;
+                    
+                    // HTML 엔티티는 디코딩하지 않음 (브라우저가 처리)
+                    content = content.Trim();
+                    
+                    detail.Content = content;
+                    
+                    System.Diagnostics.Debug.WriteLine($"[게시글 상세조회] 본문 HTML 길이: {content.Length}자");
+                }
+                else
+                {
+                    // 본문을 찾지 못한 경우
+                    detail.Content = "본문 내용을 찾을 수 없습니다.";
+                    System.Diagnostics.Debug.WriteLine($"[게시글 상세조회] 본문 노드를 찾지 못함");
+                }
+
+                return detail;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"게시글 상세 조회 실패: {ex.Message}", ex);
+            }
+        }
     }
 
     public class BoardItem
@@ -770,6 +1173,16 @@ namespace AgentAssistant
         public string Title { get; set; } = "";
         public string Author { get; set; } = "";
         public string Date { get; set; } = "";
+        public string Url { get; set; } = "";
+    }
+
+    public class BoardDetail
+    {
+        public string Number { get; set; } = "";
+        public string Title { get; set; } = "";
+        public string Author { get; set; } = "";
+        public string Date { get; set; } = "";
+        public string Content { get; set; } = "";
         public string Url { get; set; } = "";
     }
 

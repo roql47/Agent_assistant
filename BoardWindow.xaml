@@ -85,7 +85,10 @@
                                 CornerRadius="8"
                                 Margin="0,0,0,10"
                                 BorderThickness="1"
-                                BorderBrush="#E0E0E0">
+                                BorderBrush="#E0E0E0"
+                                Cursor="Hand"
+                                MouseLeftButtonDown="BoardItem_Click"
+                                Tag="{Binding}">
                             <Border.ContextMenu>
                                 <ContextMenu>
                                     <MenuItem Header="📅 일정에 추가" Click="AddToCalendar_Click" Tag="{Binding}">
@@ -105,7 +108,7 @@
                                     </Style.Triggers>
                                 </Style>
                             </Border.Style>
-                            <Grid>
+                            <Grid IsHitTestVisible="False">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
@@ -126,18 +129,13 @@
                                                FontSize="12"/>
                                 </Border>
                                 
-                                <!-- 제목 (복사 가능) -->
+                                <!-- 제목 -->
                                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                    <TextBox Text="{Binding Title, Mode=OneWay}" 
-                                             FontSize="14"
-                                             FontWeight="SemiBold"
-                                             Foreground="#2D3436"
-                                             TextWrapping="Wrap"
-                                             IsReadOnly="True"
-                                             BorderThickness="0"
-                                             Background="Transparent"
-                                             Cursor="IBeam"
-                                             Padding="0"/>
+                                    <TextBlock Text="{Binding Title}" 
+                                               FontSize="14"
+                                               FontWeight="SemiBold"
+                                               Foreground="#2D3436"
+                                               TextWrapping="Wrap"/>
                                 </StackPanel>
                                 
                                 <!-- 작성자 -->

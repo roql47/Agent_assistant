@@ -257,17 +257,74 @@ namespace AgentAssistant
             var doc = new HtmlDocument();
             doc.LoadHtml(html);
 
-            // 모든 input hidden 필드 추출
-            var inputs = doc.DocumentNode.SelectNodes("//input[@type='hidden']");
+            // 1. 모든 input 요소 추출 (hidden, text, checkbox 등 모든 타입)
+            var inputs = doc.DocumentNode.SelectNodes("//input[@name]");
             if (inputs != null)
             {
                 foreach (var input in inputs)
                 {
                     var name = input.GetAttributeValue("name", "");
+                    var type = input.GetAttributeValue("type", "text").ToLower();
                     var value = input.GetAttributeValue("value", "");
+                    
                     if (!string.IsNullOrEmpty(name))
                     {
-                        formData[name] = value;
+                        // checkbox나 radio는 checked 상태일 때만 포함
+                        if (type == "checkbox" || type == "radio")
+                        {
+                            var isChecked = input.GetAttributeValue("checked", null) != null;
+                            if (isChecked)
+                            {
+                                formData[name] = value;
+                            }
+                        }
+                        else if (type != "submit" && type != "button" && type != "image")
+                        {
+                            // submit, button, image 타입은 제외
+                            formData[name] = value;
+                        }
+                    }
+                }
+            }
+
+            // 2. 모든 select 요소 추출 (selected option 값)
+            var selects = doc.DocumentNode.SelectNodes("//select[@name]");
+            if (selects != null)
+            {
+                foreach (var select in selects)
+                {
+                    var name = select.GetAttributeValue("name", "");
+                    if (!string.IsNullOrEmpty(name))
+                    {
+                        // selected option 찾기
+                        var selectedOption = select.SelectSingleNode(".//option[@selected]");
+                        if (selectedOption != null)
+                        {
+                            formData[name] = selectedOption.GetAttributeValue("value", "");
+                        }
+                        else
+                        {
+                            // selected가 없으면 첫 번째 option
+                            var firstOption = select.SelectSingleNode(".//option");
+                            if (firstOption != null)
+                            {
+                                formData[name] = firstOption.GetAttributeValue("value", "");
+                            }
+                        }
+                    }
+                }
+            }
+
+            // 3. 모든 textarea 요소 추출
+            var textareas = doc.DocumentNode.SelectNodes("//textarea[@name]");
+            if (textareas != null)
+            {
+                foreach (var textarea in textareas)
+                {
+                    var name = textarea.GetAttributeValue("name", "");
+                    if (!string.IsNullOrEmpty(name))
+                    {
+                        formData[name] = textarea.InnerText;
                     }
                 }
             }

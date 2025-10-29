@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
+using System.Windows.Input;
 using Wpf.Ui.Controls;
 
 namespace AgentAssistant
@@ -77,6 +79,29 @@ namespace AgentAssistant
         {
             DialogResult = true;
             Close();
+        }
+
+        private void EventItem_Click(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is System.Windows.FrameworkElement element && element.Tag is CalendarEvent calendarEvent)
+            {
+                if (!string.IsNullOrWhiteSpace(calendarEvent.Url))
+                {
+                    try
+                    {
+                        // URL을 기본 브라우저로 열기
+                        Process.Start(new ProcessStartInfo
+                        {
+                            FileName = calendarEvent.Url,
+                            UseShellExecute = true
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Windows.MessageBox.Show($"링크 열기 실패:\n{ex.Message}", "오류", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                    }
+                }
+            }
         }
     }
 }

@@ -21,6 +21,7 @@ namespace AgentAssistant
         private string viewState = "";
         private string viewStateGenerator = "";
         private string eventValidation = "";
+        private Dictionary<string, string> allFormFields = new Dictionary<string, string>();
 
         public MailWindow(MailPageResult pageResult, string mailboxName, string mailUrl, HttpIntranetCrawler crawler)
         {
@@ -42,6 +43,15 @@ namespace AgentAssistant
             this.viewState = pageResult.ViewState;
             this.viewStateGenerator = pageResult.ViewStateGenerator;
             this.eventValidation = pageResult.EventValidation;
+            this.allFormFields = new Dictionary<string, string>(pageResult.AllFormFields);
+            
+            System.Diagnostics.Debug.WriteLine($"[DisplayPageResult] 페이지 결과 업데이트:");
+            System.Diagnostics.Debug.WriteLine($"  현재 페이지: {this.currentPage}");
+            System.Diagnostics.Debug.WriteLine($"  총 페이지: {this.totalPages}");
+            System.Diagnostics.Debug.WriteLine($"  메일 개수: {this.currentPageItems.Count}");
+            System.Diagnostics.Debug.WriteLine($"  Form 필드 개수: {this.allFormFields.Count}");
+            System.Diagnostics.Debug.WriteLine($"  ViewState 길이: {this.viewState?.Length ?? 0}");
+            System.Diagnostics.Debug.WriteLine($"  EventValidation 처음 50자: {(this.eventValidation?.Length > 50 ? this.eventValidation.Substring(0, 50) : this.eventValidation)}");
             
             UpdateMailDisplay();
         }
@@ -82,72 +92,13 @@ namespace AgentAssistant
                 PrevPageButton.Content = "로딩 중...";
                 NextPageButton.Content = "로딩 중...";
                 
+                System.Diagnostics.Debug.WriteLine($"[LoadPageAsync] 요청 페이지: {currentPage}");
+                System.Diagnostics.Debug.WriteLine($"[LoadPageAsync] 사용할 Form 필드 개수: {allFormFields.Count}");
+                System.Diagnostics.Debug.WriteLine($"[LoadPageAsync] 사용할 ViewState 길이: {viewState?.Length ?? 0}");
+                System.Diagnostics.Debug.WriteLine($"[LoadPageAsync] 사용할 EventValidation 처음 50자: {(eventValidation?.Length > 50 ? eventValidation.Substring(0, 50) : eventValidation)}");
+                
                 // ASP.NET 포스트백으로 페이지 이동
-                var pageResult = await crawler.NavigateToMailPageAsync(baseMailUrl, currentPage, viewState, viewStateGenerator, eventValidation);
-                
-                // 복사 가능한 디버그 창
-                var debugInfo = $"페이지 이동 결과:\n\n" +
-                    $"요청 페이지: {currentPage}\n" +
-                    $"응답 페이지: {pageResult.CurrentPage}\n" +
-                    $"총 페이지: {pageResult.TotalPages}\n" +
-                    $"메일 개수: {pageResult.Items.Count}\n" +
-                    $"첫 메일: {(pageResult.Items.Count > 0 ? pageResult.Items[0].Subject : "없음")}";
-                
-                var debugWin = new Window
-                {
-                    Title = "페이지 이동 디버그",
-                    Width = 500,
-                    Height = 300,
-                    WindowStartupLocation = WindowStartupLocation.CenterOwner,
-                    Owner = this
-                };
-                
-                var grid = new Grid { Margin = new Thickness(20) };
-                grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-                grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-                
-                var textBox = new System.Windows.Controls.TextBox
-                {
-                    Text = debugInfo,
-                    IsReadOnly = true,
-                    TextWrapping = TextWrapping.Wrap,
-                    FontFamily = new FontFamily("Consolas"),
-                    Padding = new Thickness(10)
-                };
-                Grid.SetRow(textBox, 0);
-                grid.Children.Add(textBox);
-                
-                var btnPanel = new StackPanel
-                {
-                    Orientation = Orientation.Horizontal,
-                    HorizontalAlignment = HorizontalAlignment.Right,
-                    Margin = new Thickness(0, 10, 0, 0)
-                };
-                
-                var copyBtn = new System.Windows.Controls.Button
-                {
-                    Content = "📋 복사",
-                    Width = 80,
-                    Height = 30,
-                    Margin = new Thickness(0, 0, 10, 0)
-                };
-                copyBtn.Click += (s, ev) => { Clipboard.SetText(debugInfo); System.Windows.MessageBox.Show("복사됨!", "알림", System.Windows.MessageBoxButton.OK); };
-                btnPanel.Children.Add(copyBtn);
-                
-                var closeBtn = new System.Windows.Controls.Button
-                {
-                    Content = "닫기",
-                    Width = 80,
-                    Height = 30
-                };
-                closeBtn.Click += (s, ev) => debugWin.Close();
-                btnPanel.Children.Add(closeBtn);
-                
-                Grid.SetRow(btnPanel, 1);
-                grid.Children.Add(btnPanel);
-                
-                debugWin.Content = grid;
-                debugWin.ShowDialog();
+                var pageResult = await crawler.NavigateToMailPageAsync(baseMailUrl, currentPage, allFormFields, viewState ?? "", viewStateGenerator, eventValidation ?? "");
                 
                 DisplayPageResult(pageResult);
                 

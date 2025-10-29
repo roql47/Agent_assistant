@@ -1,0 +1,14 @@
+{
+  "departments": [
+    {"id": 1, "name": "개발팀", "description": "소프트웨어 개발"},
+    {"id": 2, "name": "마케팅팀", "description": "마케팅 및 홍보"},
+    {"id": 3, "name": "영업팀", "description": "고객 영업"},
+    {"id": 4, "name": "인사팀", "description": "인사 관리"},
+    {"id": 5, "name": "재무팀", "description": "재무 관리"},
+    {"id": 6, "name": "기획팀", "description": "사업 기획"},
+    {"id": 7, "name": "디자인팀", "description": "UI/UX 디자인"},
+    {"id": 8, "name": "QA팀", "description": "품질 보증"}
+  ]
+}
+
+

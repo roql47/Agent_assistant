@@ -1,0 +1,267 @@
+<Window x:Class="AgentAssistant.AdminWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:AgentAssistant"
+        Title="관리자 모드 - 부서 관리" 
+        Height="550" 
+        Width="800"
+        WindowStartupLocation="CenterOwner"
+        Background="#F5F5F5">
+    <Window.Resources>
+        <local:PasswordIconConverter x:Key="PasswordIconConverter"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <!-- 헤더 -->
+        <Border Grid.Row="0" Background="#FF6B6B" Padding="20">
+            <TextBlock Text="📋 부서 관리" 
+                       Foreground="White" 
+                       FontSize="20" 
+                       FontWeight="Bold"/>
+        </Border>
+        
+        <!-- 부서 목록 -->
+        <Grid Grid.Row="1" Margin="20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <!-- 좌측: 부서 목록 -->
+            <StackPanel Grid.Column="0">
+                <TextBlock Text="등록된 부서" 
+                           FontSize="14" 
+                           FontWeight="Bold" 
+                           Margin="0,0,0,10"/>
+                
+                <!-- 부서 테이블 -->
+                <Border BorderBrush="#DDD" BorderThickness="1" Background="White">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        
+                        <!-- DataGrid -->
+                        <DataGrid x:Name="DepartmentDataGrid" 
+                                  Grid.Row="0"
+                                  Height="300"
+                                  AutoGenerateColumns="False" 
+                                  CanUserAddRows="False"
+                                  CanUserDeleteRows="False"
+                                  CanUserResizeRows="False"
+                                  SelectionMode="Single"
+                                  HeadersVisibility="Column"
+                                  GridLinesVisibility="Horizontal"
+                                  BorderThickness="0"
+                                  Background="White"
+                                  RowBackground="White"
+                                  AlternatingRowBackground="#F9F9F9"
+                                  IsReadOnly="True">
+                            <DataGrid.Columns>
+                                <!-- 번호 -->
+                                <DataGridTextColumn Header="번호" Width="60" Binding="{Binding RowNumber}">
+                                    <DataGridTextColumn.HeaderStyle>
+                                        <Style TargetType="DataGridColumnHeader">
+                                            <Setter Property="Background" Value="#6C5CE7"/>
+                                            <Setter Property="Foreground" Value="White"/>
+                                            <Setter Property="FontWeight" Value="Bold"/>
+                                            <Setter Property="Padding" Value="10"/>
+                                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                        </Style>
+                                    </DataGridTextColumn.HeaderStyle>
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                                            <Setter Property="VerticalAlignment" Value="Center"/>
+                                            <Setter Property="Padding" Value="5"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                                
+                                <!-- 부서명 -->
+                                <DataGridTextColumn Header="부서명" Width="*" Binding="{Binding name}">
+                                    <DataGridTextColumn.HeaderStyle>
+                                        <Style TargetType="DataGridColumnHeader">
+                                            <Setter Property="Background" Value="#6C5CE7"/>
+                                            <Setter Property="Foreground" Value="White"/>
+                                            <Setter Property="FontWeight" Value="Bold"/>
+                                            <Setter Property="Padding" Value="10"/>
+                                        </Style>
+                                    </DataGridTextColumn.HeaderStyle>
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="FontWeight" Value="Bold"/>
+                                            <Setter Property="FontSize" Value="14"/>
+                                            <Setter Property="VerticalAlignment" Value="Center"/>
+                                            <Setter Property="Padding" Value="10,5"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                                
+                                <!-- 보안 -->
+                                <DataGridTextColumn Header="보안" Width="60">
+                                    <DataGridTextColumn.HeaderStyle>
+                                        <Style TargetType="DataGridColumnHeader">
+                                            <Setter Property="Background" Value="#6C5CE7"/>
+                                            <Setter Property="Foreground" Value="White"/>
+                                            <Setter Property="FontWeight" Value="Bold"/>
+                                            <Setter Property="Padding" Value="10"/>
+                                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                        </Style>
+                                    </DataGridTextColumn.HeaderStyle>
+                                    <DataGridTextColumn.Binding>
+                                        <Binding Path="HasPassword" Converter="{StaticResource PasswordIconConverter}"/>
+                                    </DataGridTextColumn.Binding>
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                                            <Setter Property="VerticalAlignment" Value="Center"/>
+                                            <Setter Property="FontSize" Value="16"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                                
+                                <!-- 삭제 버튼 -->
+                                <DataGridTemplateColumn Header="작업" Width="80">
+                                    <DataGridTemplateColumn.HeaderStyle>
+                                        <Style TargetType="DataGridColumnHeader">
+                                            <Setter Property="Background" Value="#6C5CE7"/>
+                                            <Setter Property="Foreground" Value="White"/>
+                                            <Setter Property="FontWeight" Value="Bold"/>
+                                            <Setter Property="Padding" Value="10"/>
+                                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                        </Style>
+                                    </DataGridTemplateColumn.HeaderStyle>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Content="🗑️"
+                                                    ToolTip="부서 삭제"
+                                                    Background="#FF6B6B"
+                                                    Foreground="White"
+                                                    FontSize="14"
+                                                    Padding="8,4"
+                                                    BorderThickness="0"
+                                                    Cursor="Hand"
+                                                    Click="DeleteDepartmentButton_Click"
+                                                    Tag="{Binding id}"
+                                                    HorizontalAlignment="Center"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        
+                        <!-- 페이지네이션 -->
+                        <Border Grid.Row="1" Background="#F5F5F5" BorderBrush="#DDD" BorderThickness="0,1,0,0" Padding="10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <Button x:Name="PrevPageButton"
+                                        Grid.Column="0"
+                                        Content="◀ 이전"
+                                        Background="#6C5CE7"
+                                        Foreground="White"
+                                        Padding="10,5"
+                                        BorderThickness="0"
+                                        Cursor="Hand"
+                                        Click="PrevPage_Click"/>
+                                
+                                <StackPanel Grid.Column="1" 
+                                            Orientation="Horizontal" 
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center">
+                                    <TextBlock x:Name="PageInfoText"
+                                               Text="1 / 1 페이지"
+                                               FontWeight="Bold"
+                                               VerticalAlignment="Center"
+                                               Margin="10,0"/>
+                                    <TextBlock Text="("
+                                               VerticalAlignment="Center"
+                                               Foreground="#636E72"/>
+                                    <TextBlock x:Name="TotalCountText"
+                                               Text="총 0개"
+                                               VerticalAlignment="Center"
+                                               Foreground="#636E72"/>
+                                    <TextBlock Text=")"
+                                               VerticalAlignment="Center"
+                                               Foreground="#636E72"/>
+                                </StackPanel>
+                                
+                                <Button x:Name="NextPageButton"
+                                        Grid.Column="2"
+                                        Content="다음 ▶"
+                                        Background="#6C5CE7"
+                                        Foreground="White"
+                                        Padding="10,5"
+                                        BorderThickness="0"
+                                        Cursor="Hand"
+                                        Click="NextPage_Click"/>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </Border>
+            </StackPanel>
+            
+            <!-- 우측: 부서 추가 폼 -->
+            <StackPanel Grid.Column="1" Margin="20,0,0,0" Width="200">
+                <TextBlock Text="새 부서 추가" 
+                           FontSize="14" 
+                           FontWeight="Bold" 
+                           Margin="0,0,0,15"/>
+                
+                <TextBlock Text="부서명" FontWeight="Bold" Margin="0,0,0,5"/>
+                <TextBox x:Name="DepartmentNameTextBox" 
+                         Padding="10" 
+                         Margin="0,0,0,10"
+                         Foreground="#2D3436"/>
+                
+                <TextBlock Text="비밀번호 (선택사항)" FontWeight="Bold" Margin="0,0,0,5"/>
+                <PasswordBox x:Name="DepartmentPasswordBox" 
+                         Padding="10" 
+                         Margin="0,0,0,10"
+                         Foreground="#2D3436"/>
+                
+                <TextBlock Text="※ 비밀번호를 설정하면 부서 접근 시 비밀번호를 요구합니다." 
+                           FontSize="10" 
+                           Foreground="#636E72" 
+                           TextWrapping="Wrap"
+                           Margin="0,0,0,15"/>
+                
+                <Button Content="➕ 부서 추가" 
+                        Background="#00B894" 
+                        Foreground="White"
+                        Padding="10"
+                        FontWeight="Bold"
+                        Click="AddDepartmentButton_Click"/>
+            </StackPanel>
+        </Grid>
+        
+        <!-- 하단 버튼 -->
+        <StackPanel Grid.Row="2" 
+                    Orientation="Horizontal" 
+                    HorizontalAlignment="Right" 
+                    Margin="20">
+            <Button Content="새로고침" 
+                    Background="#3498DB" 
+                    Foreground="White"
+                    Padding="15,8"
+                    Margin="0,0,10,0"
+                    Click="RefreshButton_Click"/>
+            <Button Content="닫기" 
+                    Background="#95A5A6" 
+                    Foreground="White"
+                    Padding="15,8"
+                    Click="CloseButton_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

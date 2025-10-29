@@ -67,12 +67,150 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     
-                    <TextBlock Grid.Column="0"
-                               Text="📅 일정 캘린더" 
-                               FontSize="18"
-                               FontWeight="Bold"
-                               Foreground="White"
-                               VerticalAlignment="Center"/>
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="📅 일정 캘린더" 
+                                   FontSize="18"
+                                   FontWeight="Bold"
+                                   Foreground="White"
+                                   VerticalAlignment="Center"/>
+                        <TextBlock x:Name="SyncStatusIndicator"
+                                   Text=""
+                                   FontSize="12"
+                                   Foreground="White"
+                                   VerticalAlignment="Center"
+                                   Margin="10,0,0,0"
+                                   ToolTip="동기화 상태"/>
+                        
+                        <!-- 부서 선택 드롭다운 -->
+                        <Border x:Name="DepartmentSelectorBorder"
+                                Background="White" 
+                                CornerRadius="5" 
+                                Padding="8,5" 
+                                Margin="20,0,0,0"
+                                Visibility="Visible">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="🏢" 
+                                           FontSize="14" 
+                                           VerticalAlignment="Center"
+                                           Margin="0,0,5,0"/>
+                                
+                                <!-- 검색 TextBox -->
+                                <TextBox x:Name="DepartmentSearchBox"
+                                         Width="200"
+                                         Height="25"
+                                         VerticalContentAlignment="Center"
+                                         Padding="5,0"
+                                         FontSize="12"
+                                         BorderThickness="1"
+                                         BorderBrush="#DDD"
+                                         Background="White"
+                                         TextChanged="DepartmentSearchBox_TextChanged"
+                                         Visibility="Collapsed">
+                                    <TextBox.Style>
+                                        <Style TargetType="TextBox">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="TextBox">
+                                                        <Border Background="{TemplateBinding Background}"
+                                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                                CornerRadius="3">
+                                                            <Grid>
+                                                                <ScrollViewer x:Name="PART_ContentHost" 
+                                                                             Margin="5,0"/>
+                                                                <TextBlock Text="부서 검색..."
+                                                                          Foreground="#999"
+                                                                          FontSize="12"
+                                                                          VerticalAlignment="Center"
+                                                                          Margin="5,0"
+                                                                          IsHitTestVisible="False">
+                                                                    <TextBlock.Style>
+                                                                        <Style TargetType="TextBlock">
+                                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                                            <Style.Triggers>
+                                                                                <DataTrigger Binding="{Binding Text, RelativeSource={RelativeSource TemplatedParent}}" Value="">
+                                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                                </DataTrigger>
+                                                                            </Style.Triggers>
+                                                                        </Style>
+                                                                    </TextBlock.Style>
+                                                                </TextBlock>
+                                                            </Grid>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </TextBox.Style>
+                                </TextBox>
+                                
+                                <ComboBox x:Name="DepartmentSelectorComboBox"
+                                          MinWidth="180"
+                                          DisplayMemberPath="Name"
+                                          SelectedValuePath="Id"
+                                          SelectionChanged="DepartmentSelector_SelectionChanged"
+                                          FontSize="13"
+                                          BorderThickness="0"
+                                          Background="Transparent"/>
+                                
+                                <!-- 검색 토글 버튼 -->
+                                <Button x:Name="SearchToggleButton"
+                                        FontSize="11"
+                                        Width="50"
+                                        Height="28"
+                                        Background="#6C5CE7"
+                                        Foreground="White"
+                                        BorderThickness="0"
+                                        Cursor="Hand"
+                                        Click="SearchToggleButton_Click"
+                                        ToolTip="부서 검색"
+                                        Margin="5,0,0,0">
+                                    <Button.Content>
+                                        <TextBlock Text="검색" FontWeight="Bold"/>
+                                    </Button.Content>
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Background" Value="#6C5CE7"/>
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="Button">
+                                                        <Border Background="{TemplateBinding Background}"
+                                                                CornerRadius="4"
+                                                                BorderThickness="0">
+                                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#5F4FD1"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                                
+                                <!-- 즐겨찾기 버튼 -->
+                                <Border x:Name="FavoriteButton"
+                                        Width="28"
+                                        Height="28"
+                                        Background="Transparent"
+                                        Cursor="Hand"
+                                        MouseLeftButtonDown="FavoriteButton_Click"
+                                        ToolTip="즐겨찾기 추가/제거"
+                                        Margin="5,0,0,0">
+                                    <TextBlock x:Name="FavoriteIcon"
+                                               Text="☆"
+                                               FontSize="18"
+                                               FontFamily="Segoe UI Emoji"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               Foreground="#999"/>
+                                </Border>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
                     
                     <StackPanel Grid.Column="1" Orientation="Horizontal">
                         <!-- 투명도 조절 슬라이더 -->

@@ -74,6 +74,21 @@
                 </Grid>
             </Border>
             
+            <!-- 관리자 모드 버튼 (우상단) -->
+            <Button x:Name="AdminModeButton" 
+                    ToolTip="관리자 모드 (부서 관리)"
+                    HorizontalAlignment="Right" 
+                    VerticalAlignment="Top"
+                    Width="30" 
+                    Height="30"
+                    Margin="0,5,5,0"
+                    Background="#FF6B6B"
+                    Foreground="White"
+                    Click="AdminModeButton_Click"
+                    FontSize="16"
+                    FontWeight="Bold"
+                    Padding="0">⚙️</Button>
+            
             <!-- 캐릭터 컨테이너 -->
             <Grid x:Name="CharacterContainer" 
                   Height="150" 
